@@ -137,12 +137,17 @@ await zkSDK.transfer({
 ### **Running the System:**
 
 ```bash
-# Full strategic system (all 7 agents coordinated)
-bash launch-strategic-system.sh
+# Research Agent (Intelligence Gathering)
+goose run --recipe recipe-research-intelligence.yaml --name "research_$(date +%H%M)" --max-turns 25
 
-# Individual agent workflows
-goose run --recipe recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10
-goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 5
+# Developer Agent (24/7 Coding)
+goose run --recipe recipe-developer.yaml --name "dev_$(date +%H%M)" --max-turns 30
+
+# Social Agent (Blog Posts & Twitter)
+goose run --recipe recipe-social.yaml --name "social_$(date +%H%M)" --max-turns 15
+
+# Strategy Agent (Planning & Coordination)
+goose run --recipe recipe-strategy-chief.yaml --name "strategy_$(date +%H%M)" --max-turns 20
 
 # Check generated content
 ls -la outputs/social/

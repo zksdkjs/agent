@@ -128,17 +128,20 @@ class ZkSDKStrategicOrchestrator:
         # Build Goose command with model configuration
         cmd = ["goose", "run", "--recipe", str(recipe_path)]
         
-        # Configure model based on agent requirements
+        # Configure model based on agent requirements - using global OpenRouter setup
         model = agent_config["model"]
         if model == "claude":
-            os.environ["GOOSE_PROVIDER"] = "anthropic"
-            os.environ["GOOSE_MODEL"] = "claude-3-opus-20240229"  # Use Opus for strategic work
+            # Use default goose configuration for Claude (OpenRouter)
+            os.environ["GOOSE_PROVIDER"] = "openrouter"
+            os.environ["GOOSE_MODEL"] = "anthropic/claude-3.5-sonnet:beta"
         elif model == "qwen-coder":
-            os.environ["GOOSE_PROVIDER"] = "openai"
-            os.environ["GOOSE_MODEL"] = "ai/qwen3:30B-A3B-Q4_K_M"
+            # Use default goose configuration for Qwen (OpenRouter)
+            os.environ["GOOSE_PROVIDER"] = "openrouter"
+            os.environ["GOOSE_MODEL"] = "qwen/qwen-2.5-coder-32b-instruct"
         elif model == "groq":
-            os.environ["GOOSE_PROVIDER"] = "groq"
-            os.environ["GOOSE_MODEL"] = "llama3-groq"
+            # Use default goose configuration for Llama (OpenRouter)
+            os.environ["GOOSE_PROVIDER"] = "openrouter"
+            os.environ["GOOSE_MODEL"] = "meta-llama/llama-3.1-70b-instruct"
             
         # Add strategic context as parameters
         if parameters:

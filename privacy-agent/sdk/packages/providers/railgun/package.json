@@ -1,0 +1,26 @@
+{
+  "name": "@zksdk/railgun-provider",
+  "version": "0.1.0",
+  "description": "Railgun provider for zkSDK - Production-ready EVM privacy system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": ["privacy", "railgun", "zkp", "ethereum", "evm"],
+  "author": "zkSDK Team",
+  "license": "MIT",
+  "dependencies": {
+    "@railgun-community/engine": "^9.4.0",
+    "@railgun-community/shared-models": "^6.4.0",
+    "@railgun-community/wallet": "^10.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@zksdk/core": "^0.1.0"
+  }
+}
