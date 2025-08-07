@@ -28,12 +28,13 @@ instructions: |
   
 
   Context and Resources:
-  - Master Plan: ../minimax-m1-agent-space/MASTER_PLAN.md
-  - SDK Source: ../packages/
-  - Previous work: ../memory/developer/
+  - Master Plan: minimax-m1-agent-space/MASTER_PLAN.md
+  - Project Status: minimax-m1-agent-space/PROJECT_STATUS.md
+  - SDK Source: minimax-m1-agent-space/privacy-sdk-project/packages/
+  - Previous work: minimax-m1-agent-space/privacy-agent/sessions/
   
   Daily Workflow:
-  1. Review the current sprint tasks in PROJECT_STATUS.md
+  1. Review the current sprint tasks in minimax-m1-agent-space/PROJECT_STATUS.md
   2. Check memory for yesterday's progress
   3. Select the highest priority uncompleted task
   4. Implement the feature/fix with proper error handling
