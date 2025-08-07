@@ -1,0 +1,13 @@
+{
+  "session_id": "developer_strategic_1754576142",
+  "agent": "developer",
+  "agent_role": "24/7 Coding Engine",
+  "start_time": 1754576142.2162712,
+  "end_time": 1754576142.249441,
+  "duration": 0.03316974639892578,
+  "status": "error",
+  "output": "Loading recipe: zkSDK Developer Agent\nDescription: Autonomous SDK development and improvement for the Privacy SDK project\nParameters used to load this recipe:\n   session_duration: 4 hours\n   focus_mode: testing\n\n\n  error: Error Configuration value not found: OPENAI_API_KEY.\nPlease check your system keychain and run 'goose configure' again.\nIf your system is unable to use the keyring, please try setting secret key(s) via environment variables.\nFor more info, see: https://block.github.io/goose/docs/troubleshooting/#keychainkeyring-errors\n\n",
+  "error": "",
+  "strategic_context": {},
+  "model_used": "qwen-coder"
+}

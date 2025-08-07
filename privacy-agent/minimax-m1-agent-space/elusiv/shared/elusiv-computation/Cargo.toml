@@ -1,0 +1,8 @@
+[package]
+name = "elusiv-computation"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[features]
+compute-unit-optimization = []

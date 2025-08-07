@@ -1,0 +1,20 @@
+{
+  "name": "@zksdk/core",
+  "version": "0.1.0",
+  "description": "Core abstractions for zkSDK - The LangChain of Privacy",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": ["privacy", "zkp", "sdk", "zero-knowledge"],
+  "author": "zkSDK Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  }
+}

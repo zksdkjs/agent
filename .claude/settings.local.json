@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:block.github.io)",
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)",
+      "Bash(source:*)",
+      "Bash(goose:*)",
+      "Bash(cd:*)",
+      "Bash(export:*)"
+    ],
+    "deny": []
+  }
+}

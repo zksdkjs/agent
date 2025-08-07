@@ -1,0 +1,104 @@
+# Getting Started with Privacy SDK
+
+Welcome to Privacy SDK! This guide will help you get up and running with the unified Web3 privacy interface in just a few minutes.
+
+## What is Privacy SDK?
+
+Privacy SDK is a TypeScript library that provides a unified interface for interacting with multiple Web3 privacy protocols. Instead of learning different APIs for each privacy system, you can use one consistent interface to work with Railgun, Mina, Semaphore, and other privacy protocols.
+
+## Key Features
+
+- **Unified Interface**: One API for multiple privacy protocols
+- **Type-Safe**: Full TypeScript support with comprehensive type definitions
+- **Plugin Architecture**: Easily extensible with new privacy providers
+- **Recipe System**: Pre-built solutions for common privacy operations
+- **Framework Agnostic**: Works with any JavaScript/TypeScript framework
+
+## Installation
+
+Install Privacy SDK using your preferred package manager:
+
+```bash
+# Using npm
+npm install @privacy-sdk/core
+
+# Using yarn
+yarn add @privacy-sdk/core
+
+# Using pnpm
+pnpm add @privacy-sdk/core
+```
+
+## Quick Start
+
+Here's a simple example to get you started with a private token transfer:
+
+```typescript
+import { PrivacySDK, RailgunProvider } from '@privacy-sdk/core';
+
+// 1. Initialize the SDK
+const sdk = new PrivacySDK();
+
+// 2. Configure and register a privacy provider
+const railgunProvider = new RailgunProvider({
+  network: 'ethereum',
+  rpcUrl: process.env.ETHEREUM_RPC_URL,
+  railgunApiUrl: 'https://api.railgun.org'
+});
+
+// 3. Register the provider
+await sdk.registerProvider('railgun', railgunProvider);
+
+// 4. Perform a private transfer
+const transferResult = await sdk.recipes.privateTransfer({
+  provider: 'railgun',
+  amount: '1.0',
+  token: '0xA0b86a33E6441e6D6e35e5c73Ff3CB8dFc5C5C11', // Token contract address
+  from: '0x742d35Cc6634C0532925a3b8D4A2D51b4FC44C1b',  // Sender address
+  to: '0x8ba1f109551bD432803012645Hac136c73F8291e'    // Recipient address
+});
+
+console.log('Private transfer completed:', transferResult.transactionId);
+```
+
+## Core Concepts
+
+Before diving deeper, it's important to understand the key concepts:
+
+### Privacy SDK Class
+
+The main entry point that manages providers and provides access to recipes.
+
+### Providers
+
+Provider plugins that implement the `PrivacyProvider` interface for specific privacy protocols:
+
+- **RailgunProvider**: For Ethereum-based private transactions
+- **MinaProvider**: For Mina protocol zkApps
+- **SemaphoreProvider**: For anonymous signaling and voting
+
+### Recipes
+
+Pre-built solutions for common privacy operations:
+
+- **PrivateTransfer**: Send tokens privately
+- **PrivateSwap**: Exchange tokens without revealing amounts
+- **AnonymousVoting**: Participate in votes anonymously
+
+## Next Steps
+
+1. **Explore Core Concepts**: Learn about the [SDK Architecture](/docs/concepts/architecture)
+2. **Provider Setup**: Configure specific [Privacy Providers](/docs/providers/railgun)
+3. **Build Recipes**: Use [Pre-built Recipes](/docs/recipes/private-transfer) for common operations
+4. **API Reference**: Dive deep into the [API Documentation](/api/privacy-sdk)
+
+## Need Help?
+
+- 📖 [Browse the documentation](/docs)
+- 🔧 [Check out examples on GitHub](https://github.com/your-org/privacy-sdk/examples)
+- 💬 [Join our community Discord](https://discord.gg/privacy-sdk)
+- 🐛 [Report issues on GitHub](https://github.com/your-org/privacy-sdk/issues)
+
+---
+
+**Ready to build private applications?** Continue with [Installation and Setup](/docs/installation) to configure your development environment.

@@ -1,0 +1,193 @@
+# Installation
+
+This guide covers how to install and set up Privacy SDK in your project.
+
+## Requirements
+
+Before installing Privacy SDK, make sure you have:
+
+- **Node.js 18+**: Privacy SDK requires Node.js version 18 or higher
+- **TypeScript 4.5+**: For full type safety (optional but recommended)
+- **Web3 Provider**: Access to Ethereum, Mina, or other supported networks
+
+## Package Installation
+
+### Core SDK
+
+Install the main Privacy SDK package:
+
+```bash
+npm install @privacy-sdk/core
+```
+
+### Provider Packages
+
+Install specific provider packages based on your needs:
+
+```bash
+# For Railgun (Ethereum privacy)
+npm install @privacy-sdk/railgun
+
+# For Mina Protocol
+npm install @privacy-sdk/mina
+
+# For Semaphore (Anonymous signaling)
+npm install @privacy-sdk/semaphore
+```
+
+### Optional Packages
+
+```bash
+# Recipe helpers for common operations
+npm install @privacy-sdk/recipes
+
+# Development utilities
+npm install @privacy-sdk/dev-utils
+```
+
+## TypeScript Configuration
+
+If you're using TypeScript, add these compiler options to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
+```
+
+## Environment Setup
+
+### Development Environment
+
+Create a `.env.local` file in your project root:
+
+```bash
+# Ethereum RPC URL (for Railgun)
+ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/YOUR_PROJECT_ID
+
+# Mina Network Configuration
+MINA_NETWORK=mainnet
+MINA_GRAPHQL_URL=https://proxy.berkeley.minaexplorer.com/graphql
+
+# Development mode
+NODE_ENV=development
+```
+
+### Production Environment
+
+For production deployments, ensure you have:
+
+1. **Secure RPC endpoints** with proper rate limiting
+2. **Environment variables** properly configured
+3. **HTTPS connections** for all network requests
+
+## Framework Integration
+
+### Next.js
+
+Add to your `next.config.js`:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    return config;
+  },
+};
+
+module.exports = nextConfig;
+```
+
+### React (Vite)
+
+Add to your `vite.config.ts`:
+
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    global: 'globalThis',
+  },
+  resolve: {
+    alias: {
+      stream: 'stream-browserify',
+      util: 'util',
+    },
+  },
+});
+```
+
+### Node.js
+
+For Node.js applications, no additional configuration is needed:
+
+```javascript
+const { PrivacySDK } = require('@privacy-sdk/core');
+// or
+import { PrivacySDK } from '@privacy-sdk/core';
+```
+
+## Verification
+
+Verify your installation by creating a simple test:
+
+```typescript
+import { PrivacySDK } from '@privacy-sdk/core';
+
+// Test basic SDK initialization
+const sdk = new PrivacySDK();
+console.log('Privacy SDK initialized successfully!');
+console.log('Version:', sdk.version);
+console.log('Available providers:', sdk.getAvailableProviders());
+```
+
+If this runs without errors, you're ready to start using Privacy SDK!
+
+## Troubleshooting
+
+### Common Issues
+
+**"Module not found" errors**
+- Ensure all required dependencies are installed
+- Check that your Node.js version is 18 or higher
+- Clear `node_modules` and reinstall: `rm -rf node_modules package-lock.json && npm install`
+
+**"Buffer is not defined" in browser**
+- Add buffer polyfill to your build configuration
+- For Vite: `npm install buffer` and add to `vite.config.ts`
+
+**Network connection errors**
+- Verify your RPC URLs are correct and accessible
+- Check firewall settings for outbound connections
+- Ensure API keys have proper permissions
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check the [troubleshooting guide](/docs/troubleshooting)
+2. Search [existing issues](https://github.com/your-org/privacy-sdk/issues)
+3. Join our [Discord community](https://discord.gg/privacy-sdk)
+4. [Create a new issue](https://github.com/your-org/privacy-sdk/issues/new)
+
+---
+
+**Next:** Learn about [Core Concepts](/docs/concepts/architecture) to understand how Privacy SDK works.

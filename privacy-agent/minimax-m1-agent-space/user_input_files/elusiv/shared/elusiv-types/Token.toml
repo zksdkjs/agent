@@ -1,0 +1,156 @@
+# Tokens supported by the the Elusiv Program
+
+[[token]]
+symbol = "LAMPORTS"
+mint = "11111111111111111111111111111111" # unused
+mint_devnet = "11111111111111111111111111111111" # unused
+active = true
+price_base_exp = 9
+min = 1_000
+max = 360_000_000_000
+# https://pyth.network/price-feeds/crypto-sol-usd
+pyth_usd_price_mainnet = "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG"
+pyth_usd_price_devnet = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+
+[[token]]
+symbol = "USDC"
+# https://explorer.solana.com/address/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+mint_devnet = "F3hocsFVHrdTBG2yEHwnJHAJo4rZfnSwPg8d5nVMNKYE"
+active = true
+decimals = 6
+min = 1_000
+max = 8_000_000_000
+# https://pyth.network/price-feeds/crypto-usdc-usd
+pyth_usd_price_mainnet = "Gnt27xtC473ZT2Mw5u8wZ68Z3gULkSTb5DuxJy7eJotD"
+pyth_usd_price_devnet = "5SSkXsEKQepHHAewytPVwdej4epN1nxgLVM84L4KXgy7"
+
+[[token]]
+symbol = "USDT"
+# https://explorer.solana.com/address/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB
+mint = "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+mint_devnet = "AyPeYKj4oHBGdhLjMwbj9m8tEdS1gr9tyqkpT3oDEZUV"
+active = true
+decimals = 6
+min = 1_000
+max = 8_000_000_000
+# https://pyth.network/price-feeds/crypto-usdt-usd
+pyth_usd_price_mainnet = "3vxLXJqLqF3JG5TCbYycbKWRBbCJQLxQmBGCkyqEEefL"
+pyth_usd_price_devnet = "38xoQ4oeJCBrcVvca2cGk7iV1dAfrmTR1kmhSCJQ8Jto"
+
+[[token]]
+symbol = "mSOL"
+# https://explorer.solana.com/address/mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So
+mint = "mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So"
+mint_devnet = "4EnmvnhxdmMrHQeHXh5tRnhCCUJpdCjmWjrnJPr3YNzi"
+active = true
+decimals = 9
+min = 1_000
+max = 360_000_000_000
+# https://pyth.network/price-feeds/crypto-msol-usd
+pyth_usd_price_mainnet = "E4v1BBgoso9s64TQvmyownAVJbhbEPGyzA3qn4n46qj9"
+pyth_usd_price_devnet = "9a6RNx3tCu1TSs6TBSfV2XRXEPEZXQ6WB7jRojZRvyeZ"
+
+[[token]]
+symbol = "BONK"
+# https://explorer.solana.com/address/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263
+mint = "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"
+mint_devnet = "5B2TabGvtPgV67jnyEhhSrFvTTBv4awdrPg2qxNashhm"
+active = true
+decimals = 5
+min = 1_000_000_000 # 10K units
+max = 2_000_000_000_000_000 # 20B units
+# https://pyth.network/price-feeds/crypto-bonk-usd
+pyth_usd_price_mainnet = "8ihFLu5FimgTQ1Unh4dVyEHUGodJ5gJQCrQf4KUVB9bN"
+pyth_usd_price_devnet = "6bquU99ktV1VRiHDr8gMhDFt3kMfhCQo5nfNrg2Urvsn"
+
+[[token]]
+symbol = "SAMO"
+# https://explorer.solana.com/address/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU
+mint = "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+mint_devnet = "QcvLaJJPXCTmcBsif9DxivbHQLqqjUgcXU1F97sKoPJ"
+active = true
+decimals = 9
+min = 100_000_000 # 0.1 units
+max = 2_000_000_000_000_000 # 2M units
+# https://pyth.network/price-feeds/crypto-samo-usd
+pyth_usd_price_mainnet = "5wRjzrwWZG3af3FE26ZrRj3s8A3BVNyeJ9Pt9Uf2ogdf"
+pyth_usd_price_devnet = "G7dySNGaxZ8y2E89aX1K6rFeBt2ZnYBqXuCu1k2Y9MEe"
+
+[[token]]
+symbol = "stSOL"
+# https://explorer.solana.com/address/7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj
+mint = "7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj"
+mint_devnet = "GbPqCRvpc3Ute2Ga5yxSZhmBjguJmzzjHWu5a7qzYjFW"
+active = true
+decimals = 9
+min = 1_000
+max = 360_000_000_000
+# https://pyth.network/price-feeds/crypto-stsol-usd
+pyth_usd_price_mainnet = "Bt1hEbY62aMriY1SyQqbeZbm8VmSbQVGBFzSzMuVNWzN"
+pyth_usd_price_devnet = "2LwhbcswZekofMNRtDRMukZJNSRUiKYMFbqtBwqjDfke"
+
+[[token]]
+symbol = "ORCA"
+# https://explorer.solana.com/address/orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE
+mint = "orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"
+mint_devnet = "4TFR2cNVufTTqJodYBNK4dVJLmBChUDCNhRHQPwL1aeL"
+active = true
+decimals = 6
+min = 10_000
+max = 15_000_000_000
+# https://pyth.network/price-feeds/crypto-orca-usd
+pyth_usd_price_mainnet = "4ivThkX8uRxBpHsdWSqyXYihzKF3zpRGAUCqyuagnLoV"
+pyth_usd_price_devnet = "A1WttWF7X3Rg6ZRpB2YQUFHCRh1kiXV8sKKLV3S9neJV"
+
+[[token]]
+symbol = "RAY"
+# https://explorer.solana.com/address/4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R
+mint = "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
+mint_devnet = "Fe6W1j4c7Vtht3neoNJLsGpcM7NaBseWbHDppiQupqDi"
+active = true
+decimals = 6
+min = 1_000_000
+max = 50_000_000_000
+# https://pyth.network/price-feeds/crypto-ray-usd
+pyth_usd_price_mainnet = "AnLf8tVYCM816gmBjiy8n53eXKKEDydT5piYjjQDPgTB"
+pyth_usd_price_devnet = "EhgAdTrgxi4ZoVZLQx1n93vULucPpiFi2BQtz9RJr1y6"
+
+[[token]]
+symbol = "PYTH"
+# https://explorer.solana.com/address/HZ1JovNiVvGrGNiiYvEozEVgZ58xaU3RKwX8eACQBCt3
+mint = "HZ1JovNiVvGrGNiiYvEozEVgZ58xaU3RKwX8eACQBCt3"
+mint_devnet = "9ENsS7oDRD37YgimCK78oWBaAr5Nd1JTn3ZjgNc4xRq5"
+active = true
+decimals = 6
+min = 2_000
+max = 16_000_000_000
+# https://pyth.network/price-feeds/crypto-pyth-usd
+pyth_usd_price_mainnet = "nrYkQQQur7z8rYTST3G9GqATviK5SxTDkrqd21MW6Ue"
+pyth_usd_price_devnet = "ELF78ZhSr8u4SCixA7YSpjdZHZoSNrAhcyysbavpC2kA"
+
+[[token]]
+symbol = "JitoSOL"
+# https://explorer.solana.com/address/J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn
+mint = "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn"
+mint_devnet = "BHstKf9BVw7vv7fkKTUREARAboSh1VBmjruSWnkpyv6f"
+active = true
+decimals = 9
+min = 1_000
+max = 360_000_000_000
+# https://pyth.network/price-feeds/crypto-jitosol-usd
+pyth_usd_price_mainnet = "7yyaeuJ1GGtVBLT2z2xub5ZWYKaNhF28mj1RdV4VDFVk"
+pyth_usd_price_devnet = "3d4eLK2TF6UdpSjKvS5ZUnDY1uZq2sEj9Tk3cujpUaAk"
+
+[[token]]
+symbol = "JTO"
+# https://explorer.solana.com/address/jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL
+mint = "jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL"
+mint_devnet = "7Bp5Qe1ZsFGqw8BXjFA5LaUPu8PPnCy1u1NJ9ggXADme"
+active = true
+decimals = 9
+min = 1_000_000
+max = 2_000_000_000_000
+# https://pyth.network/price-feeds/crypto-jto-usd
+pyth_usd_price_mainnet = "D8UUgr8a3aR3yUeHLu7v8FWK7E8Y5sSU7qrYBXUJXBQ5"
+pyth_usd_price_devnet = "29xQnTzyyuRtgJ7RtSKEgBWwRzZqtrrKmyQQ5m3x629f"

@@ -1,0 +1,149 @@
+query Nullifiers($blockNumber: BigInt = 0) {
+  nullifiers(
+    orderBy: [blockNumber_ASC, nullifier_DESC]
+    where: { blockNumber_gte: $blockNumber }
+    limit: 10000
+  ) {
+    id
+    blockNumber
+    nullifier
+    transactionHash
+    blockTimestamp
+    treeNumber
+  }
+}
+
+query Unshields($blockNumber: BigInt = 0) {
+  unshields(
+    orderBy: [blockNumber_ASC, eventLogIndex_ASC]
+    where: { blockNumber_gte: $blockNumber }
+    limit: 10000
+  ) {
+    id
+    blockNumber
+    to
+    transactionHash
+    fee
+    blockTimestamp
+    amount
+    eventLogIndex
+    token {
+      id
+      tokenType
+      tokenSubID
+      tokenAddress
+    }
+  }
+}
+
+query Commitments($blockNumber: BigInt = 0) {
+  commitments(
+    orderBy: [blockNumber_ASC, treePosition_ASC]
+    where: { blockNumber_gte: $blockNumber }
+    limit: 10000
+  ) {
+    id
+    treeNumber
+    batchStartTreePosition
+    treePosition
+    blockNumber
+    transactionHash
+    blockTimestamp
+    commitmentType
+    hash
+    ... on LegacyGeneratedCommitment {
+      id
+      treeNumber
+      batchStartTreePosition
+      treePosition
+      blockNumber
+      transactionHash
+      blockTimestamp
+      commitmentType
+      hash
+      encryptedRandom
+      preimage {
+        id
+        npk
+        value
+        token {
+          id
+          tokenType
+          tokenSubID
+          tokenAddress
+        }
+      }
+    }
+    ... on LegacyEncryptedCommitment {
+      id
+      blockNumber
+      blockTimestamp
+      transactionHash
+      treeNumber
+      batchStartTreePosition
+      treePosition
+      commitmentType
+      hash
+      legacyCiphertext: ciphertext {
+        id
+        ciphertext {
+          id
+          iv
+          tag
+          data
+        }
+        ephemeralKeys
+        memo
+      }
+    }
+    ... on ShieldCommitment {
+      id
+      blockNumber
+      blockTimestamp
+      transactionHash
+      treeNumber
+      batchStartTreePosition
+      treePosition
+      commitmentType
+      hash
+      shieldKey
+      fee
+      encryptedBundle
+      preimage {
+        id
+        npk
+        value
+        token {
+          id
+          tokenType
+          tokenSubID
+          tokenAddress
+        }
+      }
+    }
+    ... on TransactCommitment {
+      id
+      blockNumber
+      blockTimestamp
+      transactionHash
+      treeNumber
+      batchStartTreePosition
+      treePosition
+      commitmentType
+      hash
+      ciphertext {
+        id
+        ciphertext {
+          id
+          iv
+          tag
+          data
+        }
+        blindedSenderViewingKey
+        blindedReceiverViewingKey
+        annotationData
+        memo
+      }
+    }
+  }
+}

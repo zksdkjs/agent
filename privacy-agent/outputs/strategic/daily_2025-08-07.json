@@ -1,0 +1,23 @@
+[
+  {
+    "session_id": "developer_strategic_1754575934",
+    "agent": "developer",
+    "status": "error",
+    "duration": 0.011486053466796875,
+    "timestamp": 1754575934.5765839
+  },
+  {
+    "session_id": "developer_strategic_1754576010",
+    "agent": "developer",
+    "status": "error",
+    "duration": 0.02902674674987793,
+    "timestamp": 1754576010.2228081
+  },
+  {
+    "session_id": "developer_strategic_1754576142",
+    "agent": "developer",
+    "status": "error",
+    "duration": 0.03316974639892578,
+    "timestamp": 1754576142.2162712
+  }
+]
