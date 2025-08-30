@@ -10,11 +10,7 @@
  */
 
 export { FHEVMProvider } from './provider';
-export { FHEVMConfig, EncryptedAmount, ConfidentialTransaction } from './types';
-export { ConfidentialERC20 } from './contracts/confidential-erc20';
-export { ConfidentialDEX } from './contracts/confidential-dex';
-export { EncryptionUtils } from './utils/encryption';
-export { FHEOperations } from './operations';
+export * from './types';
 
 // Re-export common types
 export type {

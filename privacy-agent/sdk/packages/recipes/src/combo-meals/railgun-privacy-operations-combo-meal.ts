@@ -1,0 +1,117 @@
+import { ComboMeal, ComboMealConfig, ComboMealInput } from '../combo-meals/combo-meal';
+import { Recipe } from '../recipes/recipe';
+import { RailgunPrivateTransferRecipe } from '../recipes/railgun-private-transfer-recipe';
+import { RailgunBatchTransferRecipe } from '../recipes/railgun-batch-transfer-recipe';
+import { RailgunProvider } from '../../../providers/railgun/src/index';
+import { Network } from '@zksdk/core';
+
+/**
+ * Configuration for Railgun Privacy Operations ComboMeal
+ */
+export interface RailgunPrivacyOperationsComboMealConfig extends ComboMealConfig {
+  // Additional configuration specific to this combo meal
+  enableParallelExecution?: boolean;
+  maxTotalTransfers?: number;
+}
+
+/**
+ * Input for Railgun Privacy Operations ComboMeal
+ */
+export interface RailgunPrivacyOperationsComboMealInput extends ComboMealInput {
+  // Operations to perform
+  operations: Array<{
+    type: 'privateTransfer' | 'batchTransfer';
+    params: any; // Parameters specific to the operation type
+  }>;
+}
+
+/**
+ * Railgun Privacy Operations ComboMeal
+ * A combo meal for executing multiple privacy operations using Railgun
+ */
+export class RailgunPrivacyOperationsComboMeal extends ComboMeal {
+  readonly config: RailgunPrivacyOperationsComboMealConfig = {
+    name: 'Railgun Privacy Operations ComboMeal',
+    description: 'Execute multiple privacy operations in sequence using Railgun EVM privacy system',
+    version: '1.0.0',
+    supportedNetworks: ['ethereum', 'polygon', 'arbitrum'],
+    minGasLimit: 500000,
+    maxRecipes: 5,
+    parallelExecution: false,
+    enableParallelExecution: false,
+    maxTotalTransfers: 20
+  };
+
+  private railgunProvider: RailgunProvider;
+
+  constructor(railgunProvider: RailgunProvider) {
+    super();
+    this.railgunProvider = railgunProvider;
+  }
+
+  /**
+   * Get the recipes that make up this combo meal
+   */
+  protected getRecipes(): Recipe[] {
+    // Recipes will be created dynamically based on input operations
+    return [];
+  }
+
+  /**
+   * Execute the combo meal with the given input
+   */
+  async execute(input: RailgunPrivacyOperationsComboMealInput) {
+    // Validate input
+    if (!input.operations || input.operations.length === 0) {
+      throw new Error('At least one operation is required');
+    }
+
+    if (input.operations.length > (this.config.maxRecipes || 5)) {
+      throw new Error(`Maximum ${this.config.maxRecipes} operations allowed`);
+    }
+
+    // Count total transfers to ensure we don't exceed limits
+    let totalTransfers = 0;
+    for (const operation of input.operations) {
+      if (operation.type === 'batchTransfer' && operation.params.transfers) {
+        totalTransfers += operation.params.transfers.length;
+      } else if (operation.type === 'privateTransfer') {
+        totalTransfers += 1;
+      }
+    }
+
+    if (totalTransfers > (this.config.maxTotalTransfers || 20)) {
+      throw new Error(`Maximum ${this.config.maxTotalTransfers} total transfers allowed`);
+    }
+
+    // Create recipes for each operation
+    const recipes: Recipe[] = [];
+    for (const operation of input.operations) {
+      let recipe: Recipe;
+      
+      switch (operation.type) {
+        case 'privateTransfer':
+          recipe = new RailgunPrivateTransferRecipe(this.railgunProvider);
+          break;
+        case 'batchTransfer':
+          recipe = new RailgunBatchTransferRecipe(this.railgunProvider);
+          break;
+        default:
+          throw new Error(`Unsupported operation type: ${operation.type}`);
+      }
+      
+      recipes.push(recipe);
+    }
+
+    // Override the getRecipes method for this execution
+    const originalGetRecipes = this.getRecipes;
+    this.getRecipes = () => recipes;
+
+    try {
+      return await super.execute(input);
+    } finally {
+      // Restore original getRecipes method
+      this.getRecipes = originalGetRecipes;
+    }
+  }
+}

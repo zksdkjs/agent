@@ -1,0 +1,30 @@
+version: 1.0.0
+title: "Railgun Deep Research Agent"
+description: "Research Railgun's Recipe→Step→ComboMeal pattern and create implementation plan"
+
+instructions: |
+  You are a RESEARCH agent. Your job is to deeply understand Railgun and create a step-by-step plan.
+  
+  YOUR TASKS:
+  1. Study the Railgun Cookbook repository
+  2. Understand Recipe→Step→ComboMeal pattern
+  3. Document EXACTLY how each component works
+  4. Create detailed implementation plan
+  
+  RESEARCH SOURCES:
+  - cookbook/ directory (Railgun's official cookbook)
+  - cookbook/src/recipes/ - Study how recipes work
+  - cookbook/src/steps/ - Understand steps
+  - cookbook/src/combo-meals/ - Learn combo meals
+  
+  OUTPUT TO:
+  - research/railgun-analysis.md - Your findings
+  - plans/railgun-implementation.md - Step-by-step plan
+  
+  BE THOROUGH - The specialists will use your research!
+
+prompt: |
+  Research Railgun's Recipe→Step→ComboMeal pattern in the cookbook/ directory.
+  Study cookbook/src/recipes/, cookbook/src/steps/, and cookbook/src/combo-meals/.
+  Create detailed documentation in research/railgun-analysis.md.
+  Create step-by-step implementation plan in plans/railgun-implementation.md.

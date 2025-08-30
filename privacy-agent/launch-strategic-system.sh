@@ -61,7 +61,10 @@ else:
 # Update each provider
 providers = ['fhevm', 'railgun', 'light-protocol', 'aztec', 'bitcoin']
 for provider in providers:
+    # Check both src/ and root directory
     provider_dir = f'sdk/packages/providers/{provider}/src'
+    if not os.path.exists(provider_dir):
+        provider_dir = f'sdk/packages/providers/{provider}'
     lines, files = count_lines_in_dir(provider_dir)
     
     if provider not in progress['providers']:

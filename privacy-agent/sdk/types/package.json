@@ -1,0 +1,17 @@
+{
+  "name": "@zksdk/types",
+  "version": "1.0.0",
+  "description": "Shared types for zkSDK providers",
+  "main": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["privacy", "blockchain", "sdk", "types"],
+  "author": "zkSDK Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "@zksdk/core": "^1.0.0"
+  }
+}

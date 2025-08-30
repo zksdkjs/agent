@@ -9,12 +9,18 @@ check_real_status() {
     local provider=$1
     local dir="sdk/packages/providers/$provider"
     
-    if [ ! -d "$dir/src" ]; then
-        echo "❌ $provider: NOT STARTED (no src dir)"
+    # Check if provider directory exists
+    if [ ! -d "$dir" ]; then
+        echo "❌ $provider: NOT STARTED (no dir)"
         return 2
     fi
     
-    local total=$(find $dir/src -name "*.ts" -exec cat {} \; 2>/dev/null | wc -l)
+    # Count lines in src/ if it exists, otherwise count in root
+    if [ -d "$dir/src" ]; then
+        local total=$(find $dir/src -name "*.ts" -exec cat {} \; 2>/dev/null | wc -l)
+    else
+        local total=$(find $dir -name "*.ts" -exec cat {} \; 2>/dev/null | wc -l)
+    fi
     
     if [ "$total" -eq 0 ]; then
         echo "❌ $provider: EMPTY (0 lines)"

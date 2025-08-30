@@ -1,0 +1,32 @@
+{
+  "name": "@zksdk/recipes",
+  "version": "1.0.0",
+  "description": "Recipe→Step→ComboMeal pattern implementation for zkSDK privacy operations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "zk",
+    "privacy",
+    "recipes",
+    "steps",
+    "combo-meals",
+    "railgun",
+    "evm"
+  ],
+  "author": "zkSDK Team",
+  "license": "MIT",
+  "dependencies": {
+    "@zksdk/core": "^1.0.0",
+    "@zksdk/providers": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^18.0.0"
+  }
+}

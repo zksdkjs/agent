@@ -1,0 +1,6 @@
+"use strict";
+/**
+ * Shared types for zkSDK providers
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+//# sourceMappingURL=index.js.map
