@@ -1,207 +1,294 @@
 #!/bin/bash
+# STRATEGIC AGENT SYSTEM - Full orchestration with memory and persistence
 
-# zkSDK Strategic Management System Launch Script
-# Top-tier strategic orchestration for complex privacy SDK development
+set -euo pipefail
 
-echo "🎯 zkSDK Strategic Management System"
-echo "===================================="
-echo "Building the 'LangChain of Privacy' with world-class strategic execution"
+echo "🚀 STRATEGIC AGENT SYSTEM LAUNCHER"
+echo "=================================="
 echo ""
 
-# Set working directory
-cd "$(dirname "$0")"
+# Configuration
+MEMORY_DIR="$(pwd)/memory"
+LOGS_DIR="$(pwd)/logs"
+SDK_DIR="$(pwd)/sdk/packages/providers"
+SESSION_DATA="${HOME}/.local/share/goose/sessions"
 
-# Check system requirements
-echo "🔍 Checking system requirements..."
+# Ensure directories exist
+mkdir -p "$MEMORY_DIR" "$LOGS_DIR" "$SESSION_DATA"
 
-# Check Goose installation
-if ! command -v goose &> /dev/null; then
-    echo "❌ Error: Goose is not installed"
-    echo "📦 Installing Goose CLI..."
-    curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh | bash
+# Function to update build progress
+update_build_progress() {
+    echo "📊 Updating build progress..."
     
-    if ! command -v goose &> /dev/null; then
-        echo "❌ Goose installation failed. Please install manually."
-        exit 1
-    fi
-    echo "✅ Goose installed successfully"
-fi
+    # Create Python script to update JSON
+    cat > /tmp/update_progress.py << 'EOF'
+import json
+import os
+from datetime import datetime
+from pathlib import Path
 
-# Check Python requirements
-echo "📋 Checking Python dependencies..."
-python3 -c "import schedule" 2>/dev/null || {
-    echo "📦 Installing required Python packages..."
-    pip3 install schedule asyncio
+def count_lines_in_dir(dir_path):
+    """Count TypeScript lines in a directory"""
+    if not os.path.exists(dir_path):
+        return 0, {}
+    
+    total = 0
+    files = {}
+    
+    for root, dirs, filenames in os.walk(dir_path):
+        for filename in filenames:
+            if filename.endswith('.ts'):
+                filepath = os.path.join(root, filename)
+                try:
+                    with open(filepath, 'r') as f:
+                        lines = len(f.readlines())
+                        total += lines
+                        rel_path = os.path.relpath(filepath, dir_path)
+                        files[rel_path] = lines
+                except:
+                    pass
+    
+    return total, files
+
+# Load existing progress
+progress_file = 'memory/build_progress.json'
+if os.path.exists(progress_file):
+    with open(progress_file, 'r') as f:
+        progress = json.load(f)
+else:
+    progress = {"providers": {}, "last_check": ""}
+
+# Update each provider
+providers = ['fhevm', 'railgun', 'light-protocol', 'aztec', 'bitcoin']
+for provider in providers:
+    provider_dir = f'sdk/packages/providers/{provider}/src'
+    lines, files = count_lines_in_dir(provider_dir)
+    
+    if provider not in progress['providers']:
+        progress['providers'][provider] = {
+            "status": "not_started",
+            "lines": 0,
+            "files": {},
+            "tests": False,
+            "documentation": False
+        }
+    
+    # Update status
+    progress['providers'][provider]['lines'] = lines
+    progress['providers'][provider]['files'] = files
+    progress['providers'][provider]['last_updated'] = datetime.now().strftime('%Y-%m-%d')
+    
+    # Determine status
+    if lines == 0:
+        progress['providers'][provider]['status'] = "not_started"
+    elif lines < 300:
+        progress['providers'][provider]['status'] = "partial"
+    else:
+        progress['providers'][provider]['status'] = "complete"
+    
+    # Check for tests
+    test_dir = f'sdk/packages/providers/{provider}/src/__tests__'
+    if os.path.exists(test_dir) and any(f.endswith('.test.ts') for f in os.listdir(test_dir)):
+        progress['providers'][provider]['tests'] = True
+
+progress['last_check'] = datetime.now().isoformat()
+
+# Save progress
+with open(progress_file, 'w') as f:
+    json.dump(progress, f, indent=2)
+
+# Print summary
+print("\n📊 Current Build Status:")
+print("=" * 50)
+for provider, data in progress['providers'].items():
+    status_emoji = "✅" if data['status'] == "complete" else "🚧" if data['status'] == "partial" else "❌"
+    print(f"{status_emoji} {provider}: {data['lines']} lines ({data['status']})")
+EOF
+
+    python3 /tmp/update_progress.py
+    rm /tmp/update_progress.py
 }
 
-# Validate strategic agent recipes
-echo "🔍 Validating strategic agent recipes..."
-strategic_recipes=(
-    "recipes/recipe-strategy-chief.yaml"
-    "recipes/recipe-marketing-growth.yaml" 
-    "recipes/recipe-research-intelligence.yaml"
-    "recipes/recipe-release-operations.yaml"
-    "recipes/recipe-developer.yaml"
-    "recipes/recipe-tester.yaml"
-    "recipes/recipe-social.yaml"
-)
+# Function to create session context
+create_session_context() {
+    local provider=$1
+    local session_id=$(date +%s)
+    
+    cat > "$MEMORY_DIR/current_session.md" << EOF
+# ACTIVE SESSION: $session_id
+## Provider: $provider
+## Started: $(date)
 
-for recipe in "${strategic_recipes[@]}"; do
-    echo "  Validating $recipe..."
-    if [ -f "$recipe" ]; then
-        if ! goose recipe validate "$recipe" >/dev/null 2>&1; then
-            echo "❌ Recipe validation failed: $recipe"
-            exit 1
-        fi
-    else
-        echo "❌ Missing recipe: $recipe"
-        exit 1
-    fi
-done
-echo "✅ All strategic recipes validated successfully"
+## CRITICAL INSTRUCTIONS
+1. DO NOT start from scratch - check existing files first
+2. Read memory/build_progress.json for current status
+3. Continue from where previous work stopped
+4. Focus ONLY on $provider - ignore other providers
 
-# Check API key configuration
-echo "🔐 Checking strategic API key configuration..."
-api_keys_found=0
+## Current Status
+$(cat "$MEMORY_DIR/build_progress.json" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+provider = '$provider'
+if provider in data['providers']:
+    p = data['providers'][provider]
+    print(f\"Status: {p['status']}\")
+    print(f\"Lines: {p['lines']}\")
+    print(f\"Files: {len(p['files'])}\")
+    if p['files']:
+        print(\"\\nExisting files:\")
+        for f, lines in p['files'].items():
+            print(f\"  - {f}: {lines} lines\")
+")
 
-if [ -n "$ANTHROPIC_API_KEY" ]; then
-    echo "✅ Anthropic API key configured (Claude for strategic planning)"
-    api_keys_found=$((api_keys_found + 1))
-fi
+## Session Goals
+$(python3 -c "
+import json
+with open('memory/build_progress.json', 'r') as f:
+    data = json.load(f)
+    p = data['providers'].get('$provider', {})
+    if p.get('status') == 'not_started':
+        print('- Create initial provider structure')
+        print('- Implement core provider class')
+        print('- Add type definitions')
+        print('- Create basic tests')
+    elif p.get('status') == 'partial':
+        print('- Complete the provider implementation')
+        print('- Add missing methods')
+        print('- Improve test coverage')
+        print('- Add documentation')
+    else:
+        print('- Review and optimize existing code')
+        print('- Add advanced features')
+        print('- Improve test coverage')
+")
 
-if [ -n "$OPENAI_API_KEY" ]; then
-    echo "✅ OpenAI API key configured (Qwen Coder for development)"  
-    api_keys_found=$((api_keys_found + 1))
-fi
+## Files to work on:
+- sdk/packages/providers/$provider/src/provider.ts
+- sdk/packages/providers/$provider/src/types.ts
+- sdk/packages/providers/$provider/src/index.ts
+- sdk/packages/providers/$provider/src/__tests__/*.test.ts
+EOF
+}
 
-if [ -n "$GROQ_API_KEY" ]; then
-    echo "✅ Groq API key configured (Fast marketing and social)"
-    api_keys_found=$((api_keys_found + 1))
-fi
+# Function to determine next provider to work on
+get_next_provider() {
+    python3 -c "
+import json
+with open('memory/build_progress.json', 'r') as f:
+    data = json.load(f)
+    providers = data['providers']
+    
+    # Priority: partial > not_started > complete
+    for status in ['partial', 'not_started', 'complete']:
+        for provider, info in providers.items():
+            if info['status'] == status:
+                print(provider)
+                exit(0)
+    
+    print('railgun')  # default
+"
+}
 
-# Check for OpenRouter configuration (Goose's preferred method)
-if [ -n "$OPENROUTER_API_KEY" ] || goose info &>/dev/null; then
-    echo "✅ Goose/OpenRouter configuration detected"
-    api_keys_found=$((api_keys_found + 1))
-fi
-
-if [ $api_keys_found -eq 0 ]; then
-    echo "⚠️  Warning: No API keys configured!"
-    echo "   For strategic system, please set:"
-    echo "   - ANTHROPIC_API_KEY (required for strategic planning)"
-    echo "   - OPENAI_API_KEY (recommended for development)"
-    echo "   - GROQ_API_KEY (recommended for marketing)"
-    echo "   - OR configure Goose with: goose configure"
+# Function to launch agent with proper context
+launch_agent() {
+    local provider=$1
+    local recipe=""
+    local agent_name=""
+    
+    case $provider in
+        "railgun")
+            recipe="recipes/recipe-railgun-specialist.yaml"
+            agent_name="railgun_specialist"
+            ;;
+        "fhevm")
+            recipe="recipes/recipe-zama-fhe-specialist.yaml"
+            agent_name="zama_fhe"
+            ;;
+        "light-protocol")
+            recipe="recipes/recipe-light-protocol-specialist.yaml"
+            agent_name="light_protocol"
+            ;;
+        "aztec")
+            recipe="recipes/recipe-aztec-specialist.yaml"
+            agent_name="aztec_l2"
+            ;;
+        "bitcoin")
+            recipe="recipes/recipe-bitcoin-privacy-specialist.yaml"
+            agent_name="bitcoin_privacy"
+            ;;
+        *)
+            echo "Unknown provider: $provider"
+            return 1
+            ;;
+    esac
+    
     echo ""
-    read -p "Continue anyway? (y/N): " continue_choice
-    if [[ ! $continue_choice =~ ^[Yy]$ ]]; then
-        exit 1
+    echo "🎯 Launching agent for: $provider"
+    echo "   Recipe: $recipe"
+    echo "   Agent: $agent_name"
+    echo ""
+    
+    # Check for existing session
+    EXISTING_SESSION=$(ls -t "$SESSION_DATA"/${agent_name}_*.jsonl 2>/dev/null | head -1 || true)
+    
+    if [[ -n "$EXISTING_SESSION" ]]; then
+        SESSION_ID=$(basename "$EXISTING_SESSION" .jsonl | sed 's/.*_session/session/')
+        echo "📂 Found existing session: $SESSION_ID"
+        echo "   Resuming work..."
+        
+        goose run \
+            --recipe "$recipe" \
+            --name "$agent_name" \
+            --resume "$SESSION_ID" \
+            --max-turns 300 \
+            2>&1 | tee -a "$LOGS_DIR/${agent_name}_session.log"
+    else
+        echo "🆕 Starting new session..."
+        
+        goose run \
+            --recipe "$recipe" \
+            --name "$agent_name" \
+            --max-turns 300 \
+            2>&1 | tee -a "$LOGS_DIR/${agent_name}_session.log"
     fi
+}
+
+# Main execution flow
+main() {
+    # Update build progress
+    update_build_progress
+    
+    # Determine what to work on
+    NEXT_PROVIDER=$(get_next_provider)
+    echo ""
+    echo "📋 Next priority: $NEXT_PROVIDER"
+    
+    # Create session context
+    create_session_context "$NEXT_PROVIDER"
+    
+    # Launch the agent
+    launch_agent "$NEXT_PROVIDER"
+    
+    # Update progress after agent completes
+    echo ""
+    echo "🔄 Agent completed. Updating progress..."
+    update_build_progress
+}
+
+# Handle arguments
+if [[ $# -eq 0 ]]; then
+    # Auto mode - work on next priority
+    main
+elif [[ $# -eq 1 ]]; then
+    # Specific provider mode
+    PROVIDER=$1
+    create_session_context "$PROVIDER"
+    launch_agent "$PROVIDER"
+    update_build_progress
+else
+    echo "Usage: $0 [provider]"
+    echo "Providers: railgun, fhevm, light-protocol, aztec, bitcoin"
+    echo "No args = work on next priority"
+    exit 1
 fi
-
-# Create strategic directories
-echo "📁 Creating strategic directory structure..."
-mkdir -p outputs/{strategic,intelligence,marketing,releases,sessions,logs}
-mkdir -p outputs/strategic/{strategy_chief,marketing_growth,research_intelligence,release_operations}
-
-# Show strategic system configuration
-echo ""
-echo "📊 Strategic System Configuration:"
-echo "  Project: zkSDK - The LangChain of Privacy"
-echo "  Working Directory: $(pwd)"
-echo "  Goose Version: $(goose --version 2>/dev/null || echo 'Unknown')"
-echo "  Python Version: $(python3 --version)"
-echo "  Strategic Agents: ${#strategic_recipes[@]}"
-echo "  API Keys Configured: $api_keys_found/3"
-echo ""
-
-echo "🎯 Strategic Agent Team:"
-echo "  🧠 Chief Strategy Officer: Master project leadership & coordination"
-echo "  📈 Marketing & Growth Engine: Market dominance & developer adoption" 
-echo "  🔍 Research & Intelligence: Competitive advantage & market insights"
-echo "  ⚙️ Release & Operations: World-class delivery & operational excellence"
-echo "  👨‍💻 Developer Agent: 24/7 coding engine (Qwen Coder)"
-echo "  🧪 Tester Agent: Quality assurance (Qwen Coder)"
-echo "  📱 Social Agent: Community building (Groq)"
-echo ""
-
-# Launch mode selection
-echo "🚀 Choose Strategic Launch Mode:"
-echo ""
-echo "1) Full Strategic System - Complete strategic management (RECOMMENDED)"
-echo "   • Chief Strategy Officer coordination"
-echo "   • Marketing & growth execution" 
-echo "   • Research & competitive intelligence"
-echo "   • Release & operations management"
-echo "   • 24/7 development engine"
-echo ""
-echo "2) Strategic Briefing Only - Morning strategic briefing"
-echo "   • Cross-agent strategic coordination"
-echo "   • Market intelligence gathering"
-echo "   • Strategic decision support"
-echo ""
-echo "3) Single Strategic Agent - Test individual agent"
-echo "   • strategy_chief, marketing_growth, research_intelligence, release_operations"
-echo ""
-echo "4) Development Focus - Enhanced development with strategic oversight"
-echo "   • 24/7 coding with strategic coordination"
-echo "   • Quality assurance and testing"
-echo "   • Strategic development guidance"
-echo ""
-
-read -p "Enter choice (1-4): " choice
-
-case $choice in
-    1)
-        echo ""
-        echo "🎯 Launching Full Strategic Management System..."
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "This will run:"
-        echo "• Morning strategic briefings at 8:00 AM"
-        echo "• Continuous strategic coordination"
-        echo "• Marketing campaigns every 4 hours"
-        echo "• Research & intelligence daily"
-        echo "• Release & operations management" 
-        echo "• 24/7 development engine"
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo ""
-        python3 scripts/strategic-orchestration.py --mode full
-        ;;
-    2)
-        echo ""
-        echo "📊 Running Strategic Morning Briefing..."
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        python3 scripts/strategic-orchestration.py --mode briefing
-        ;;
-    3)
-        echo ""
-        echo "Available strategic agents:"
-        echo "• strategy_chief - Chief Strategy Officer"
-        echo "• marketing_growth - Marketing & Growth Engine" 
-        echo "• research_intelligence - Research & Intelligence"
-        echo "• release_operations - Release & Operations"
-        echo ""
-        read -p "Which strategic agent to test? " agent
-        echo ""
-        echo "🧪 Testing strategic agent: $agent"
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        python3 scripts/strategic-orchestration.py --mode agent --agent "$agent"
-        ;;
-    4)
-        echo ""
-        echo "👨‍💻 Launching Development Focus Mode..."
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "• 24/7 development with strategic coordination"
-        echo "• Quality assurance and testing"
-        echo "• Strategic oversight and guidance"
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo ""
-        # Run strategic system but focus on development
-        python3 scripts/strategic-orchestration.py --mode full
-        ;;
-    *)
-        echo ""
-        echo "Invalid choice. Launching Full Strategic System..."
-        python3 scripts/strategic-orchestration.py --mode full
-        ;;
-esac
