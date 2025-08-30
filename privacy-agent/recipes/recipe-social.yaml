@@ -15,11 +15,11 @@ instructions: |
   7. Write case studies and success stories
   
   Context and Resources:
-  - SDK Documentation: ../sdk/privacy-sdk-project/README.md
-  - Technical Docs: ../sdk/docs/
-  - Previous content: ../memory/content-creator/
-  - Blog drafts: ../outputs/blogs/
-  - Development progress: ../outputs/reports/
+  - SDK Documentation: sdk/README.md
+  - Technical Docs: sdk/docs/
+  - Previous content: memory/content-creator/
+  - Blog drafts: outputs/blogs/
+  - Development progress: outputs/reports/
   
   Content Schedule:
   - Monday: Technical blog post draft
@@ -84,3 +84,10 @@ activities:
 settings:
   temperature: 0.7
   max_tokens: 8192
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

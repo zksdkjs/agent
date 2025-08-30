@@ -5,10 +5,10 @@
 ### Daily Development Work
 ```bash
 # Morning development session
-goose run --recipe recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10
+goose run --recipe recipes/recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10
 
 # Create Twitter thread about the work  
-goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
+goose run --recipe recipes/recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
 ```
 
 ### Check What Happened
@@ -39,10 +39,10 @@ bash launch-strategic-system.sh
 
 ## Agent Recipes
 
-- `recipe-developer.yaml` - Coding work
-- `recipe-social.yaml` - Twitter/blog content
-- `recipe-strategy-chief.yaml` - Strategic planning
-- `recipe-marketing-growth.yaml` - Marketing analysis
-- `recipe-research-intelligence.yaml` - Competitive research
-- `recipe-tester.yaml` - Quality assurance
-- `recipe-release-operations.yaml` - Release management
+- `recipes/recipe-developer.yaml` - Coding work
+- `recipes/recipe-social.yaml` - Twitter/blog content
+- `recipes/recipe-strategy-chief.yaml` - Strategic planning
+- `recipes/recipe-marketing-growth.yaml` - Marketing analysis
+- `recipes/recipe-research-intelligence.yaml` - Competitive research
+- `recipes/recipe-tester.yaml` - Quality assurance
+- `recipes/recipe-release-operations.yaml` - Release management

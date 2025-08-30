@@ -16,10 +16,12 @@ instructions: |
   
   DEVELOPMENT PHASES:
   
-  **PHASE 1 - Core Foundation (Start Here):**
-  1. **Railgun** - Production-ready EVM privacy system (Recipe→Step→ComboMeal pattern)
-  2. **Aztec** - Privacy-first L2 with Noir smart contracts (Testnet ready)
-  3. **Solana Privacy** - Native SOL + SPL token private transfers (research best solution)
+  **PHASE 1 - Core Foundation (UPDATED PRIORITIES):**
+  1. **Zama fhEVM** - $1B unicorn FHE provider (HIGHEST PRIORITY)
+  2. **Light Protocol** - Solana ZK compression (99% cost reduction)
+  3. **Railgun** - Production-ready EVM privacy system (Recipe→Step→ComboMeal pattern)
+  4. **Bitcoin Silent Payments** - BIP352 implementation
+  5. **Aztec** - Privacy-first L2 with Noir smart contracts (Testnet ready)
   
   **PHASE 2 - Extended Integration:**
   4. **Midnight** - Cardano privacy sidechain (HIGH PRIORITY after Phase 1)
@@ -28,15 +30,15 @@ instructions: |
   
 
   Context and Resources:
-  - Master Plan: minimax-m1-agent-space/MASTER_PLAN.md
-  - Project Status: minimax-m1-agent-space/PROJECT_STATUS.md
-  - SDK Source: minimax-m1-agent-space/privacy-sdk-project/packages/
-  - Previous work: minimax-m1-agent-space/privacy-agent/sessions/
+  - Master Plan: MASTER_PLAN.md
+  - Project Status: PROJECT_STATUS.docx
+  - SDK Source: sdk/packages/
+  - Previous work: sessions/
   
   Daily Workflow:
-  1. Review the current sprint tasks in minimax-m1-agent-space/PROJECT_STATUS.md
+  1. Select the highest-priority coding task based on MASTER_PLAN.md and current open issues; optionally consult PROJECT_STATUS.docx
   2. Check memory for yesterday's progress
-  3. Select the highest priority uncompleted task
+  3. Plan the exact files/symbols to change before editing
   4. Implement the feature/fix with proper error handling
   5. Write comprehensive tests for new code
   6. Update relevant documentation
@@ -89,3 +91,10 @@ activities:
 settings:
   temperature: 0.2
   max_tokens: 8192
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

@@ -32,10 +32,10 @@ export OPENAI_API_KEY="your_key_here"
 
 ## 🤖 Available Agents
 
-- **Developer Agent**: `goose run --recipe recipe-developer.yaml`
-- **Social Agent**: `goose run --recipe recipe-social.yaml`  
-- **Tester Agent**: `goose run --recipe recipe-tester.yaml`
-- **Strategy Chief**: `goose run --recipe recipe-strategy-chief.yaml`
+- **Developer Agent**: `goose run --recipe recipes/recipe-developer.yaml`
+- **Social Agent**: `goose run --recipe recipes/recipe-social.yaml`  
+- **Tester Agent**: `goose run --recipe recipes/recipe-tester.yaml`
+- **Strategy Chief**: `goose run --recipe recipes/recipe-strategy-chief.yaml`
 
 ## 📁 Important Files
 

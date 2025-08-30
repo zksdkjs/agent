@@ -198,6 +198,10 @@ prompt: |
   Let's make zkSDK the most informed and strategically advantaged privacy SDK in the market! 🔍
 
 extensions:
+  - name: repo_context
+    type: builtin
+  - name: web_search
+    type: builtin
   - name: developer
     type: builtin
 

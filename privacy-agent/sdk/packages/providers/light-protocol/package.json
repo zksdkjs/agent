@@ -1,0 +1,31 @@
+{
+  "name": "@zk-sdk/light-protocol",
+  "version": "0.1.0",
+  "description": "Light Protocol provider for Solana ZK Compression",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.78.0",
+    "@lightprotocol/compressed-token": "^0.1.0",
+    "@lightprotocol/stateless.js": "^0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^18.0.0"
+  },
+  "keywords": [
+    "zk",
+    "compression",
+    "light-protocol",
+    "solana",
+    "compressed-tokens",
+    "compressed-nfts"
+  ],
+  "author": "ZK SDK Team",
+  "license": "MIT"
+}

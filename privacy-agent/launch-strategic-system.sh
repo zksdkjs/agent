@@ -37,13 +37,13 @@ python3 -c "import schedule" 2>/dev/null || {
 # Validate strategic agent recipes
 echo "🔍 Validating strategic agent recipes..."
 strategic_recipes=(
-    "recipe-strategy-chief.yaml"
-    "recipe-marketing-growth.yaml" 
-    "recipe-research-intelligence.yaml"
-    "recipe-release-operations.yaml"
-    "recipe-developer.yaml"
-    "recipe-tester.yaml"
-    "recipe-social.yaml"
+    "recipes/recipe-strategy-chief.yaml"
+    "recipes/recipe-marketing-growth.yaml" 
+    "recipes/recipe-research-intelligence.yaml"
+    "recipes/recipe-release-operations.yaml"
+    "recipes/recipe-developer.yaml"
+    "recipes/recipe-tester.yaml"
+    "recipes/recipe-social.yaml"
 )
 
 for recipe in "${strategic_recipes[@]}"; do

@@ -1,0 +1,37 @@
+{
+  "name": "@zksdk/provider-fhevm",
+  "version": "0.1.0",
+  "description": "Zama fhEVM provider for zkSDK - Fully Homomorphic Encryption for confidential smart contracts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@zksdk/core": "workspace:*",
+    "fhevmjs": "^0.5.0",
+    "ethers": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "fhe",
+    "homomorphic-encryption",
+    "privacy",
+    "confidential-computing",
+    "zama",
+    "fhevm",
+    "blockchain",
+    "ethereum",
+    "smart-contracts"
+  ],
+  "author": "zkSDK Team",
+  "license": "MIT"
+}

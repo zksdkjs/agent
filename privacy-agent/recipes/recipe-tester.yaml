@@ -15,8 +15,8 @@ instructions: |
   7. Generate test reports and metrics
   
   Context and Resources:
-  - SDK Source: ../sdk/privacy-sdk-project/packages/sdk/
-  - Test Directory: ../sdk/privacy-sdk-project/packages/sdk/test/
+  - SDK Source: sdk/packages/
+  - Test Directory: sdk/tests/
   - Previous tests: ../memory/tester/
   - Test reports: ../outputs/reports/testing/
   

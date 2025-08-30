@@ -19,7 +19,7 @@ You now have a **Fortune 500-level strategic management system** specifically de
   - Long-term vision execution and milestone tracking
 
 ### **📈 Marketing & Growth Engine Agent**
-- **Model**: Groq (fast content generation)
+- **Model**: Grok 
 - **Role**: Market dominance and developer adoption
 - **Responsibilities**:
   - Brand positioning as "LangChain of Privacy"

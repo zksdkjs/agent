@@ -11,56 +11,56 @@ bash launch-strategic-system.sh
 ### Option 2: Individual Agents
 ```bash
 # Run developer work first
-goose run --recipe recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10
+goose run --recipe recipes/recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10
 
 # Then create social content about the work
-goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
+goose run --recipe recipes/recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
 ```
 
 ---
 
 ## 📊 What Each Agent Does
 
-### 🧠 **Chief Strategy Officer** (`recipe-strategy-chief.yaml`)
+### 🧠 **Chief Strategy Officer** (`recipes/recipe-strategy-chief.yaml`)
 - **Purpose**: Master project coordination and strategic planning
 - **When to run**: Daily for strategic oversight
-- **Command**: `goose run --recipe recipe-strategy-chief.yaml --name "strategy_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-strategy-chief.yaml --name "strategy_$(date +%m%d)"`
 
-### 👨‍💻 **Developer Agent** (`recipe-developer.yaml`) 
+### 👨‍💻 **Developer Agent** (`recipes/recipe-developer.yaml`) 
 - **Purpose**: 24/7 coding - implements Railgun, Aztec, Solana privacy features
 - **When to run**: Continuously for development work
-- **Command**: `goose run --recipe recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10`
+- **Command**: `goose run --recipe recipes/recipe-developer.yaml --name "dev_$(date +%m%d)" --max-turns 10`
 - **What it does**: 
   - Implements privacy providers (Railgun, Aztec, Solana)
   - Writes comprehensive tests
   - Fixes bugs and optimizes performance
   - Updates documentation
 
-### 📱 **Social Agent** (`recipe-social.yaml`)
+### 📱 **Social Agent** (`recipes/recipe-social.yaml`)
 - **Purpose**: Creates Twitter threads, blog posts, and summaries of development work
 - **When to run**: After developer sessions to create content
-- **Command**: `goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-social.yaml --name "social_$(date +%m%d)"`
 - **What it creates**:
   - Daily Twitter threads about development progress
   - Weekly blog posts about new features
   - Development summaries for the community
   - Release notes and tutorials
 
-### 🧪 **Tester Agent** (`recipe-tester.yaml`)
+### 🧪 **Tester Agent** (`recipes/recipe-tester.yaml`)
 - **Purpose**: Quality assurance and comprehensive testing
-- **Command**: `goose run --recipe recipe-tester.yaml --name "test_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-tester.yaml --name "test_$(date +%m%d)"`
 
-### 📈 **Marketing & Growth Agent** (`recipe-marketing-growth.yaml`)
+### 📈 **Marketing & Growth Agent** (`recipes/recipe-marketing-growth.yaml`)
 - **Purpose**: Market analysis, developer adoption, growth strategies
-- **Command**: `goose run --recipe recipe-marketing-growth.yaml --name "marketing_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-marketing-growth.yaml --name "marketing_$(date +%m%d)"`
 
-### 🔍 **Research & Intelligence Agent** (`recipe-research-intelligence.yaml`)
+### 🔍 **Research & Intelligence Agent** (`recipes/recipe-research-intelligence.yaml`)
 - **Purpose**: Competitive analysis, market research, technology trends
-- **Command**: `goose run --recipe recipe-research-intelligence.yaml --name "research_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-research-intelligence.yaml --name "research_$(date +%m%d)"`
 
-### ⚙️ **Release & Operations Agent** (`recipe-release-operations.yaml`)
+### ⚙️ **Release & Operations Agent** (`recipes/recipe-release-operations.yaml`)
 - **Purpose**: Release management, operations, enterprise support
-- **Command**: `goose run --recipe recipe-release-operations.yaml --name "ops_$(date +%m%d)"`
+- **Command**: `goose run --recipe recipes/recipe-release-operations.yaml --name "ops_$(date +%m%d)"`
 
 ---
 
@@ -93,7 +93,7 @@ goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 
 ### Morning (Start Development)
 ```bash
 # 1. Run developer agent for morning work session
-goose run --recipe recipe-developer.yaml --name "dev_morning_$(date +%m%d)" --max-turns 8
+goose run --recipe recipes/recipe-developer.yaml --name "dev_morning_$(date +%m%d)" --max-turns 8
 
 # 2. Check what was accomplished
 ls -la ~/.local/share/goose/sessions/dev_morning_*
@@ -102,7 +102,7 @@ ls -la ~/.local/share/goose/sessions/dev_morning_*
 ### Afternoon (Create Content)
 ```bash
 # 3. Run social agent to create Twitter thread about morning's work
-goose run --recipe recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
+goose run --recipe recipes/recipe-social.yaml --name "social_$(date +%m%d)" --max-turns 3
 
 # 4. Check the generated content
 ls -la outputs/social/
@@ -111,7 +111,7 @@ ls -la outputs/social/
 ### Evening (Strategic Planning)
 ```bash
 # 5. Run strategy agent for planning tomorrow
-goose run --recipe recipe-strategy-chief.yaml --name "strategy_evening_$(date +%m%d)" --max-turns 4
+goose run --recipe recipes/recipe-strategy-chief.yaml --name "strategy_evening_$(date +%m%d)" --max-turns 4
 ```
 
 ---
@@ -121,19 +121,19 @@ goose run --recipe recipe-strategy-chief.yaml --name "strategy_evening_$(date +%
 ### Long Development Sessions
 ```bash
 # For extended development work (up to 20 turns)
-goose run --recipe recipe-developer.yaml --name "dev_deep_work_$(date +%m%d)" --max-turns 20
+goose run --recipe recipes/recipe-developer.yaml --name "dev_deep_work_$(date +%m%d)" --max-turns 20
 ```
 
 ### Generate Weekly Summary
 ```bash
 # Create comprehensive weekly report
-goose run --recipe recipe-social.yaml --name "weekly_summary_$(date +%m%d)" --max-turns 5 --system "Focus on creating a weekly summary of all development progress"
+goose run --recipe recipes/recipe-social.yaml --name "weekly_summary_$(date +%m%d)" --max-turns 5 --system "Focus on creating a weekly summary of all development progress"
 ```
 
 ### Debug Mode (See Everything)
 ```bash
 # Run with full debug output
-goose run --recipe recipe-developer.yaml --name "debug_session" --max-turns 5 --debug
+goose run --recipe recipes/recipe-developer.yaml --name "debug_session" --max-turns 5 --debug
 ```
 
 ---
@@ -164,14 +164,14 @@ find outputs/ -name "*.md" -o -name "*.json" | head -10
 ## 🚨 Troubleshooting
 
 ### If Agent Fails to Start
-1. Check you're in the right directory: `/Users/saeeddawod/Desktop/agent_workspace (2)/privacy-agent`
+1. Check you're in the right directory: `/privacy-agent`
 2. Verify recipe file exists: `ls -la recipe-*.yaml`
 3. Check Goose configuration: `goose info`
 
 ### If No Content Generated
 1. Check session logs: `ls -la ~/.local/share/goose/sessions/`
 2. Verify outputs directory: `ls -la outputs/`
-3. Run social agent with debug: `goose run --recipe recipe-social.yaml --debug`
+3. Run social agent with debug: `goose run --recipe recipes/recipe-social.yaml --debug`
 
 ### If Sessions Are Empty
 1. Make sure agents complete successfully (no errors)
