@@ -1,0 +1,39 @@
+GOOSE_PROVIDER: openrouter
+extensions:
+  computercontroller:
+    bundled: true
+    description: null
+    display_name: Computer Controller
+    enabled: true
+    name: computercontroller
+    timeout: 50000
+    type: builtin
+  developer:
+    bundled: true
+    description: null
+    display_name: Developer Tools
+    enabled: true
+    name: developer
+    timeout: 50000
+    type: builtin
+  memory:
+    bundled: true
+    description: null
+    display_name: Memory
+    enabled: true
+    name: memory
+    timeout: 300
+    type: builtin
+  zksdkjs:
+    args: []
+    bundled: null
+    cmd: zksdkjs-agent
+    description: zksdk agent lets go!
+    enabled: false
+    env_keys:
+    - API_KEY
+    envs: {}
+    name: zksdkjs
+    timeout: 300
+    type: stdio
+GOOSE_MODEL: qwen/qwen3-coder

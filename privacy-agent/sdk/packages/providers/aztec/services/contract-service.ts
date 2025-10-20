@@ -15,7 +15,7 @@ import {
   TxStatus,
   TxHash
 } from '@aztec/aztec.js';
-import { ProviderError, ValidationError } from '../../../core/errors/index.js';
+import { ProviderError, ValidationError } from '@zksdk/core';
 import { getPXEService } from './pxe-service.js';
 import { getAccountService } from './account-service.js';
 

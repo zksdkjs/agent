@@ -24,10 +24,10 @@ import {
   TransferParams,
   TransferResult,
   Balance
-} from '../../types/index.js';
+} from '../../types';
 
-import { BasePrivacyProvider } from '../../core/src/index.js';
-import { PXE, createLogger, Fr, AztecAddress, TxStatus, ContractArtifact } from '@aztec/aztec.js';
+import { BasePrivacyProvider } from '@zksdk/core';
+import { PXE, createLogger, Fr, AztecAddress, TxStatus, TxHash, ContractArtifact } from '@aztec/aztec.js';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -169,6 +169,20 @@ export class AztecProvider extends BasePrivacyProvider {
         { originalError: error }
       );
     }
+  }
+
+  /**
+   * Check if the provider is ready for operations
+   */
+  isReady(): boolean {
+    return this.pxe !== null;
+  }
+
+  /**
+   * Clean up resources and destroy the provider
+   */
+  async destroy(): Promise<void> {
+    await this.performDestruction();
   }
 
   /**
@@ -381,7 +395,7 @@ export class AztecProvider extends BasePrivacyProvider {
           // Call the balance_of method
           // Note: This is a placeholder - actual implementation would depend on
           // the specific token contract ABI and methods
-          const balance = await contract.methods.balance_of(address).simulate();
+          const balance = await contract.methods.balance_of(address).simulate({ from: address });
           
           balances.push({
             token: {

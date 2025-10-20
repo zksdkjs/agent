@@ -1,6 +1,6 @@
 // Example usage of the Aztec provider with zkSDK
 
-import { PrivacySDK } from '../../core/src/index.js';
+import { PrivacySDK } from '@zksdk/core';
 import { AztecProviderConfig } from './aztec-provider.js';
 
 async function example() {

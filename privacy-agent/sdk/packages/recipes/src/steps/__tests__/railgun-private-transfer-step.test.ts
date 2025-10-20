@@ -1,5 +1,5 @@
 import { RailgunPrivateTransferStep } from '../railgun-private-transfer-step';
-import { RailgunProvider } from '../../../../../providers/railgun/src/index';
+import { RailgunProvider } from '@zksdk/providers/railgun';
 
 // Mock RailgunProvider for testing
 class MockRailgunProvider extends RailgunProvider {
@@ -32,6 +32,7 @@ describe('RailgunPrivateTransferStep', () => {
     const input = {
       network: 'ethereum',
       walletAddress: '0x1234567890123456789012345678901234567890',
+      context: {},
       transferParams: {
         chain: 'ethereum',
         token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
@@ -52,6 +53,7 @@ describe('RailgunPrivateTransferStep', () => {
     const input = {
       network: 'ethereum',
       walletAddress: '0x1234567890123456789012345678901234567890',
+      context: {},
       transferParams: {
         chain: 'ethereum',
         token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC

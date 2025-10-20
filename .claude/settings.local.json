@@ -8,7 +8,13 @@
       "Bash(source:*)",
       "Bash(goose:*)",
       "Bash(cd:*)",
-      "Bash(export:*)"
+      "Bash(export:*)",
+      "Bash(for dir in privacy-agent/sdk/packages/providers/*/)",
+      "Bash(find:*)",
+      "Bash(done)",
+      "Bash(for dir in */)",
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(for dir in aztec bitcoin fhevm light-protocol railgun)"
     ],
     "deny": []
   }

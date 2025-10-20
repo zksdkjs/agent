@@ -12,6 +12,8 @@ export interface FHEVMConfig {
   rpcUrl: string;
   /** Chain ID of the network */
   chainId: number;
+  /** Network ID */
+  networkId: number;
   /** ACL contract address for access control */
   aclAddress?: string;
   /** Gateway URL for FHE operations */
@@ -37,9 +39,13 @@ export interface FHEVMProviderOptions {
  */
 export interface EncryptedAmount {
   /** The encrypted value (ciphertext) */
-  data: Uint8Array;
-  /** The data type (uint8, uint16, uint32, etc.) */
-  dataType: 'uint8' | 'uint16' | 'uint32' | 'uint64' | 'uint128' | 'uint256';
+  value: string;
+  /** The proof data for verification */
+  proof: FHEProof;
+  /** Contract address this encrypted value is associated with */
+  contractAddress: string;
+  /** Timestamp when encryption was performed */
+  timestamp: number;
 }
 
 /**
@@ -104,8 +110,8 @@ export interface BlindAuctionParams {
  * Represents a proof in the FHE system
  */
 export interface FHEProof {
-  /** The proof data */
-  proof: Uint8Array;
+  /** The proof data as hex string */
+  proof: string;
   /** Public inputs to the proof */
   publicInputs: string[];
   /** Proof type identifier */
@@ -116,18 +122,20 @@ export interface FHEProof {
  * Result of a confidential transaction
  */
 export interface ConfidentialTransaction {
-  /** Transaction hash */
-  hash: string;
-  /** Block number */
-  blockNumber: number;
-  /** Gas used */
-  gasUsed: bigint;
-  /** Status (success/failure) */
-  status: boolean;
-  /** Encrypted outputs (if any) */
-  encryptedOutputs?: EncryptedAmount[];
-  /** Events emitted */
-  events: ConfidentialEvent[];
+  /** From address */
+  from: string;
+  /** To address */
+  to: string;
+  /** Encrypted amount */
+  encryptedAmount: EncryptedAmount;
+  /** Token address */
+  tokenAddress: string;
+  /** Nonce */
+  nonce: number;
+  /** Chain ID */
+  chainId: number;
+  /** Timestamp */
+  timestamp: number;
 }
 
 /**

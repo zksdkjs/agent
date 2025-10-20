@@ -3,6 +3,7 @@
  */
 
 import { RailgunProvider } from '../index';
+import { PrivacyLevel } from '@zksdk/core';
 
 describe('RailgunProvider', () => {
   let provider: RailgunProvider;
@@ -22,7 +23,7 @@ describe('RailgunProvider', () => {
       token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       amount: '1000000',
       to: '0x742d35Cc66343434343434343434343434343434',
-      privacy: 'anonymous'
+      privacy: 'anonymous' as PrivacyLevel
     };
 
     await expect(provider.transfer(transferParams)).rejects.toThrow('Provider not initialized');

@@ -1,5 +1,5 @@
 import { RailgunPrivacyOperationsComboMeal } from '../railgun-privacy-operations-combo-meal';
-import { RailgunProvider } from '../../../../../providers/railgun/src/index';
+import { RailgunProvider } from '@zksdk/providers/railgun';
 
 // Mock RailgunProvider for testing
 class MockRailgunProvider extends RailgunProvider {
@@ -27,16 +27,17 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
     expect(comboMeal.config.name).toBe('Railgun Privacy Operations ComboMeal');
     expect(comboMeal.config.description).toBe('Execute multiple privacy operations in sequence using Railgun EVM privacy system');
     expect(comboMeal.config.maxRecipes).toBe(5);
-    expect(comboMeal.config.maxTotalTransfers).toBe(20);
+    // maxTotalTransfers is a custom property, not part of ComboMealConfig
+    expect((comboMeal.config as any).maxTotalTransfers).toBe(20);
   });
 
   it('should execute combo meal with private transfer successfully', async () => {
     const input = {
-      network: 'ethereum',
+      network: 'ethereum' as const,
       walletAddress: '0x1234567890123456789012345678901234567890',
       operations: [
         {
-          type: 'privateTransfer',
+          type: 'privateTransfer' as const,
           params: {
             token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
             amount: '1000000', // 1 USDC
@@ -56,11 +57,11 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
 
   it('should execute combo meal with batch transfer successfully', async () => {
     const input = {
-      network: 'ethereum',
+      network: 'ethereum' as const,
       walletAddress: '0x1234567890123456789012345678901234567890',
       operations: [
         {
-          type: 'batchTransfer',
+          type: 'batchTransfer' as const,
           params: {
             transfers: [
               {
@@ -89,11 +90,11 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
 
   it('should execute combo meal with multiple operations successfully', async () => {
     const input = {
-      network: 'ethereum',
+      network: 'ethereum' as const,
       walletAddress: '0x1234567890123456789012345678901234567890',
       operations: [
         {
-          type: 'privateTransfer',
+          type: 'privateTransfer' as const,
           params: {
             token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
             amount: '1000000', // 1 USDC
@@ -101,7 +102,7 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
           }
         },
         {
-          type: 'batchTransfer',
+          type: 'batchTransfer' as const,
           params: {
             transfers: [
               {
@@ -128,7 +129,7 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
     const operations = [];
     for (let i = 0; i < 10; i++) {
       operations.push({
-        type: 'privateTransfer',
+        type: 'privateTransfer' as const,
         params: {
           token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
           amount: '1000000', // 1 USDC
@@ -138,7 +139,7 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
     }
 
     const input = {
-      network: 'ethereum',
+      network: 'ethereum' as const,
       walletAddress: '0x1234567890123456789012345678901234567890',
       operations
     };
@@ -151,7 +152,7 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
     const operations = [];
     for (let i = 0; i < 3; i++) {
       operations.push({
-        type: 'batchTransfer',
+        type: 'batchTransfer' as const,
         params: {
           transfers: Array(8).fill(0).map((_, j) => ({
             token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
@@ -163,7 +164,7 @@ describe('RailgunPrivacyOperationsComboMeal', () => {
     }
 
     const input = {
-      network: 'ethereum',
+      network: 'ethereum' as const,
       walletAddress: '0x1234567890123456789012345678901234567890',
       operations
     };

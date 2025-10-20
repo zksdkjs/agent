@@ -17,7 +17,10 @@ export interface RailgunPrivacyOperationsComboMealConfig extends ComboMealConfig
 /**
  * Input for Railgun Privacy Operations ComboMeal
  */
-export interface RailgunPrivacyOperationsComboMealInput extends ComboMealInput {
+export interface RailgunPrivacyOperationsComboMealInput {
+  network: Network;
+  walletAddress: string;
+  context?: Record<string, any>;
   // Operations to perform
   operations: Array<{
     type: 'privateTransfer' | 'batchTransfer';
@@ -103,15 +106,64 @@ export class RailgunPrivacyOperationsComboMeal extends ComboMeal {
       recipes.push(recipe);
     }
 
-    // Override the getRecipes method for this execution
-    const originalGetRecipes = this.getRecipes;
-    this.getRecipes = () => recipes;
+    // Execute each recipe
+    const recipeOutputs: RecipeOutput[] = [];
+    let totalGasUsed = 0;
+    const errors: Error[] = [];
 
-    try {
-      return await super.execute(input);
-    } finally {
-      // Restore original getRecipes method
-      this.getRecipes = originalGetRecipes;
+    // Execute recipes sequentially (as combo meal doesn't have parallel execution enabled)
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      const operation = input.operations[i];
+      
+      try {
+        let recipeOutput: RecipeOutput;
+        
+        if (operation.type === 'privateTransfer') {
+          // For private transfer, we need to create the proper input
+          const privateTransferRecipe = recipe as RailgunPrivateTransferRecipe;
+          recipeOutput = await privateTransferRecipe.execute({
+            network: input.network,
+            walletAddress: input.walletAddress,
+            context: input.context,
+            transferParams: operation.params,
+            memo: operation.params.memo
+          });
+        } else if (operation.type === 'batchTransfer') {
+          // For batch transfer, we need to create the proper input
+          const batchTransferRecipe = recipe as RailgunBatchTransferRecipe;
+          recipeOutput = await batchTransferRecipe.execute({
+            network: input.network,
+            walletAddress: input.walletAddress,
+            context: input.context,
+            transfers: operation.params.transfers,
+            memo: operation.params.memo
+          });
+        }
+        
+        recipeOutputs.push(recipeOutput!);
+
+        // Track gas usage
+        if (recipeOutput!.totalGasUsed) {
+          totalGasUsed += recipeOutput!.totalGasUsed;
+        }
+      } catch (error) {
+        errors.push(error as Error);
+        // Continue with other recipes
+      }
     }
+
+    // Determine final result
+    const finalResult = recipeOutputs.length > 0 
+      ? recipeOutputs.map(output => output.result) 
+      : null;
+
+    return {
+      name: this.config.name,
+      recipeOutputs,
+      totalGasUsed,
+      errors: errors.length > 0 ? errors : undefined,
+      result: finalResult
+    };
   }
 }

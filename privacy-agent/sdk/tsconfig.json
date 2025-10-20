@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./dist",
+    "rootDir": "./packages",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@zksdk/core": ["packages/core/src"],
+      "@zksdk/core/*": ["packages/core/src/*"],
+      "@zksdk/providers/*": ["packages/providers/*"]
+    }
+  },
+  "include": ["packages/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

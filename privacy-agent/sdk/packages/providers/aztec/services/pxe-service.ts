@@ -11,7 +11,7 @@ import {
   createLogger,
   AztecNode
 } from '@aztec/aztec.js';
-import { ProviderError } from '../../../core/errors/index.js';
+import { ProviderError } from '@zksdk/core';
 
 // Constants for PXE service
 const DEFAULT_PXE_HOST = '127.0.0.1';

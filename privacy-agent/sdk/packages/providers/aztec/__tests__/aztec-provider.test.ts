@@ -1,8 +1,8 @@
 // Comprehensive test for Aztec provider integration
 
-import { AztecProvider } from './aztec-provider';
-import { AztecProviderConfig } from './aztec-provider';
-import { PXEConfig } from './services/pxe-service';
+import { AztecProvider } from '../aztec-provider';
+import { AztecProviderConfig } from '../aztec-provider';
+import { PXEConfig } from '../services/pxe-service';
 
 describe('AztecProvider Integration Tests', () => {
   let provider: AztecProvider;

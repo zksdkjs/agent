@@ -1,5 +1,5 @@
 import { RailgunBatchTransferRecipe } from '../railgun-batch-transfer-recipe';
-import { RailgunProvider } from '../../../../../providers/railgun/src/index';
+import { RailgunProvider } from '@zksdk/providers/railgun';
 
 // Mock RailgunProvider for testing
 class MockRailgunProvider extends RailgunProvider {

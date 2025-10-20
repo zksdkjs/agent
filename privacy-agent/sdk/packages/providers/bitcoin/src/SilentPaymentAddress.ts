@@ -119,7 +119,8 @@ export class SilentPaymentAddressGenerator {
       outputs.push({
         publicKey: silentPaymentPublicKey,
         amount: amounts[i],
-        index: i
+        index: i,
+        script: this.createOutputScript(silentPaymentPublicKey)
       });
     }
     
@@ -295,5 +296,24 @@ export class SilentPaymentAddressGenerator {
     } else {
       return 'regtest';
     }
+  }
+
+  /**
+   * Create a Taproot output script from a public key
+   * @param publicKey - The public key to create script for
+   * @returns The Taproot output script
+   */
+  private createOutputScript(publicKey: Buffer): Buffer {
+    // Convert to x-only public key for Taproot
+    const xOnlyPubKey = toXOnly(publicKey);
+    
+    // Create a simple Taproot script (OP_1 + 32-byte push)
+    const script = Buffer.concat([
+      Buffer.from([0x51]), // OP_1
+      Buffer.from([0x20]), // PUSH 32 bytes
+      xOnlyPubKey
+    ]);
+    
+    return script;
   }
 }

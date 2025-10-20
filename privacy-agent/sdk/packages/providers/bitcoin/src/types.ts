@@ -28,6 +28,7 @@ export interface SilentPaymentOutput {
   publicKey: Buffer;        // P = B_spend + hash(a*B_scan || i)*G
   amount: number;           // Amount in satoshis
   index: number;            // Output index (i in BIP352)
+  script?: Buffer;          // Output script (Taproot script)
 }
 
 export interface BIP352TestVector {

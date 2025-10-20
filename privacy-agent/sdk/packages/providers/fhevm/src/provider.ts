@@ -13,7 +13,10 @@ export class FHEVMProvider {
   private instanceCache: Map<string, any> = new Map();
 
   constructor(config: FHEVMConfig) {
-    this.config = config;
+    this.config = {
+      ...config,
+      chainId: config.chainId || config.networkId
+    };
     this.provider = new ethers.JsonRpcProvider(config.rpcUrl);
   }
 
@@ -67,7 +70,11 @@ export class FHEVMProvider {
 
     return {
       value: encrypted.data,
-      proof: encrypted.proof as FHEProof,
+      proof: {
+        proof: encrypted.proof,
+        publicInputs: [],
+        proofType: 'mock'
+      },
       contractAddress: targetContract,
       timestamp: Date.now()
     };
@@ -78,12 +85,15 @@ export class FHEVMProvider {
    */
   async createConfidentialTransaction(
     to: string,
-    encryptedAmount: EncryptedAmount,
-    tokenAddress: string
+    amount: bigint,
+    tokenAddress?: string
   ): Promise<ConfidentialTransaction> {
     if (!this.signer) {
       throw new Error('Signer not connected');
     }
+
+    // Encrypt the amount
+    const encryptedAmount = await this.encrypt(amount, tokenAddress || this.config.aclAddress || '');
 
     const from = await this.signer.getAddress();
     const nonce = await this.provider.getTransactionCount(from);
@@ -92,7 +102,7 @@ export class FHEVMProvider {
       from,
       to,
       encryptedAmount,
-      tokenAddress,
+      tokenAddress: tokenAddress || this.config.aclAddress || '',
       nonce,
       chainId: this.config.chainId,
       timestamp: Date.now()
@@ -127,7 +137,7 @@ export class FHEVMProvider {
     return await confidentialERC20.transfer(
       to,
       encryptedAmount.value,
-      encryptedAmount.proof
+      encryptedAmount.proof.proof
     );
   }
 
@@ -148,7 +158,11 @@ export class FHEVMProvider {
     
     return {
       value: encryptedBalance,
-      proof: '0x' as FHEProof,
+      proof: {
+        proof: '0x',
+        publicInputs: [],
+        proofType: 'mock'
+      },
       contractAddress: tokenAddress,
       timestamp: Date.now()
     };
@@ -181,7 +195,11 @@ export class FHEVMProvider {
     // Creating a mock result for now
     return {
       value: ethers.hexlify(ethers.randomBytes(32)),
-      proof: ethers.hexlify(ethers.randomBytes(64)) as FHEProof,
+      proof: {
+        proof: ethers.hexlify(ethers.randomBytes(64)),
+        publicInputs: [],
+        proofType: 'mock'
+      },
       contractAddress: a.contractAddress,
       timestamp: Date.now()
     };
@@ -197,7 +215,11 @@ export class FHEVMProvider {
     // This would use FHE operations on-chain
     return {
       value: ethers.hexlify(ethers.randomBytes(32)),
-      proof: ethers.hexlify(ethers.randomBytes(64)) as FHEProof,
+      proof: {
+        proof: ethers.hexlify(ethers.randomBytes(64)),
+        publicInputs: [],
+        proofType: 'mock'
+      },
       contractAddress: a.contractAddress,
       timestamp: Date.now()
     };

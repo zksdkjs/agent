@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "/Users/saeeddawod/Desktop/agent/privacy-agent": {
+      "path": "/Users/saeeddawod/Desktop/agent/privacy-agent",
+      "last_accessed": "2025-10-19T01:37:23.414951Z",
+      "last_instruction": "Yes, continue. Finish updating the remaining combo meal and recipe tests to use the new input shape, then run npm test in sdk/. Capture the failing suites if any remain.",
+      "last_session_id": "fix-tests"
+    }
+  }
+}

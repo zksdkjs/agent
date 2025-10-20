@@ -15,7 +15,9 @@ export interface RailgunBatchTransferRecipeConfig extends RecipeConfig {
 /**
  * Input for Railgun Batch Transfer Recipe
  */
-export interface RailgunBatchTransferRecipeInput extends RecipeInput {
+export interface RailgunBatchTransferRecipeInput {
+  network: Network;
+  walletAddress: string;
   // Batch transfer parameters
   transfers: Array<{
     token: string; // Token address or symbol
@@ -24,6 +26,8 @@ export interface RailgunBatchTransferRecipeInput extends RecipeInput {
   }>;
   // Optional memo for all transfers
   memo?: string;
+  // Optional context
+  context?: Record<string, any>;
 }
 
 /**
