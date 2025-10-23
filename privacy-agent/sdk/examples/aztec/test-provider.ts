@@ -1,7 +1,8 @@
 // Simple test for Aztec provider functionality
 
-import { AztecProvider } from '../packages/providers/aztec/aztec-provider';
-import { AztecProviderConfig } from '../packages/providers/aztec/aztec-provider';
+import { AztecProvider } from '../../packages/providers/aztec/aztec-provider';
+import { AztecProviderConfig } from '../../packages/providers/aztec/aztec-provider';
+import { Operation } from '@zksdk/types';
 
 async function testAztecProvider() {
   try {
@@ -21,7 +22,7 @@ async function testAztecProvider() {
     // Test validation
     console.log('1. Testing configuration validation...');
     try {
-      provider.validateConfig(config);
+      (provider as any).validateConfig(config);
       console.log('✓ Configuration validation passed\n');
     } catch (error) {
       console.error('✗ Configuration validation failed:', error);
@@ -39,7 +40,7 @@ async function testAztecProvider() {
     console.log('3. Testing supported operations...');
     const operations = provider.getSupportedOperations();
     console.log(`✓ Found ${operations.length} supported operations`);
-    operations.slice(0, 3).forEach(op => {
+    operations.slice(0, 3).forEach((op: Operation) => {
       console.log(`  - ${op.name}: ${op.description}`);
     });
     console.log('');

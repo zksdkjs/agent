@@ -16,7 +16,9 @@
     "paths": {
       "@zksdk/core": ["packages/core/src"],
       "@zksdk/core/*": ["packages/core/src/*"],
-      "@zksdk/providers/*": ["packages/providers/*"]
+      "@zksdk/providers/*": ["packages/providers/*"],
+      "@zksdk/types": ["types/index"],
+      "@zksdk/types/*": ["types/*"]
     }
   },
   "include": ["packages/**/*"],

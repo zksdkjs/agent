@@ -18,33 +18,19 @@ import {
   ProviderConfig,
   ChainId,
   TokenInfo,
-  DeployContractParams,
-  ContractCallParams,
+  DeployContractParams as DeployContractParamsType,
+  ContractCallParams as ContractCallParamsType,
   ContractResult,
   TransferParams,
   TransferResult,
   Balance
-} from '../../types';
+} from '@zksdk/types';
 
 import { BasePrivacyProvider } from '@zksdk/core';
 import { PXE, createLogger, Fr, AztecAddress, TxStatus, TxHash, ContractArtifact } from '@aztec/aztec.js';
 import * as fs from 'fs';
 import * as path from 'path';
-
-// Simple error classes for validation and provider errors
-class ValidationError extends Error {
-  constructor(message: string, field: string, provider: string, details?: any) {
-    super(message);
-    this.name = 'ValidationError';
-  }
-}
-
-class ProviderError extends Error {
-  constructor(message: string, provider: string, details?: any) {
-    super(message);
-    this.name = 'ProviderError';
-  }
-}
+import { ProviderError, ValidationError } from './errors';
 
 // Import services
 import {
@@ -52,7 +38,7 @@ import {
   PXEConfig,
   getAccountService,
   getContractService
-} from './services/index.js';
+} from './services';
 
 // Logger for Aztec provider
 const logger = createLogger('privacy-sdk:aztec:provider');
@@ -82,9 +68,11 @@ export class AztecProvider extends BasePrivacyProvider {
   ];
 
   private pxe: PXE | null = null;
+  protected config: ProviderConfig;
 
   constructor() {
     super();
+    this.config = {};
   }
 
   /**
@@ -143,6 +131,9 @@ export class AztecProvider extends BasePrivacyProvider {
   protected async performInitialization(config: AztecProviderConfig): Promise<void> {
     try {
       logger.info('Initializing Aztec provider...');
+      
+      // Store the config
+      this.config = config;
       
       // Configure PXE service with provider config
       const pxeConfig: PXEConfig = {
@@ -535,7 +526,7 @@ export class AztecProvider extends BasePrivacyProvider {
   /**
    * Deploy a Noir contract to the Aztec network
    */
-  async deployContract(params: DeployContractParams): Promise<ContractResult> {
+  async deployContract(params: DeployContractParamsType): Promise<ContractResult> {
     this.ensureReady();
     
     try {
@@ -577,7 +568,7 @@ export class AztecProvider extends BasePrivacyProvider {
   /**
    * Call a method on a deployed Noir contract
    */
-  async callContract(params: ContractCallParams): Promise<any> {
+  async callContract(params: ContractCallParamsType): Promise<any> {
     this.ensureReady();
     
     try {

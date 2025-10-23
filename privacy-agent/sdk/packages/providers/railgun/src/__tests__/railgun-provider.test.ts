@@ -3,7 +3,6 @@
  */
 
 import { RailgunProvider } from '../index';
-import { PrivacyLevel } from '@zksdk/core';
 
 describe('RailgunProvider', () => {
   let provider: RailgunProvider;
@@ -23,7 +22,7 @@ describe('RailgunProvider', () => {
       token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       amount: '1000000',
       to: '0x742d35Cc66343434343434343434343434343434',
-      privacy: 'anonymous' as PrivacyLevel
+      privacy: 'anonymous' as any
     };
 
     await expect(provider.transfer(transferParams)).rejects.toThrow('Provider not initialized');
@@ -32,12 +31,12 @@ describe('RailgunProvider', () => {
   test('should validate transfer parameters', async () => {
     const provider = new RailgunProvider();
     // @ts-ignore - accessing protected method for testing
-    expect(() => provider.validateTransferParams({} as any)).toThrow('Chain is required');
+    expect(() => provider['validateTransferParams']({} as any)).toThrow('Chain is required');
     
     // @ts-ignore
-    expect(() => provider.validateTransferParams({ chain: 'ethereum' } as any)).toThrow('Token is required');
+    expect(() => provider['validateTransferParams']({ chain: 'ethereum', privacy: 'anonymous' } as any)).toThrow('Token is required');
     
     // @ts-ignore
-    expect(() => provider.validateTransferParams({ chain: 'ethereum', token: '0x123' } as any)).toThrow('Amount must be greater than 0');
+    expect(() => provider['validateTransferParams']({ chain: 'ethereum', token: '0x123', privacy: 'anonymous' } as any)).toThrow('Amount must be greater than 0');
   });
 });

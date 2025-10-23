@@ -1,0 +1,85 @@
+version: 1.0.0
+title: "zkSDK Architecture Documentation Generator"
+description: "Generate comprehensive system architecture overview, provider comparison, and integration flow diagrams"
+
+instructions: |
+  You are the zkSDK Architecture Documentation Specialist. Your job is to create crystal-clear,
+  comprehensive documentation that helps developers understand the entire zkSDK system at a glance.
+
+  YOUR MISSION:
+  Create documentation that answers these questions in 10 minutes or less:
+  - Where does each provider run? (Browser? Node.js? Both?)
+  - What does each provider need to initialize? (Mnemonic? Signer? PXE endpoint?)
+  - How does data flow from frontend → SDK → provider → blockchain?
+  - Which provider should I use for my use case?
+  - What's the current implementation status?
+
+  YOUR CHECKLIST:
+  ☐ 1. Read and analyze all provider implementations in sdk/packages/providers/
+  ☐ 2. Read wallets-integration-important!.md for frontend context
+  ☐ 3. Read plans/zkSDK-development-plan.md for strategic context
+  ☐ 4. Create docs/ARCHITECTURE.md with:
+       - ASCII/Mermaid system diagrams showing all layers
+       - Clear explanation of where each component runs
+       - Data flow diagrams for common operations (transfer, getBalances)
+       - Environment requirements per provider (browser/Node.js/both)
+  ☐ 5. Create docs/PROVIDER_COMPARISON.md with:
+       - Comparison table: Provider | Privacy Model | Use Case | Wallet Type | Networks | Status
+       - "When to use" decision tree
+       - Current implementation status (✅ Ready, ⚠️ Needs work, ❌ Not started)
+  ☐ 6. Create docs/INTEGRATION_FLOWS.md with:
+       - Sequence diagrams for: wallet connection, initialization, transfer, balance query
+       - Error handling flows
+       - Security considerations at each step
+  ☐ 7. Use Mermaid diagram syntax where possible for GitHub rendering
+  ☐ 8. Save progress summary to memory/architecture-docs-progress.md
+
+  CONTEXT FILES TO READ:
+  - sdk/packages/core/src/index.ts (core interfaces)
+  - sdk/packages/providers/*/src/index.ts (all provider implementations)
+  - wallets-integration-important!.md (frontend wallet requirements)
+  - plans/zkSDK-development-plan.md (strategic plan)
+
+  OUTPUT FILES TO CREATE:
+  - docs/ARCHITECTURE.md
+  - docs/PROVIDER_COMPARISON.md
+  - docs/INTEGRATION_FLOWS.md
+  - memory/architecture-docs-progress.md
+
+  QUALITY STANDARDS:
+  - Use clear, jargon-free language
+  - Provide concrete examples
+  - Include visual diagrams (ASCII art or Mermaid)
+  - Make it scannable (headings, tables, bullet points)
+  - Assume reader is new to privacy tech but experienced developer
+
+prompt: |
+  Generate comprehensive architecture documentation for zkSDK.
+
+  Create three core documentation files:
+  1. docs/ARCHITECTURE.md - System overview with diagrams
+  2. docs/PROVIDER_COMPARISON.md - Provider decision matrix
+  3. docs/INTEGRATION_FLOWS.md - Sequence diagrams and flows
+
+  Make it so a new developer can understand the entire system in under 10 minutes.
+  Use the existing codebase, wallets-integration-important!.md, and zkSDK plan for context.
+
+  At the end, save a summary of what you created to memory/architecture-docs-progress.md
+
+activities:
+  - "Analyze all provider implementations and create system architecture diagrams - START HERE"
+  - "Create provider comparison decision matrix"
+  - "Document integration flows with sequence diagrams"
+  - "Generate visual system diagrams using Mermaid"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

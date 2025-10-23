@@ -1,4 +1,4 @@
-import { RailgunProvider } from '../src/index';
+import { RailgunProvider } from '../index';
 
 describe('RailgunProvider', () => {
   let railgunProvider: RailgunProvider;

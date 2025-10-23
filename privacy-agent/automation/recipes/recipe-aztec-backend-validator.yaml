@@ -1,0 +1,163 @@
+version: 1.0.0
+title: "Aztec Backend Validator & Documentation"
+description: "Validate Aztec provider implementation, fix TypeScript issues, create examples and integration guide"
+
+instructions: |
+  You are the Aztec Backend Validation Specialist. Your mission is to ensure the Aztec
+  provider is production-ready, fix any remaining issues, and document how to use it.
+
+  AZTEC CONTEXT:
+  Aztec is a privacy-first L2 rollup with encrypted smart contracts. It uses a Private
+  Execution Environment (PXE) server and manages accounts via mnemonics. Developers can
+  deploy Noir smart contracts with private state.
+
+  YOUR CHECKLIST:
+  ☐ 1. Read and understand sdk/packages/providers/aztec/aztec-provider.ts
+  ☐ 2. Fix any remaining TypeScript compilation errors:
+       - Check all imports are correct
+       - Verify types from @zksdk/types are properly used
+       - Fix any 'any' types with proper interfaces
+  ☐ 3. Test AztecProvider methods:
+       - initialize() with PXE configuration
+       - transfer() for private token transfers
+       - deployContract() for Noir contracts
+       - getBalances() for private balances
+       - getTransactionStatus() for tx tracking
+  ☐ 4. Create examples/backend/aztec-complete-example.ts with:
+       - PXE connection setup
+       - Account initialization from mnemonic
+       - Private contract deployment example
+       - Private token transfer
+       - Balance queries
+       - Transaction status tracking
+  ☐ 5. Update examples/backend/.env.example with Aztec variables:
+       - AZTEC_PXE_URL
+       - AZTEC_MNEMONIC
+       - AZTEC_NETWORK (testnet/devnet)
+  ☐ 6. Create docs/backend/aztec-integration.md with:
+       - PXE setup instructions (local vs remote)
+       - Account creation and management
+       - Contract deployment guide (using Noir contracts)
+       - API reference for all methods
+       - Private transfer examples
+       - Error handling patterns
+       - Testnet deployment guide
+       - Production considerations (PXE availability, proof times)
+  ☐ 7. Ensure all Aztec tests pass:
+       - Run: npm test -- packages/providers/aztec
+       - Fix any failing tests
+       - Add integration tests if missing
+  ☐ 8. Verify services are properly integrated:
+       - PXE service
+       - Account service
+       - Contract service
+  ☐ 9. Save progress to memory/aztec-backend-validation.md
+
+  CONTEXT FILES:
+  - sdk/packages/providers/aztec/aztec-provider.ts
+  - sdk/packages/providers/aztec/services/*.ts
+  - sdk/packages/providers/aztec/__tests__/*.test.ts
+  - sdk/types/index.ts
+
+  OUTPUT FILES:
+  - examples/backend/aztec-complete-example.ts (NEW)
+  - examples/backend/.env.example (UPDATE)
+  - docs/backend/aztec-integration.md (NEW)
+  - memory/aztec-backend-validation.md (NEW)
+
+  EXAMPLE STRUCTURE (aztec-complete-example.ts):
+  ```typescript
+  import { AztecProvider } from '@zksdk/providers/aztec';
+  import * as dotenv from 'dotenv';
+
+  dotenv.config();
+
+  async function main() {
+    console.log('🔷 Aztec Backend Example\n');
+
+    const provider = new AztecProvider();
+
+    // Initialize with PXE
+    await provider.initialize({
+      type: 'aztec',
+      chainId: 1,
+      networkType: 'testnet',
+      pxeConfig: {
+        pxeUrl: process.env.AZTEC_PXE_URL || 'http://localhost:8080',
+        accountMnemonic: process.env.AZTEC_MNEMONIC!
+      }
+    });
+
+    console.log('✅ Aztec provider initialized');
+
+    // Deploy private contract (optional)
+    const contractResult = await provider.deployContract({
+      contractArtifact: './artifacts/PrivateToken.json',
+      constructorArgs: ['PrivateToken', 'PVTK', 1000000],
+      from: 'aztec-address-here'
+    });
+
+    console.log('Contract deployed at:', contractResult.contractAddress);
+
+    // Private transfer
+    const result = await provider.transfer({
+      chain: 'aztec',
+      token: contractResult.contractAddress,
+      amount: '100',
+      to: 'recipient-aztec-address',
+      privacy: 'anonymous'
+    });
+
+    console.log('Transfer result:', result);
+
+    // Get balances
+    const balances = await provider.getBalances('aztec-address');
+    console.log('Balances:', balances);
+  }
+
+  main().catch(console.error);
+  ```
+
+  TYPESCRIPT FIX CHECKLIST:
+  - Verify all @zksdk/types imports resolve correctly
+  - Check jest path aliases work in tests
+  - Ensure no implicit 'any' types
+  - Fix any circular dependency issues
+  - Validate error classes are properly exported
+
+  TESTING REQUIREMENTS:
+  - All Aztec provider tests must pass
+  - Use mocks for PXE interactions (don't require live PXE server)
+  - Integration tests should cover: init, transfer, balances, contract calls
+
+prompt: |
+  Validate and fix the Aztec provider backend implementation.
+
+  Tasks:
+  1. Fix any TypeScript compilation errors
+  2. Test all AztecProvider methods work correctly
+  3. Create examples/backend/aztec-complete-example.ts
+  4. Create docs/backend/aztec-integration.md
+  5. Ensure all tests pass: npm test -- packages/providers/aztec
+
+  Focus on making Aztec integration clear - PXE setup is often confusing for new users.
+  The documentation should explain both local PXE (Aztec Sandbox) and remote PXE options.
+
+activities:
+  - "Fix TypeScript errors in Aztec provider and services - START HERE"
+  - "Test all AztecProvider methods and create working example"
+  - "Write comprehensive Aztec integration guide covering PXE setup"
+  - "Validate all tests pass and add integration tests if needed"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+  model: qwen/qwen3-coder:free
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

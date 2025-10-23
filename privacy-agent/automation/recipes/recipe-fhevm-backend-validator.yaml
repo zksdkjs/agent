@@ -1,0 +1,192 @@
+version: 1.0.0
+title: "FHEVM Backend Validator & Documentation"
+description: "Validate FHEVM provider, add test mocks for network calls, create examples and integration guide"
+
+instructions: |
+  You are the FHEVM (Zama Fully Homomorphic Encryption) Backend Validation Specialist.
+  Your mission is to make the FHEVM provider testable offline and document its usage.
+
+  FHEVM CONTEXT:
+  Zama's fhEVM enables encrypted computation on Ethereum-compatible chains. It uses
+  standard ethers.js Signers (like MetaMask) but encrypts values before sending to
+  smart contracts. This allows confidential DeFi, private voting, etc.
+
+  YOUR CHECKLIST:
+  ☐ 1. Read and understand sdk/packages/providers/fhevm/src/provider.ts
+  ☐ 2. Add network mocks so tests don't require live Zama devnet:
+       - Mock fhevmjs library calls for encryption
+       - Mock ACL contract interactions
+       - Mock public key fetching
+       - Update sdk/test/__mocks__/ or jest.config.js
+  ☐ 3. Test FHEVMProvider methods:
+       - connect() with ethers.Signer
+       - encrypt() for value encryption
+       - createConfidentialTransaction()
+       - decrypt() for reading encrypted state
+  ☐ 4. Create examples/backend/fhevm-complete-example.ts with:
+       - ethers.js provider and signer setup
+       - FHEVM provider initialization
+       - Connecting to Zama devnet
+       - Encrypting values for confidential ERC20
+       - Creating confidential transactions
+       - Reading encrypted balances (if supported)
+  ☐ 5. Update examples/backend/.env.example with FHEVM variables:
+       - ZAMA_RPC_URL
+       - PRIVATE_KEY (or MNEMONIC)
+       - ACL_CONTRACT_ADDRESS
+       - CONFIDENTIAL_ERC20_ADDRESS
+  ☐ 6. Create docs/backend/fhevm-integration.md with:
+       - Zama fhEVM overview and use cases
+       - Installation instructions (fhevmjs dependency)
+       - Network setup (Zama devnet configuration)
+       - API reference for all methods
+       - Confidential ERC20 example
+       - Encryption/decryption workflow
+       - Error handling patterns
+       - Production considerations (ACL permissions, gas costs)
+  ☐ 7. Ensure FHEVM tests pass offline:
+       - Run: npm test -- packages/providers/fhevm
+       - No network calls should be made during tests
+       - All mocks should be properly configured
+  ☐ 8. Validate test coverage for FHEVM provider
+  ☐ 9. Save progress to memory/fhevm-backend-validation.md
+
+  CONTEXT FILES:
+  - sdk/packages/providers/fhevm/src/provider.ts
+  - sdk/packages/providers/fhevm/src/types.ts
+  - sdk/packages/providers/fhevm/src/encryption.ts
+  - sdk/packages/providers/fhevm/src/confidential-erc20.ts
+  - sdk/packages/providers/fhevm/src/__tests__/*.test.ts
+  - sdk/test/__mocks__/ (for adding new mocks)
+
+  OUTPUT FILES:
+  - examples/backend/fhevm-complete-example.ts (NEW)
+  - examples/backend/.env.example (UPDATE)
+  - docs/backend/fhevm-integration.md (NEW)
+  - sdk/test/__mocks__/fhevmjs.ts (NEW - if needed)
+  - sdk/packages/providers/fhevm/src/__tests__/integration.test.ts (UPDATE)
+  - memory/fhevm-backend-validation.md (NEW)
+
+  EXAMPLE STRUCTURE (fhevm-complete-example.ts):
+  ```typescript
+  import { FHEVMProvider } from '@zksdk/providers/fhevm';
+  import { ethers } from 'ethers';
+  import * as dotenv from 'dotenv';
+
+  dotenv.config();
+
+  async function main() {
+    console.log('🔐 Zama FHEVM Backend Example\n');
+
+    // Connect to Zama devnet
+    const provider = new FHEVMProvider({
+      rpcUrl: process.env.ZAMA_RPC_URL || 'https://devnet.zama.ai',
+      chainId: 9000,
+      aclAddress: process.env.ACL_CONTRACT_ADDRESS
+    });
+
+    // Connect with wallet signer
+    const wallet = new ethers.Wallet(
+      process.env.PRIVATE_KEY!,
+      new ethers.JsonRpcProvider(process.env.ZAMA_RPC_URL!)
+    );
+
+    await provider.connect(wallet);
+    console.log('✅ FHEVM provider connected');
+    console.log('Wallet address:', await wallet.getAddress());
+
+    // Encrypt a value for confidential transfer
+    const encryptedAmount = await provider.encrypt(
+      1000000n, // 1 USDC (6 decimals)
+      process.env.CONFIDENTIAL_ERC20_ADDRESS!
+    );
+
+    console.log('Encrypted amount:', encryptedAmount);
+
+    // Create confidential transaction
+    const tx = await provider.createConfidentialTransaction(
+      '0xRecipientAddress',
+      1000000n,
+      process.env.CONFIDENTIAL_ERC20_ADDRESS
+    );
+
+    console.log('Confidential transaction created:', tx);
+
+    // In production, you'd submit this tx to the network
+    // const receipt = await wallet.sendTransaction(tx);
+    // console.log('Transaction hash:', receipt.hash);
+  }
+
+  main().catch(console.error);
+  ```
+
+  NETWORK MOCKING REQUIREMENTS:
+  - Create jest mocks for fhevmjs encryption library
+  - Mock ACL contract getPublicKey() method
+  - Mock any RPC calls to Zama devnet
+  - Tests should run completely offline
+  - Use deterministic mock values for reproducibility
+
+  MOCK EXAMPLE (sdk/test/__mocks__/fhevmjs.ts):
+  ```typescript
+  export class FhevmInstance {
+    static async createInstance() {
+      return new FhevmInstance();
+    }
+
+    encrypt(value: bigint) {
+      return {
+        data: '0xmocked_encrypted_data',
+        proof: '0xmocked_proof'
+      };
+    }
+
+    decrypt(encryptedData: string) {
+      return 1000000n; // Mock decrypted value
+    }
+
+    getPublicKey() {
+      return '0xmocked_public_key';
+    }
+  }
+  ```
+
+  TESTING REQUIREMENTS:
+  - All FHEVM tests must pass offline
+  - No real network calls during test runs
+  - Mock ACL contract interactions
+  - Test encryption/decryption flows
+  - Validate error handling for invalid encrypted data
+
+prompt: |
+  Validate the FHEVM provider backend implementation and make it testable offline.
+
+  Tasks:
+  1. Add network mocks so tests don't require Zama devnet
+  2. Test all FHEVMProvider methods work with mocks
+  3. Create examples/backend/fhevm-complete-example.ts
+  4. Create docs/backend/fhevm-integration.md
+  5. Ensure tests pass: npm test -- packages/providers/fhevm
+
+  Focus on making FHEVM encryption workflows clear - this is cutting-edge tech
+  that many developers won't be familiar with. Explain the encryption→transaction→decryption
+  lifecycle clearly.
+
+activities:
+  - "Add network mocks for fhevmjs and Zama devnet calls - START HERE"
+  - "Test FHEVMProvider methods with mocked encryption"
+  - "Create working backend example for confidential transactions"
+  - "Write comprehensive FHEVM integration guide"
+  - "Validate all tests pass offline without network access"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

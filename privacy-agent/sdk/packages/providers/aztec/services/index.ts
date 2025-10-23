@@ -4,6 +4,6 @@
  * This file exports all service modules for the Aztec provider.
  */
 
-export * from './pxe-service.js';
-export * from './account-service.js';
-export * from './contract-service.js';
+export * from './pxe-service';
+export * from './account-service';
+export * from './contract-service';

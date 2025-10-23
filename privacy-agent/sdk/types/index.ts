@@ -2,11 +2,14 @@
  * Shared types for zkSDK providers
  */
 
-// Base types from core
-export type { Network, PrivacyLevel, Token, TransferParams, TransferResult, Balance, ProviderConfig } from './core/src/index';
+// Import base types from core module
+import type { Network, PrivacyLevel, Token } from '@zksdk/core';
 
 // Chain ID type
 export type ChainId = number;
+
+// Base types from core
+export type { TransferParams, TransferResult, Balance, ProviderConfig } from '@zksdk/core';
 
 // Token information specific to privacy protocols
 export interface TokenInfo {
@@ -61,6 +64,21 @@ export interface Transaction {
   amount?: string;
   token?: TokenInfo;
   fee?: string;
+}
+
+// Transaction result details for provider operations
+export interface TransactionResult {
+  hash: string;
+  status: 'pending' | 'confirmed' | 'failed';
+  provider: string;
+  chainId: ChainId;
+  timestamp: number;
+  transactions?: {
+    hash: string;
+    status: 'pending' | 'confirmed' | 'failed';
+    timestamp: number;
+  }[];
+  success?: boolean;
 }
 
 // Private address information
@@ -119,7 +137,7 @@ export interface ContractCallParams {
   contractAddress: string;
   artifact: any; // Contract artifact
   method: string;
-  args: any[];
+  args?: any[];
   walletAddress?: string;
   sponsoredFee?: boolean;
 }

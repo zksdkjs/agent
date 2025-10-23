@@ -5,13 +5,9 @@
  * which is responsible for managing private state, keys, and transaction construction.
  */
 
-import {
-  PXE,
-  createAztecNodeClient,
-  createLogger,
-  AztecNode
-} from '@aztec/aztec.js';
-import { ProviderError } from '@zksdk/core';
+import { createAztecNodeClient, createLogger, AztecNode } from '@aztec/aztec.js';
+import type { PXE } from '@aztec/aztec.js';
+import { ProviderError } from '../errors';
 
 // Constants for PXE service
 const DEFAULT_PXE_HOST = '127.0.0.1';
@@ -21,6 +17,15 @@ const DEFAULT_DATA_DIRECTORY = './.privacy-sdk/aztec-data';
 
 // Logger for the PXE service
 const logger = createLogger('privacy-sdk:aztec:pxe');
+
+const createPXEInstance = async (endpoint: string): Promise<PXE> => {
+  const aztecModule: any = await import('@aztec/aztec.js');
+  const PXEClass = aztecModule.PXE ?? aztecModule.default?.PXE;
+  if (!PXEClass) {
+    throw new Error('PXE constructor not available from @aztec/aztec.js');
+  }
+  return new PXEClass(endpoint) as PXE;
+};
 
 /**
  * PXE configuration options
@@ -106,7 +111,7 @@ export class PXEService {
         const pxeUrl = `http://${this.config.pxeHost}:${this.config.pxePort}`;
         logger.info(`Attempting to connect to existing PXE at ${pxeUrl}`);
         
-        this.pxe = new PXE(pxeUrl);
+        this.pxe = await createPXEInstance(pxeUrl);
         
         // Note: In the current API, we can't easily check if PXE is actually running
         // We'll just assume it's working for now
@@ -121,7 +126,7 @@ export class PXEService {
       
       try {
         // Create PXE client
-        this.pxe = new PXE(this.config.nodeUrl);
+        this.pxe = await createPXEInstance(this.config.nodeUrl);
         logger.info('PXE client created');
       } catch (error) {
         logger.error('Failed to create PXE client', error);

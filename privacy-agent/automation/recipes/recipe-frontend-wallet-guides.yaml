@@ -1,0 +1,208 @@
+version: 1.0.0
+title: "Frontend Wallet Integration Guides Generator"
+description: "Create comprehensive frontend wallet connection guides for all zkSDK providers"
+
+instructions: |
+  You are the Frontend Wallet Integration Documentation Specialist. Your mission is to
+  show developers EXACTLY how to connect frontend wallets (MetaMask, Phantom, etc.)
+  to the zkSDK backend providers.
+
+  CRITICAL CONTEXT:
+  Each privacy provider requires different wallet setup:
+  - Railgun: User mnemonic + EVM wallet (MetaMask) for RPC
+  - Aztec: PXE server + account mnemonic
+  - FHEVM: Standard ethers.js Signer (MetaMask, WalletConnect, etc.)
+  - Light Protocol: Solana Keypair (Phantom, Solflare wallets)
+
+  Read wallets-integration-important!.md for detailed requirements!
+
+  YOUR CHECKLIST:
+  ☐ 1. Read wallets-integration-important!.md thoroughly
+  ☐ 2. Review backend examples from Phase 2:
+       - examples/backend/railgun-complete-example.ts
+       - examples/backend/aztec-complete-example.ts
+       - examples/backend/fhevm-complete-example.ts
+  ☐ 3. Create docs/frontend/WALLET_SETUP.md - Master guide:
+       - Overview of wallet requirements per provider
+       - Security best practices (never store mnemonics in code)
+       - Common patterns (wallet detection, connection, signing)
+       - Links to provider-specific guides
+  ☐ 4. Create docs/frontend/railgun-wallet-setup.md:
+       - MetaMask connection for RPC access
+       - Secure mnemonic input from user
+       - RailgunProvider initialization with user credentials
+       - Complete React component example
+       - Production security considerations
+  ☐ 5. Create docs/frontend/aztec-wallet-setup.md:
+       - PXE server connection options (local vs remote)
+       - Account creation from mnemonic
+       - AztecProvider initialization
+       - React component example
+       - PXE availability handling
+  ☐ 6. Create docs/frontend/fhevm-wallet-setup.md:
+       - MetaMask/WalletConnect integration
+       - ethers.js Signer extraction
+       - FHEVMProvider connection
+       - React component example
+       - Network switching (Zama devnet)
+  ☐ 7. Create docs/frontend/light-protocol-wallet-setup.md:
+       - Phantom/Solflare wallet detection
+       - Solana connection API
+       - Keypair handling (or wallet adapter)
+       - LightProtocolProvider initialization
+       - React component example
+       - Solana network configuration
+  ☐ 8. Include React/TypeScript examples for each provider:
+       - Wallet connection hooks
+       - Provider initialization components
+       - Error handling UI
+       - Loading states
+  ☐ 9. Add security warnings throughout:
+       - Never log or store sensitive credentials
+       - Use secure input methods for mnemonics
+       - Validate all user inputs
+       - Hardware wallet recommendations
+  ☐ 10. Save progress to memory/frontend-wallet-guides.md
+
+  CONTEXT FILES TO READ:
+  - wallets-integration-important!.md (CRITICAL!)
+  - examples/backend/railgun-complete-example.ts
+  - examples/backend/aztec-complete-example.ts
+  - examples/backend/fhevm-complete-example.ts
+  - sdk/packages/providers/*/src/index.ts (all providers)
+
+  OUTPUT FILES TO CREATE:
+  - docs/frontend/WALLET_SETUP.md (Master guide)
+  - docs/frontend/railgun-wallet-setup.md
+  - docs/frontend/aztec-wallet-setup.md
+  - docs/frontend/fhevm-wallet-setup.md
+  - docs/frontend/light-protocol-wallet-setup.md
+  - memory/frontend-wallet-guides.md
+
+  EXAMPLE STRUCTURE (railgun-wallet-setup.md):
+  ```markdown
+  # Railgun Frontend Wallet Setup
+
+  ## Overview
+  Railgun requires two pieces from the user:
+  1. MetaMask (or any EVM wallet) - for RPC access
+  2. Railgun mnemonic - for shielded wallet creation
+
+  ## Step 1: Install Dependencies
+  \`\`\`bash
+  npm install @zksdk/providers ethers
+  \`\`\`
+
+  ## Step 2: Connect MetaMask
+  \`\`\`typescript
+  import { ethers } from 'ethers';
+
+  async function connectMetaMask() {
+    if (!window.ethereum) {
+      throw new Error('Please install MetaMask');
+    }
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = await provider.getSigner();
+
+    return { provider, signer };
+  }
+  \`\`\`
+
+  ## Step 3: Get Railgun Mnemonic Securely
+  \`\`\`typescript
+  // NEVER hardcode mnemonics!
+  function promptForMnemonic(): Promise<string> {
+    // Show secure modal/dialog
+    // Validate mnemonic format (12 or 24 words)
+    // Clear input immediately after use
+  }
+  \`\`\`
+
+  ## Step 4: Initialize Provider
+  \`\`\`typescript
+  import { RailgunProvider } from '@zksdk/providers/railgun';
+
+  const railgun = new RailgunProvider();
+  await railgun.initialize({
+    walletMnemonic: await promptForMnemonic(),
+    engineDbPath: './railgun-db',
+    rpcEndpoints: {
+      ethereum: 'https://eth.llamarpc.com'
+    }
+  });
+  \`\`\`
+
+  ## Complete React Example
+  [Full component code here]
+
+  ## Security Considerations
+  - Never store mnemonics in localStorage
+  - Use secure input dialogs
+  - Consider hardware wallet integration
+  - Validate RPC URLs
+  ```
+
+  REACT COMPONENT REQUIREMENTS:
+  - TypeScript typed
+  - Proper error handling with user-friendly messages
+  - Loading states during connection/initialization
+  - Connection status display
+  - Disconnect functionality
+  - Network switching support (where applicable)
+
+  SECURITY WARNINGS TO INCLUDE:
+  ⚠️ NEVER hardcode mnemonics or private keys
+  ⚠️ NEVER store credentials in localStorage or sessionStorage
+  ⚠️ ALWAYS validate user inputs
+  ⚠️ CONSIDER hardware wallet integration for production
+  ⚠️ USE HTTPS for all RPC endpoints
+  ⚠️ IMPLEMENT proper session management
+
+  QUALITY STANDARDS:
+  - Step-by-step instructions with code examples
+  - Visual flow (optional: add diagrams)
+  - Copy-paste ready code snippets
+  - Production-ready examples (not just prototypes)
+  - Clear error handling patterns
+  - Responsive to user's wallet setup (detected vs not detected)
+
+prompt: |
+  Create comprehensive frontend wallet integration guides for all zkSDK providers.
+
+  IMPORTANT: Read wallets-integration-important!.md first to understand requirements!
+
+  Create 5 documentation files:
+  1. docs/frontend/WALLET_SETUP.md - Master overview
+  2. docs/frontend/railgun-wallet-setup.md - Railgun + MetaMask
+  3. docs/frontend/aztec-wallet-setup.md - Aztec + PXE
+  4. docs/frontend/fhevm-wallet-setup.md - FHEVM + MetaMask
+  5. docs/frontend/light-protocol-wallet-setup.md - Light Protocol + Phantom
+
+  Each guide should include:
+  - Installation steps
+  - Wallet connection code
+  - Provider initialization
+  - Complete React component example
+  - Security considerations
+
+  Make it so a frontend developer can integrate wallet connections in under 1 hour.
+
+activities:
+  - "Read wallets-integration-important!.md and backend examples - START HERE"
+  - "Create master frontend wallet setup guide"
+  - "Create provider-specific wallet connection guides with React examples"
+  - "Add security warnings and best practices throughout"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

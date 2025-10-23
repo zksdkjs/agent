@@ -1,6 +1,6 @@
 // Aztec Provider Factory - Stub for future development
 
-import { ProviderConfig } from '../../../types/index.js';
+import { ProviderConfig } from '@zksdk/types';
 import { BasePrivacyProvider } from '@zksdk/core';
 import { AztecProvider, AztecProviderConfig } from './aztec-provider.js';
 
@@ -11,7 +11,7 @@ export class AztecProviderFactory {
   /**
    * Create a new Aztec provider instance
    */
-  async create(config: ProviderConfig): Promise<PrivacyProvider> {
+  async create(config: ProviderConfig): Promise<BasePrivacyProvider> {
     const aztecProvider = new AztecProvider();
     
     // Validation will happen during initialization

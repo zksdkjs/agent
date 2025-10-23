@@ -1,0 +1,30 @@
+{
+  "name": "privacy-agent-examples",
+  "version": "1.0.0",
+  "description": "Examples for the Privacy Agent project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "example:aztec": "ts-node examples/backend/aztec-complete-example.ts",
+    "example:railgun": "ts-node examples/backend/railgun-complete-example.ts"
+  },
+  "keywords": [
+    "privacy",
+    "aztec",
+    "railgun",
+    "blockchain",
+    "zkp"
+  ],
+  "author": "Privacy Agent Team",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "privacycash": "file:privacy-cash-sdk"
+  },
+  "devDependencies": {
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^18.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}

@@ -17,8 +17,8 @@ import {
 } from '@aztec/aztec.js';
 import { getSchnorrAccount } from '@aztec/accounts/schnorr';
 import { deriveSigningKey } from '@aztec/stdlib/keys';
-import { ProviderError, ValidationError } from '@zksdk/core';
-import { getPXEService } from './pxe-service.js';
+import { ProviderError, ValidationError } from '../errors';
+import { getPXEService } from './pxe-service';
 
 // Logger for the account service
 const logger = createLogger('privacy-sdk:aztec:account');

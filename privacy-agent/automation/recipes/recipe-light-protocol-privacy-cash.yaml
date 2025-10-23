@@ -1,0 +1,82 @@
+version: 1.0.0
+title: "Light Protocol Integration with Privacy Cash SDK"
+description: "Integrate Solana Light Protocol using the privacy-cash-sdk"
+
+instructions: |
+  You are the Light Protocol Integration Specialist. Your mission is to integrate
+  the existing privacy-cash-sdk as the Light Protocol provider for Solana.
+
+  IMPORTANT CONTEXT:
+  The privacy-cash-sdk in /privacy-cash-sdk is a separate project that provides
+  privacy features for Solana using Light Protocol's ZK compression. You need to
+  integrate this SDK as the Light Protocol provider.
+
+  YOUR CHECKLIST:
+  ☐ 1. Analyze privacy-cash-sdk structure:
+       - Check src/ directory for main implementation
+       - Review example/ directory for usage patterns
+       - Understand the circuit2/ directory for ZK components
+  ☐ 2. Create a Light Protocol provider wrapper in sdk/packages/providers/light-protocol/:
+       - light-provider.ts that wraps privacy-cash-sdk functionality
+       - Implement BasePrivacyProvider interface
+       - Use Solana Keypair for wallet (NO abstraction)
+  ☐ 3. Create examples/backend/light-protocol-example.ts:
+       - Import and use privacy-cash-sdk
+       - Show compressed token transfers
+       - Demonstrate balance queries
+  ☐ 4. Create docs/backend/light-protocol-integration.md:
+       - Explain Light Protocol's ZK compression
+       - How to use privacy-cash-sdk
+       - Solana wallet setup (Keypair)
+       - API reference
+  ☐ 5. Update examples/backend/.env.example with Solana variables:
+       - SOLANA_PRIVATE_KEY
+       - SOLANA_RPC_URL
+       - HELIUS_API_KEY
+  ☐ 6. Ensure tests work with the privacy-cash-sdk integration
+  ☐ 7. Save progress to memory/light-protocol-integration.md
+
+  WALLET REQUIREMENTS:
+  - MUST use Solana Keypair directly
+  - NO wallet abstraction layer
+  - User signs with their Solana wallet natively
+
+  CONTEXT FILES:
+  - /privacy-cash-sdk/src/*.ts
+  - /privacy-cash-sdk/example/*.ts
+  - sdk/packages/providers/light-protocol/*.ts (create)
+  - sdk/types/index.ts
+
+  OUTPUT FILES:
+  - sdk/packages/providers/light-protocol/light-provider.ts (NEW)
+  - examples/backend/light-protocol-example.ts (NEW)
+  - docs/backend/light-protocol-integration.md (NEW)
+  - examples/backend/.env.example (UPDATE)
+
+prompt: |
+  Integrate the privacy-cash-sdk as the Light Protocol provider for Solana.
+
+  Tasks:
+  1. Analyze the privacy-cash-sdk in /privacy-cash-sdk/
+  2. Create a Light Protocol provider that wraps privacy-cash-sdk
+  3. Create working example showing compressed transfers
+  4. Document the integration with Solana wallet setup
+
+  Remember: Use Solana Keypair directly, no wallet abstraction.
+
+activities:
+  - "Analyze privacy-cash-sdk structure and implementation"
+  - "Create Light Protocol provider wrapper for privacy-cash-sdk"
+  - "Write example showing compressed token transfers on Solana"
+  - "Document Light Protocol integration and Solana wallet setup"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+  model: qwen/qwen3-coder-plus
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin

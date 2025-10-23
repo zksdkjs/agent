@@ -1,0 +1,78 @@
+{
+  "name": "SimpleToken",
+  "functions": [
+    {
+      "name": "constructor",
+      "function_type": "secret",
+      "is_internal": false,
+      "parameters": [
+        {
+          "name": "initial_supply",
+          "type": {
+            "kind": "integer",
+            "sign": "unsigned",
+            "width": 256
+          }
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "function_type": "secret",
+      "is_internal": false,
+      "parameters": [
+        {
+          "name": "to",
+          "type": {
+            "kind": "struct",
+            "path": "aztec3::circuits::abis::native_types::address::Address",
+            "fields": [
+              {
+                "name": "inner",
+                "type": {
+                  "kind": "field"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "amount",
+          "type": {
+            "kind": "integer",
+            "sign": "unsigned",
+            "width": 256
+          }
+        }
+      ]
+    },
+    {
+      "name": "balance_of",
+      "function_type": "secret",
+      "is_internal": false,
+      "parameters": [
+        {
+          "name": "owner",
+          "type": {
+            "kind": "struct",
+            "path": "aztec3::circuits::abis::native_types::address::Address",
+            "fields": [
+              {
+                "name": "inner",
+                "type": {
+                  "kind": "field"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "return_type": {
+        "kind": "integer",
+        "sign": "unsigned",
+        "width": 256
+      }
+    }
+  ],
+  "events": []
+}
