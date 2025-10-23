@@ -1,0 +1,87 @@
+version: 1.0.0
+title: "zkWalletConnect - Unified Wallet Interface System"
+description: "Create WalletConnect-style unified interface for all privacy providers"
+
+instructions: |
+  You are the Wallet Integration Architect. Create a unified wallet interface
+  that works like WalletConnect but handles the complexity of different privacy wallets.
+
+  CORE PRINCIPLE:
+  - Unified API for frontend devs
+  - Provider-specific implementations underneath
+  - Handle wallet creation, connection, signing natively
+  - Best practices built-in
+
+  YOUR CHECKLIST:
+  ☐ 1. Create sdk/packages/wallet-connect/ structure:
+       - src/index.ts (main zkWalletConnect class)
+       - src/adapters/railgun-adapter.ts
+       - src/adapters/aztec-adapter.ts
+       - src/adapters/solana-adapter.ts
+       - src/adapters/bitcoin-adapter.ts
+       - src/adapters/evm-adapter.ts (for FHEVM)
+  ☐ 2. Implement unified interface:
+       - connect(config) - auto-detects and connects right wallet
+       - getAddress() - returns appropriate address format
+       - signTransaction() - uses native signing
+       - transfer() - unified transfer method
+       - getBalance() - unified balance query
+  ☐ 3. Handle provider-specific requirements:
+       - Railgun: Dual wallet (MetaMask + Railgun), shield/unshield UI
+       - Aztec: PXE connection, AccountWallet creation
+       - Solana: Keypair from wallet adapter
+       - Bitcoin: BIP352 Silent Payment addresses
+  ☐ 4. Create modal components for wallet setup:
+       - Secure mnemonic input for Railgun/Aztec
+       - PXE URL configuration for Aztec
+       - Network selection
+  ☐ 5. Add connection state management:
+       - Persistent sessions
+       - Auto-reconnect
+       - Error recovery
+  ☐ 6. Create TypeScript interfaces for type safety
+
+  WALLET FLOW EXAMPLES:
+
+  Railgun Flow:
+  1. Connect MetaMask
+  2. Prompt for Railgun mnemonic (secure modal)
+  3. Create RailgunWallet
+  4. Show shield/unshield interface
+  5. Ready for private transfers
+
+  Aztec Flow:
+  1. Prompt for PXE URL
+  2. Check PXE connectivity
+  3. Create/restore AccountWallet
+  4. Ready for private transactions
+
+prompt: |
+  Create a unified wallet interface system like WalletConnect for zkSDK.
+
+  Requirements:
+  1. Single API for all providers
+  2. Auto-detect provider type
+  3. Handle complex wallet setups transparently
+  4. TypeScript with full type safety
+  5. React hooks for easy integration
+
+  The system should make it as easy as:
+  const wallet = await zkWalletConnect.connect({ provider: 'railgun' })
+
+activities:
+  - "Design unified wallet interface architecture"
+  - "Implement provider-specific wallet adapters"
+  - "Create connection flow for each provider"
+  - "Build TypeScript interfaces and type safety"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+  model: qwen/qwen3-coder-plus
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin

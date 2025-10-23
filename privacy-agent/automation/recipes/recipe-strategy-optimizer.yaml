@@ -1,0 +1,111 @@
+version: 1.0.0
+title: "zkSDK Strategy Optimizer"
+description: "Analyze current state and determine optimal path to v1.0 release"
+
+instructions: |
+  You are the Strategic Planning AI. Analyze the current state of zkSDK
+  and determine the OPTIMAL path to v1.0 release that maximizes value.
+
+  CURRENT STATE:
+  - 3/5 providers complete (Railgun, Aztec, Light Protocol)
+  - Backend implementations working
+  - No frontend integration layer
+  - No unified wallet interface
+  - Bitcoin and FHEVM providers pending
+
+  CRITICAL CONTEXT FROM SESSION:
+  - User wants WalletConnect-style unified interface
+  - Frontend devs need easy integration (like wallet.connect())
+  - Each provider MUST use native wallet (no abstraction in core)
+  - But we CAN create adapter layer on top for frontend
+  - Privacy Cash SDK is separate project (Solana)
+  - User emphasized: "we wanna see how techs manage frontends best practice"
+  - Goal: "The LangChain of Privacy" - must be easy to use
+  - Current pain: Frontend devs don't know how to connect these wallets
+  - Railgun needs dual wallet (MetaMask + Railgun mnemonic)
+  - Aztec needs PXE server connection
+  - Each has different signing flow
+
+  KEY QUESTIONS TO ANALYZE:
+  ☐ 1. What delivers most value to developers RIGHT NOW?
+       - More providers? Or better integration for existing ones?
+       - Backend completeness? Or frontend usability?
+  ☐ 2. What's blocking adoption?
+       - Missing providers?
+       - Complex wallet management?
+       - Lack of examples?
+  ☐ 3. What's the critical path?
+       - What MUST be done for v1.0?
+       - What can be v1.1?
+  ☐ 4. Resource optimization:
+       - What can be parallelized?
+       - What has dependencies?
+  ☐ 5. Risk assessment:
+       - What could fail?
+       - What needs most testing?
+
+  DECISION MATRIX TO CREATE:
+  | Option | Time | Value | Risk | Dependencies |
+  |--------|------|-------|------|--------------|
+  | Finish Bitcoin/FHEVM | 4h | Medium | Low | None |
+  | zkWalletConnect | 3h | HIGH | Medium | None |
+  | Frontend Examples | 2h | HIGH | Low | WalletConnect |
+  | Documentation | 1h | Medium | Low | None |
+
+  DELIVERABLES:
+  1. Create strategy/v1-strategy-YYYY-MM-DD-HHMM.md with:
+     - Prioritized action plan
+     - Critical path analysis
+     - Risk mitigation strategies
+     - Time estimates
+     - Clear recommendation: What to do NEXT
+  2. Create strategy/LATEST.md as symlink to newest strategy
+  3. Update strategy/README.md with strategy history
+  4. Version each strategy update with timestamp
+  5. Push to GitHub after creation
+
+prompt: |
+  IMPORTANT: First read strategy/CONTEXT-FOR-STRATEGY.md for complete background.
+
+  Analyze zkSDK current state and determine optimal path to v1.0.
+
+  Current: 60% complete, 3/5 providers done, no frontend integration.
+
+  CRITICAL USER REQUIREMENTS:
+  - "The LangChain of Privacy" - must be as easy as LangChain
+  - WalletConnect-style unified interface for frontend
+  - Frontend devs shouldn't need to understand each wallet's complexity
+  - Best practices for wallet management built-in
+  - User said: "we wanna see how techs manage frontends best practice"
+
+  Question: Should we:
+  A) Finish remaining providers (Bitcoin, FHEVM) - more coverage but same UX problem
+  B) Build zkWalletConnect unified interface - solves UX, makes existing 3 providers usable
+  C) Create frontend examples first - shows value but without unified interface is complex
+  D) Different approach?
+
+  REMEMBER:
+  - Without easy frontend integration, even 5/5 providers won't get adoption
+  - Current 3 providers (Railgun, Aztec, Privacy Cash) cover main use cases
+  - Each needs different wallet setup (big friction point)
+
+  Provide clear recommendation with reasoning.
+
+activities:
+  - "Read strategy/CONTEXT-FOR-STRATEGY.md to understand full context"
+  - "Analyze current completion state and gaps"
+  - "Evaluate developer needs and adoption barriers"
+  - "Create decision matrix with time/value/risk"
+  - "Generate versioned strategy document in strategy/ folder"
+  - "Provide strategic recommendation with clear next steps"
+
+settings:
+  temperature: 0.3
+  max_tokens: 8192
+  model: qwen/qwen3-coder-plus
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin

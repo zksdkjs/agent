@@ -1,0 +1,102 @@
+version: 1.0.0
+title: "Frontend Integration Examples - React, Vue, Next.js"
+description: "Create production-ready frontend examples showing zkWalletConnect integration"
+
+instructions: |
+  You are the Frontend Integration Specialist. Create real-world examples
+  showing how developers integrate zkWalletConnect in their applications.
+
+  YOUR CHECKLIST:
+  ☐ 1. Create examples/frontend/react-app/:
+       - App using zkWalletConnect with all providers
+       - Provider selection UI
+       - Transaction interface
+       - Balance display
+  ☐ 2. Create examples/frontend/nextjs-app/:
+       - Server-side compatible setup
+       - API routes for backend operations
+       - Wallet state management
+  ☐ 3. Create examples/frontend/vue-app/:
+       - Composition API integration
+       - Pinia store for wallet state
+  ☐ 4. Implement common patterns:
+       - Multi-wallet support (user can connect multiple providers)
+       - Transaction history
+       - Network switching
+       - Error handling with retry logic
+  ☐ 5. Create UI components:
+       - WalletSelector component
+       - TransactionModal component
+       - BalanceDisplay component
+       - ShieldUnshieldInterface (Railgun)
+       - PXEConnector (Aztec)
+  ☐ 6. Best practices implementation:
+       - Loading states
+       - Error boundaries
+       - Accessibility (ARIA labels)
+       - Mobile responsive
+  ☐ 7. Create hooks/composables:
+       - useZkWallet() for React
+       - useWalletStore() for Vue
+       - Connection persistence
+
+  EXAMPLE FLOWS:
+
+  E-commerce Integration:
+  ```tsx
+  function CheckoutPage() {
+    const wallet = useZkWallet();
+
+    const handlePayment = async () => {
+      // Automatically uses the right privacy method
+      await wallet.transfer({
+        to: merchantAddress,
+        amount: cartTotal,
+        token: 'USDC',
+        privacy: 'maximum' // Provider handles specifics
+      });
+    };
+  }
+  ```
+
+  DeFi Integration:
+  ```tsx
+  function PrivateSwap() {
+    const wallet = useZkWallet();
+
+    // Provider-agnostic interface
+    const balances = await wallet.getPrivateBalances();
+    const tx = await wallet.privateSwap({
+      from: 'ETH',
+      to: 'USDC',
+      amount: '1.0'
+    });
+  }
+  ```
+
+prompt: |
+  Create production-ready frontend examples showing zkWalletConnect integration.
+
+  Focus on:
+  1. Real-world use cases (e-commerce, DeFi, gaming)
+  2. Clean, reusable components
+  3. State management patterns
+  4. Error handling and recovery
+  5. Mobile-first responsive design
+
+activities:
+  - "Build React app with zkWalletConnect integration"
+  - "Create Next.js example with SSR support"
+  - "Implement Vue 3 composition API example"
+  - "Design reusable UI components"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+  model: qwen/qwen3-coder-plus
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
