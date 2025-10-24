@@ -66,7 +66,7 @@ echo "Starting Goose example-writing session..."
 echo ""
 
 goose session start \
-    --recipe automation/recipes/recipe-developer.yaml \
+    --recipe .goose/recipes/main/recipe-developer.yaml \
     --prompt "$PROMPT"
 
 echo ""

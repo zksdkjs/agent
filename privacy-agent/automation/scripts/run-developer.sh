@@ -41,14 +41,9 @@ fi
 # Check if recipe exists
 RECIPE_PATH=".goose/recipes/main/recipe-developer.yaml"
 if [ ! -f "$RECIPE_PATH" ]; then
-    echo -e "${YELLOW}Warning: Recipe not found at $RECIPE_PATH${NC}"
-    echo "Falling back to automation/recipes/"
-    RECIPE_PATH="automation/recipes/recipe-developer.yaml"
-
-    if [ ! -f "$RECIPE_PATH" ]; then
-        echo -e "${RED}Error: No developer recipe found${NC}"
-        exit 1
-    fi
+    echo -e "${RED}Error: Recipe not found at $RECIPE_PATH${NC}"
+    echo "Please ensure you're in the privacy-agent directory"
+    exit 1
 fi
 
 echo -e "${GREEN}Using recipe: $RECIPE_PATH${NC}"

@@ -32,7 +32,7 @@ cd "$WORKSPACE"
 
 # Run with increased turns for thorough research
 goose run \
-  --recipe automation/recipes/recipe-privacy-cash-researcher.yaml \
+  --recipe .goose/recipes/main/recipe-privacy-cash-researcher.yaml \
   --max-turns 30 \
   --name "$SESSION_NAME" \
   --profile privacy-research \

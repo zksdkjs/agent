@@ -125,7 +125,7 @@ echo ""
 
 # Run Goose with the tester recipe
 goose session start \
-    --recipe automation/recipes/recipe-tester.yaml \
+    --recipe .goose/recipes/main/recipe-tester.yaml \
     --prompt "$PROMPT"
 
 echo ""
