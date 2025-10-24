@@ -40,7 +40,18 @@
       "Bash(env GOOSE_MODEL=\"qwen/qwen3-coder-plus\" goose session --resume --name light_privacy_cash_123302 --max-turns 30)",
       "Bash(git add:*)",
       "Bash(GOOSE_MODEL=\"qwen/qwen3-coder-plus\" goose session --resume --name strategy_v1_130631)",
-      "Bash(env GOOSE_MODEL=\"qwen/qwen3-coder-plus\" goose session --resume --name strategy_v1_130631)"
+      "Bash(env GOOSE_MODEL=\"qwen/qwen3-coder-plus\" goose session --resume --name strategy_v1_130631)",
+      "Read(//Users/saeeddawod/Desktop/**)",
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(git reset HEAD ../privacy-agent-backup-*.tar.gz goose ../.claude/settings.local.json)",
+      "Bash(xargs:*)",
+      "Bash(while read f)",
+      "Bash(do echo \"$f#.goose/recipes/\")",
+      "Bash(git reset:*)",
+      "Bash(git stash:*)",
+      "Bash(git pull:*)",
+      "Bash(./automation/scripts/run-product-manager.sh:*)"
     ],
     "deny": []
   }

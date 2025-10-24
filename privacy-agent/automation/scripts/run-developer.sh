@@ -73,11 +73,10 @@ echo -e "${GREEN}Launching Goose Developer Agent...${NC}"
 goose run \
     --recipe "$RECIPE_PATH" \
     --name "$SESSION_NAME" \
-    --parameter "provider_name=$PROVIDER" \
-    --parameter "work_type=$WORK_TYPE" \
-    --parameter "test_coverage_target=$COVERAGE" \
-    --parameter "session_duration=$SESSION" \
-    --verbose
+    --params "provider_name=$PROVIDER" \
+    --params "work_type=$WORK_TYPE" \
+    --params "test_coverage_target=$COVERAGE" \
+    --params "session_duration=$SESSION"
 
 # Check exit status
 EXIT_CODE=$?
