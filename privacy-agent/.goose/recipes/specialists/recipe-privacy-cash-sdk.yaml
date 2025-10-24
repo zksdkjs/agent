@@ -1,10 +1,10 @@
 version: 1.0.0
-title: "Light Protocol Integration with Privacy Cash SDK"
-description: "Integrate Solana Light Protocol using the privacy-cash-sdk"
+title: "Privacy Cash SDK Specialist (Solana)"
+description: "Integrate Privacy Cash SDK for Solana ZK compression and privacy"
 
 instructions: |
-  You are the Light Protocol Integration Specialist. Your mission is to integrate
-  the existing privacy-cash-sdk as the Light Protocol provider for Solana.
+  You are the Privacy Cash SDK Specialist. Your mission is to integrate
+  the Privacy Cash SDK as the Solana privacy provider using ZK compression.
 
   IMPORTANT CONTEXT:
   The privacy-cash-sdk in /privacy-cash-sdk is a separate project that provides
