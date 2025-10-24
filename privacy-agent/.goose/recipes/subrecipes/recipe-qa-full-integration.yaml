@@ -1,0 +1,254 @@
+version: 1.0.0
+title: "zkSDK Full Integration Testing & QA"
+description: "Validate entire system end-to-end, ensure all tests pass, and prepare v1.0.0-beta release"
+
+instructions: |
+  You are the zkSDK Quality Assurance Specialist. Your mission is to validate that
+  the entire zkSDK system is production-ready for v1.0.0-beta release.
+
+  YOUR CHECKLIST:
+  ☐ 1. Run full test suite and ensure 100% pass rate:
+       - cd sdk && npm test
+       - All provider tests must pass
+       - All integration tests must pass
+       - No flaky or skipped tests
+  ☐ 2. Validate code coverage:
+       - Run: npm run test:coverage
+       - Ensure >90% coverage across all packages
+       - Identify and test any uncovered code paths
+  ☐ 3. Test all backend examples execute successfully:
+       - cd examples/backend
+       - Test railgun-complete-example.ts (with test credentials)
+       - Test aztec-complete-example.ts
+       - Test fhevm-complete-example.ts
+       - Test light-protocol-complete-example.ts
+       - Verify examples handle errors gracefully
+  ☐ 4. Validate all documentation is complete and accurate:
+       - Check docs/ARCHITECTURE.md renders correctly
+       - Check docs/PROVIDER_COMPARISON.md has accurate info
+       - Check docs/INTEGRATION_FLOWS.md diagrams render
+       - Verify all backend guides (docs/backend/*.md)
+       - Verify all frontend guides (docs/frontend/*.md)
+       - Check for broken links between docs
+       - Ensure code examples are syntax-highlighted
+  ☐ 5. Verify TypeScript compilation:
+       - cd sdk && npm run build
+       - Zero TypeScript errors
+       - All type definitions exported correctly
+       - Check dist/ output is clean
+  ☐ 6. Run npm audit and fix security issues:
+       - npm audit
+       - npm audit fix (if safe)
+       - Document any unfixable vulnerabilities
+  ☐ 7. Validate package.json files:
+       - Check versions are consistent across packages
+       - Verify dependencies are correct
+       - Ensure all packages are buildable
+       - Check package names follow @zksdk/* convention
+  ☐ 8. Test provider initialization edge cases:
+       - Invalid configuration → proper error messages
+       - Missing credentials → helpful error messages
+       - Network unavailable → graceful degradation
+       - Invalid RPC URLs → clear error messages
+  ☐ 9. Create v1.0.0-beta release checklist:
+       - Code quality checklist
+       - Documentation completeness checklist
+       - Provider status checklist
+       - Package management checklist
+       - Release artifacts checklist
+  ☐ 10. Update project status files:
+       - Update memory/CURRENT_WORK.md with completion status
+       - Update PROJECT_STATUS.docx (if exists)
+       - Create release summary for social media
+  ☐ 11. Draft release notes:
+       - Create CHANGELOG.md entry
+       - List new features (all 4 providers)
+       - List breaking changes (if any)
+       - List known issues/limitations
+       - Thank contributors
+  ☐ 12. Save QA report to memory/v1-qa-report.md
+
+  CONTEXT FILES:
+  - sdk/package.json (and all sub-packages)
+  - sdk/tsconfig.json
+  - sdk/jest.config.js
+  - examples/backend/*.ts
+  - docs/**/*.md
+  - All test files in sdk/packages/*/src/__tests__/
+
+  OUTPUT FILES:
+  - memory/v1-qa-report.md (NEW - comprehensive QA findings)
+  - CHANGELOG.md (UPDATE or CREATE)
+  - docs/RELEASE_CHECKLIST.md (NEW)
+  - memory/v1-release-notes.md (NEW - draft for social/GitHub)
+
+  RELEASE CHECKLIST STRUCTURE (docs/RELEASE_CHECKLIST.md):
+  ```markdown
+  # zkSDK v1.0.0-beta Release Checklist
+
+  ## Code Quality
+  - [ ] All tests passing (100% pass rate)
+  - [ ] Code coverage >90%
+  - [ ] Zero TypeScript compilation errors
+  - [ ] All examples execute successfully
+  - [ ] npm audit shows no critical vulnerabilities
+
+  ## Documentation
+  - [ ] Architecture overview complete (docs/ARCHITECTURE.md)
+  - [ ] Provider comparison published (docs/PROVIDER_COMPARISON.md)
+  - [ ] Integration flows documented (docs/INTEGRATION_FLOWS.md)
+  - [ ] 4 backend integration guides complete
+  - [ ] 4 frontend wallet setup guides complete
+  - [ ] All code examples are runnable
+  - [ ] No broken links between docs
+
+  ## Providers
+  - [ ] Railgun: Production ready ✅
+  - [ ] Aztec: Testnet ready ✅
+  - [ ] FHEVM: Dev environment ready ✅
+  - [ ] Light Protocol: Mainnet ready ✅
+
+  ## Package Management
+  - [ ] All packages buildable (npm run build succeeds)
+  - [ ] Dependencies audited and safe
+  - [ ] Versioning consistent (all 1.0.0-beta)
+  - [ ] README.md files up to date
+  - [ ] package.json metadata correct (repository, license, etc.)
+
+  ## Release Artifacts
+  - [ ] CHANGELOG.md updated with v1.0.0-beta
+  - [ ] GitHub release notes drafted
+  - [ ] NPM packages ready for publish
+  - [ ] Examples repository linked (if separate)
+  - [ ] Documentation site deployed (if applicable)
+
+  ## Final Validation
+  - [ ] Fresh clone and npm install works
+  - [ ] Build from scratch succeeds
+  - [ ] Tests run in CI/CD (if configured)
+  - [ ] Manual smoke testing of each provider
+  ```
+
+  TESTING REQUIREMENTS:
+  - Run tests multiple times to catch flaky tests
+  - Test on clean environment (no node_modules, fresh install)
+  - Validate examples work with realistic (non-production) credentials
+  - Check error messages are user-friendly
+  - Ensure no console.log spam in production builds
+
+  QA REPORT STRUCTURE (memory/v1-qa-report.md):
+  ```markdown
+  # zkSDK v1.0.0-beta QA Report
+  Date: [YYYY-MM-DD]
+
+  ## Test Results
+  - Total test suites: X
+  - Total tests: Y
+  - Pass rate: Z%
+  - Code coverage: W%
+
+  ## Issues Found
+  1. [Issue description]
+     - Severity: Critical/High/Medium/Low
+     - Status: Fixed/Open
+     - Notes: [details]
+
+  ## Examples Validation
+  - Railgun example: ✅/❌
+  - Aztec example: ✅/❌
+  - FHEVM example: ✅/❌
+  - Light Protocol example: ✅/❌
+
+  ## Documentation Review
+  - Architecture docs: ✅/❌
+  - Backend guides: ✅/❌
+  - Frontend guides: ✅/❌
+  - Code examples: ✅/❌
+
+  ## Recommendations
+  1. [Recommendation]
+  2. [Recommendation]
+
+  ## Release Readiness
+  Overall Status: READY / NOT READY
+  Blocking Issues: [list or none]
+  ```
+
+  CHANGELOG ENTRY TEMPLATE:
+  ```markdown
+  # Changelog
+
+  ## [1.0.0-beta] - 2025-10-22
+
+  ### Added
+  - 🚂 **Railgun Provider**: Production-ready EVM privacy for Ethereum, Polygon, Arbitrum
+  - 🔷 **Aztec Provider**: Privacy-first L2 with Noir smart contract support
+  - 🔐 **FHEVM Provider**: Fully homomorphic encryption for confidential computation (Zama)
+  - ☀️ **Light Protocol Provider**: 99% cost reduction via ZK compression on Solana
+  - 📚 Comprehensive architecture documentation
+  - 📖 Backend integration guides for all 4 providers
+  - 🌐 Frontend wallet connection guides with React examples
+  - ✅ Full test suite with >90% code coverage
+
+  ### Changed
+  - N/A (initial beta release)
+
+  ### Fixed
+  - TypeScript type issues in Aztec provider
+  - Test mocking for FHEVM network calls
+  - Jest config for proper path resolution
+
+  ### Known Issues
+  - Aztec provider requires PXE server (testnet only)
+  - FHEVM limited to Zama devnet (not production ready)
+  - Light Protocol documentation pending final review
+
+  ### Breaking Changes
+  - N/A (initial release)
+
+  ### Contributors
+  - Claude Opus (orchestrating Goose agents)
+  - Qwen Coder agents (implementation)
+  - [Your name/team]
+  ```
+
+prompt: |
+  Perform comprehensive QA for zkSDK v1.0.0-beta release.
+
+  Tasks:
+  1. Run full test suite: cd sdk && npm test
+  2. Validate all backend examples execute
+  3. Review all documentation for completeness
+  4. Check TypeScript compilation: npm run build
+  5. Run npm audit and fix security issues
+  6. Create release checklist (docs/RELEASE_CHECKLIST.md)
+  7. Draft CHANGELOG.md entry
+  8. Update memory/CURRENT_WORK.md
+  9. Generate QA report (memory/v1-qa-report.md)
+
+  Focus on:
+  - 100% test pass rate
+  - Clear, helpful error messages
+  - Complete, accurate documentation
+  - Production-ready code quality
+
+  At the end, provide a clear GO/NO-GO recommendation for release.
+
+activities:
+  - "Run full test suite and validate 100% pass rate - START HERE"
+  - "Test all backend examples with realistic credentials"
+  - "Review documentation completeness and accuracy"
+  - "Create release checklist and draft CHANGELOG"
+  - "Generate comprehensive QA report with GO/NO-GO recommendation"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+  - name: memory
+    type: builtin
+  - name: repo_context
+    type: builtin

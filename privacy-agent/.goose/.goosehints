@@ -1,0 +1,280 @@
+# 🤖 GOOSE AI GUIDANCE - zkSDK Privacy Agent Project
+
+## PROJECT IDENTITY
+Project: zkSDK - "The LangChain of Privacy"
+Vision: Unified JavaScript SDK for all privacy blockchain protocols
+Status: Active development, 60% complete (3/5 providers implemented)
+
+## CRITICAL CONTEXT FILES
+@.goose/CLAUDE.md
+@.goose/RULES.md
+@HOW-IT-WORKS.md
+@strategy/active/current.md
+
+## CURRENT IMPLEMENTATION STATUS
+- ✅ FHEVM Provider: COMPLETE (927 lines) - DO NOT MODIFY
+- 🚧 Railgun Provider: IN PROGRESS (196 lines) - Needs Recipe→Step→ComboMeal pattern
+- ❌ Light Protocol: NOT STARTED - Solana ZK compression implementation needed
+- ❌ Aztec Provider: NOT STARTED - Noir smart contracts integration
+- ❌ Bitcoin Provider: NOT STARTED - Silent Payments (BIP352) implementation
+
+## CODE ORGANIZATION & STANDARDS
+
+### Project Structure
+```
+sdk/packages/
+├── core/               # Main SDK orchestration layer
+├── providers/          # Protocol implementations
+│   ├── fhevm/         # ✅ Complete - Zama FHE
+│   ├── railgun/       # 🚧 In Progress
+│   ├── light-protocol/ # ❌ Todo
+│   ├── aztec/         # ❌ Todo
+│   └── bitcoin/       # ❌ Todo
+└── types/             # TypeScript type definitions
+```
+
+### TypeScript Standards
+- **ALWAYS** use TypeScript strict mode
+- **REQUIRE** 90%+ test coverage for new code
+- **FOLLOW** existing patterns in the codebase
+- **USE** meaningful variable and function names
+- **IMPLEMENT** proper error handling with custom error types
+- **WRITE** JSDoc comments for all public APIs
+
+### File Patterns to Follow
+```typescript
+// Provider implementation pattern
+export class ProviderName extends BasePrivacyProvider {
+  async initialize(config: ProviderConfig): Promise<void>
+  async transfer(params: TransferParams): Promise<TransactionResult>
+  async getBalance(address: string): Promise<Balance>
+  async shield(amount: bigint): Promise<TransactionResult>
+  async unshield(amount: bigint): Promise<TransactionResult>
+}
+```
+
+## PRIVACY PROTOCOLS REFERENCE
+
+### FHEVM (Zama) - ✅ COMPLETE
+- Fully Homomorphic Encryption for confidential smart contracts
+- Path: sdk/packages/providers/fhevm/
+- Status: 927 lines, full implementation complete
+- DO NOT MODIFY - it's working perfectly
+
+### Railgun - 🚧 IN PROGRESS
+- EVM privacy system using zkSNARKs
+- Path: sdk/packages/providers/railgun/
+- Current: Basic structure (196 lines)
+- TODO: Implement Recipe→Step→ComboMeal pattern
+- Reference: https://docs.railgun.org
+
+### Light Protocol (Privacy Cash SDK) - ❌ NOT STARTED
+- Solana ZK compression for 99% cost reduction
+- Path: sdk/packages/providers/light-protocol/
+- Key Features: Compressed accounts, private transfers on Solana
+- Note: This is "Privacy Cash SDK" not "Light Protocol" in user-facing docs
+
+### Aztec - ❌ NOT STARTED
+- Privacy-first L2 with Noir smart contracts
+- Path: sdk/packages/providers/aztec/
+- Requirements: PXE server integration, Noir contract compilation
+- Reference: https://docs.aztec.network
+
+### Bitcoin Silent Payments - ❌ NOT STARTED
+- BIP352 implementation for Bitcoin privacy
+- Path: sdk/packages/providers/bitcoin/
+- Requirements: Silent payment address generation, UTXO management
+- Reference: BIP352 specification
+
+## OUTPUT LOCATIONS (Framework V2)
+
+### Daily Work
+- Sessions: `workspace/sessions/YYYY-MM-DD/[time]-[agent].md`
+- Current Sprint: `workspace/current/sprint.md` (UPDATE, don't replace)
+- Blockers: `workspace/current/blockers.md` (APPEND new issues)
+- Memory: `workspace/memory/[agent-type]/`
+
+### Reports & Analysis
+- Daily Reports: `insights/daily/YYYY/MM-MonthName/DD/`
+- Research: `insights/research/[category]/[topic]-YYYY-MM-DD.md`
+- Weekly: `insights/weekly/week-[number].md`
+
+### Strategy & Decisions
+- Active Strategy: `strategy/active/vN-strategy-YYYY-MM-DD-HHMM.md`
+- Decisions: `strategy/decisions/ADR-NNN-[topic].md`
+- Roadmap: `strategy/roadmap/`
+
+## WORKFLOW PATTERNS
+
+### Starting Work
+1. Read `workspace/current/sprint.md` for current goals
+2. Check `workspace/current/blockers.md` for issues
+3. Review `workspace/sessions/[TODAY]/continuation.md` if exists
+4. Load memory from `workspace/memory/[your-role]/`
+
+### During Development
+1. Make code changes in `sdk/packages/`
+2. Write tests in `sdk/test/` or `sdk/packages/*/test/`
+3. Update examples in `sdk/examples/`
+4. Document changes in relevant .md files
+
+### Ending Session
+1. Create session report in `workspace/sessions/YYYY-MM-DD/`
+2. Update `workspace/current/sprint.md` with progress
+3. Add any blockers to `workspace/current/blockers.md`
+4. Create continuation guide for next session
+
+## TESTING REQUIREMENTS
+
+### Test Coverage Standards
+- Minimum 90% coverage for new code
+- Unit tests for all public methods
+- Integration tests for provider operations
+- E2E tests for complete workflows
+
+### Test Locations
+- Unit tests: `sdk/packages/[provider]/test/`
+- Integration tests: `sdk/test/integration/`
+- E2E tests: `sdk/test/e2e/`
+
+### Running Tests
+```bash
+cd sdk
+npm test                    # Run all tests
+npm run test:coverage       # Check coverage
+npm run test:integration    # Integration tests only
+```
+
+## COMMON PITFALLS TO AVOID
+
+### DO NOT
+- ❌ Modify FHEVM provider (it's complete and working)
+- ❌ Create files outside the defined structure
+- ❌ Skip writing tests for new features
+- ❌ Use 'any' type in TypeScript
+- ❌ Commit without running tests
+- ❌ Ignore error handling
+
+### ALWAYS
+- ✅ Follow Framework V2 file locations
+- ✅ Write comprehensive tests
+- ✅ Update documentation
+- ✅ Handle errors gracefully
+- ✅ Use TypeScript strict mode
+- ✅ Create session reports
+
+## RECIPE & AUTOMATION
+
+### Recipe Locations
+- Main recipes: `.goose/recipes/main/`
+- Subrecipes: `.goose/recipes/subrecipes/`
+- Utilities: `.goose/recipes/utilities/`
+
+### Launch Commands
+```bash
+# Development work
+goose run --recipe .goose/recipes/main/developer.yaml
+
+# Testing
+goose run --recipe .goose/recipes/main/tester.yaml
+
+# Research
+goose run --recipe .goose/recipes/main/pm-researcher.yaml
+```
+
+## SECURITY CONSIDERATIONS
+
+### Sensitive Data Handling
+- Never commit private keys or mnemonics
+- Use environment variables for secrets
+- Protect user transaction data
+- Sanitize all user inputs
+- Validate all parameters
+
+### Privacy Protocol Security
+- Each protocol has different security models
+- Understand the trust assumptions
+- Document security considerations
+- Implement proper key management
+- Use secure random number generation
+
+## DEPENDENCY MANAGEMENT
+
+### Core Dependencies
+- TypeScript: ^5.0.0
+- Jest: Testing framework
+- Ethers.js: Ethereum interaction
+- @solana/web3.js: Solana interaction
+
+### Adding Dependencies
+```bash
+cd sdk
+npm install --save [package]      # Runtime dependency
+npm install --save-dev [package]  # Dev dependency
+```
+
+## GIT WORKFLOW
+
+### Branch Strategy
+- main: Stable releases
+- develop: Active development
+- feature/[name]: New features
+- fix/[name]: Bug fixes
+
+### Commit Messages
+- feat: New feature
+- fix: Bug fix
+- test: Test additions
+- docs: Documentation
+- refactor: Code refactoring
+- chore: Maintenance tasks
+
+## PERFORMANCE CONSIDERATIONS
+
+### Optimization Priorities
+1. Minimize proof generation time
+2. Reduce transaction costs
+3. Optimize memory usage
+4. Cache frequently accessed data
+5. Batch operations when possible
+
+### Benchmarking
+- Profile before optimizing
+- Measure transaction costs
+- Track proof generation times
+- Monitor memory usage
+- Document performance improvements
+
+## AI AGENT COLLABORATION
+
+### Agent Roles
+- Developer: Code implementation
+- Tester: Quality assurance
+- PM/Researcher: Market analysis
+- Strategy: Architecture decisions
+
+### Communication Between Agents
+- Use workspace/memory/ for state sharing
+- Create clear session reports
+- Document decisions in strategy/
+- Update blockers immediately
+
+## QUICK COMMAND REFERENCE
+
+```bash
+# Start development
+cd /Users/saeeddawod/Desktop/agent/privacy-agent
+./automation/scripts/run-developer.sh
+
+# Run tests
+cd sdk && npm test
+
+# Generate report
+./automation/scripts/generate-daily-report.sh
+
+# Continue work
+goose run --recipe .goose/recipes/utilities/continue-work.yaml
+```
+
+## REMEMBER
+You are building the "LangChain of Privacy" - a revolutionary SDK that makes privacy protocols as easy to use as LangChain made AI. Every line of code should work towards this vision of simple, unified privacy infrastructure.

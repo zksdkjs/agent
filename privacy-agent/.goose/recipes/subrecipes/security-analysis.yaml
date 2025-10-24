@@ -1,0 +1,252 @@
+version: 1.0.0
+title: "Security Analysis Subrecipe"
+description: "Performs security scanning and vulnerability analysis for privacy-sensitive code"
+
+# Security scan parameters
+parameters:
+  - key: scan_path
+    input_type: string
+    requirement: required
+    description: "Path to scan for security issues"
+
+  - key: scan_level
+    input_type: string
+    requirement: optional
+    default: "standard"
+    description: "Security scan depth (basic/standard/comprehensive)"
+
+  - key: include_dependencies
+    input_type: string
+    requirement: optional
+    default: "true"
+    description: "Include dependency vulnerability scanning"
+
+  - key: privacy_focus
+    input_type: string
+    requirement: optional
+    default: "true"
+    description: "Extra focus on privacy-related security issues"
+
+instructions: |
+  You are a security specialist analyzing the zkSDK privacy infrastructure.
+
+  Scan target: {{ scan_path }}
+  Scan level: {{ scan_level }}
+  Check dependencies: {{ include_dependencies }}
+  Privacy focus: {{ privacy_focus }}
+
+  CRITICAL SECURITY AREAS FOR PRIVACY PROTOCOLS:
+
+  1. **Cryptographic Security**
+     - Proper random number generation
+     - Secure key management
+     - No hardcoded secrets
+     - Proper entropy sources
+     - Side-channel attack resistance
+
+  2. **Privacy Leakage**
+     - Transaction metadata exposure
+     - Timing attack vulnerabilities
+     - Memory dumps with sensitive data
+     - Log files exposing private info
+     - Network traffic analysis risks
+
+  3. **Input Validation**
+     - Address validation
+     - Amount bounds checking
+     - Parameter sanitization
+     - SQL/NoSQL injection prevention
+     - Command injection protection
+
+  4. **Smart Contract Security** (if applicable)
+     - Reentrancy vulnerabilities
+     - Integer overflow/underflow
+     - Access control issues
+     - Front-running vulnerabilities
+     - Gas optimization issues
+
+  5. **Dependency Vulnerabilities**
+     {% if include_dependencies == "true" %}
+     - Known CVEs in dependencies
+     - Outdated packages with security issues
+     - Supply chain attack risks
+     - License compliance
+     {% endif %}
+
+  6. **Protocol-Specific Risks**
+     {% if privacy_focus == "true" %}
+     - Zero-knowledge proof implementation flaws
+     - Commitment scheme vulnerabilities
+     - Nullifier management issues
+     - Anonymity set degradation
+     - Correlation attack vectors
+     {% endif %}
+
+  {% if scan_level == "comprehensive" %}
+  COMPREHENSIVE CHECKS:
+  - Static analysis with multiple tools
+  - Dynamic analysis where applicable
+  - Fuzzing critical functions
+  - Formal verification of critical paths
+  - Third-party audit recommendations
+  {% endif %}
+
+  SEVERITY CLASSIFICATION:
+  - CRITICAL: Immediate exploitation possible, privacy breach
+  - HIGH: Significant risk, requires prompt attention
+  - MEDIUM: Should be fixed in next release
+  - LOW: Best practice improvements
+  - INFO: Informational findings
+
+prompt: |
+  Performing security analysis on: {{ scan_path }}
+
+  Focus areas:
+  - Cryptographic implementations
+  - Privacy preservation mechanisms
+  - Input validation and sanitization
+  {% if include_dependencies == "true" %}
+  - Dependency vulnerabilities
+  {% endif %}
+  {% if privacy_focus == "true" %}
+  - Privacy-specific attack vectors
+  {% endif %}
+
+  Generate comprehensive security report with actionable recommendations.
+
+# Automated security checks
+retry:
+  max_retries: 2
+  timeout_seconds: 180
+  checks:
+    - type: shell
+      command: |
+        cd sdk && npm audit --audit-level=high 2>&1 | grep "found 0 high"
+  on_failure: |
+    echo "Security vulnerabilities found. Generating detailed report..."
+    cd sdk && npm audit --json > /tmp/audit-report.json
+
+# Structured security report
+response:
+  json_schema:
+    type: object
+    properties:
+      scan_summary:
+        type: object
+        properties:
+          path_scanned:
+            type: string
+          scan_level:
+            type: string
+          timestamp:
+            type: string
+      vulnerabilities:
+        type: object
+        properties:
+          critical:
+            type: number
+          high:
+            type: number
+          medium:
+            type: number
+          low:
+            type: number
+          info:
+            type: number
+      findings:
+        type: array
+        items:
+          type: object
+          properties:
+            severity:
+              type: string
+              enum: ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]
+            category:
+              type: string
+            file:
+              type: string
+            line_number:
+              type: number
+            vulnerability:
+              type: string
+            description:
+              type: string
+            remediation:
+              type: string
+            cve_id:
+              type: string
+              description: "CVE identifier if applicable"
+      dependency_audit:
+        type: object
+        properties:
+          total_dependencies:
+            type: number
+          vulnerable_dependencies:
+            type: number
+          outdated_dependencies:
+            type: number
+          audit_results:
+            type: array
+            items:
+              type: object
+              properties:
+                package:
+                  type: string
+                severity:
+                  type: string
+                vulnerability:
+                  type: string
+                fix_available:
+                  type: boolean
+      privacy_analysis:
+        type: object
+        properties:
+          privacy_risks_found:
+            type: boolean
+          anonymity_issues:
+            type: array
+            items:
+              type: string
+          data_leakage_risks:
+            type: array
+            items:
+              type: string
+      recommendations:
+        type: array
+        items:
+          type: object
+          properties:
+            priority:
+              type: string
+              enum: ["IMMEDIATE", "HIGH", "MEDIUM", "LOW"]
+            action:
+              type: string
+            rationale:
+              type: string
+      security_score:
+        type: number
+        description: "Overall security score 0-100"
+      requires_immediate_action:
+        type: boolean
+    required:
+      - scan_summary
+      - vulnerabilities
+      - security_score
+      - requires_immediate_action
+
+settings:
+  temperature: 0.1
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+    timeout: 300
+    available_tools:
+      - read_file
+      - run_command
+      - search_files
+
+  - name: web_search
+    type: builtin
+    description: "For checking CVE databases and security advisories"

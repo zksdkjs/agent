@@ -1,0 +1,203 @@
+# 🔒 GOOSE IGNORE - Protected and Excluded Files
+
+# ===========================================
+# SECURITY - Never Include These
+# ===========================================
+
+# Environment variables and secrets
+**/.env
+**/.env.*
+**/secrets.*
+**/credentials.*
+**/*private*
+**/*secret*
+**/private-keys/
+**/mnemonics/
+**/.keys/
+
+# API Keys and Tokens
+**/*apikey*
+**/*api_key*
+**/*token.json
+**/*auth.json
+**/keystore/
+
+# ===========================================
+# BUILD ARTIFACTS - Save Token Usage
+# ===========================================
+
+# Node modules and dependencies
+**/node_modules/
+**/.pnpm-store/
+**/bower_components/
+
+# Build outputs
+**/dist/
+**/build/
+**/out/
+**/.next/
+**/.nuxt/
+**/target/
+
+# Compiled files
+**/*.js.map
+**/*.min.js
+**/*.min.css
+**/*.bundle.js
+
+# ===========================================
+# LARGE FILES - Prevent Context Overload
+# ===========================================
+
+# Backup files
+privacy-agent-backup-*.tar.gz
+*.backup
+*.bak
+*.old
+
+# The goose source code itself (we don't need to analyze it)
+goose/
+
+# Large data files
+**/*.sql
+**/*.db
+**/*.sqlite
+**/data/large/
+
+# Media files
+**/*.mp4
+**/*.mov
+**/*.avi
+**/*.mkv
+**/*.mp3
+**/*.wav
+**/*.jpg
+**/*.jpeg
+**/*.png
+**/*.gif
+**/*.svg
+**/*.pdf
+
+# ===========================================
+# TEMPORARY FILES
+# ===========================================
+
+# OS generated
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-*
+.project
+.classpath
+.settings/
+
+# Logs
+**/*.log
+**/logs/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# ===========================================
+# TEST ARTIFACTS
+# ===========================================
+
+# Coverage reports
+**/coverage/
+**/.nyc_output/
+**/*.lcov
+
+# Test outputs
+**/test-results/
+**/.jest/
+**/__snapshots__/
+
+# ===========================================
+# VERSION CONTROL
+# ===========================================
+
+# Git files (except .gitignore which might have useful patterns)
+.git/
+.gitmodules
+.gitattributes
+
+# Other VCS
+.svn/
+.hg/
+.bzr/
+
+# ===========================================
+# CACHE DIRECTORIES
+# ===========================================
+
+**/.cache/
+**/.parcel-cache/
+**/.turbo/
+**/.webpack-cache/
+**/.eslintcache
+**/.tscache/
+**/.yarn-cache/
+
+# ===========================================
+# DOCUMENTATION ARTIFACTS
+# ===========================================
+
+# Generated docs (keep source .md files)
+docs/_site/
+docs/.jekyll-cache/
+documentation/build/
+api-docs/
+
+# ===========================================
+# PRIVACY-AGENT SPECIFIC
+# ===========================================
+
+# Light Protocol SDK (external dependency)
+privacy-cash-sdk/
+
+# Session data that might be large
+sessions/*.jsonl
+
+# Old reports (keep recent ones)
+reports/archive/
+insights/archive/
+
+# ===========================================
+# EXCEPTIONS - Files to Always Include
+# ===========================================
+
+# Important config files
+!.goose/config.yaml
+!.goose/.goosehints
+!.goose/RULES.md
+!.goose/CLAUDE.md
+
+# Key documentation
+!README.md
+!HOW-IT-WORKS.md
+!QUICK-REFERENCE.md
+
+# Strategy files
+!strategy/active/current.md
+
+# Current work files
+!workspace/current/*.md
+
+# Recipe files
+!.goose/recipes/**/*.yaml
+
+# Source code (TypeScript only, not compiled JS)
+!sdk/packages/**/*.ts
+!sdk/packages/**/*.tsx
+
+# Tests
+!sdk/**/*.test.ts
+!sdk/**/*.spec.ts

@@ -1,0 +1,165 @@
+version: 1.0.0
+title: "Code Quality Analysis Subrecipe"
+description: "Analyzes code quality, standards compliance, and best practices"
+
+# Parameters for quality checks
+parameters:
+  - key: target_path
+    input_type: string
+    requirement: required
+    description: "Path to analyze (file or directory)"
+
+  - key: check_level
+    input_type: string
+    requirement: optional
+    default: "standard"
+    description: "Quality check level (basic/standard/strict)"
+
+  - key: fix_issues
+    input_type: string
+    requirement: optional
+    default: "false"
+    description: "Automatically fix issues where possible (true/false)"
+
+instructions: |
+  You are a code quality specialist analyzing the zkSDK codebase.
+
+  Target: {{ target_path }}
+  Level: {{ check_level }}
+  Auto-fix: {{ fix_issues }}
+
+  Your analysis should cover:
+
+  1. **TypeScript Standards**
+     - Strict mode compliance
+     - Type safety (no 'any' types)
+     - Proper interface definitions
+     - Consistent naming conventions
+
+  2. **Code Structure**
+     - SOLID principles adherence
+     - DRY (Don't Repeat Yourself)
+     - Single responsibility per function/class
+     - Proper abstraction levels
+
+  3. **Documentation**
+     - JSDoc comments for public APIs
+     - README files for packages
+     - Inline comments for complex logic
+     - Type definitions documented
+
+  4. **Testing**
+     - Test coverage analysis
+     - Test quality assessment
+     - Missing test cases identification
+     - Edge case coverage
+
+  5. **Security**
+     - Input validation
+     - Error handling
+     - Sensitive data protection
+     - Dependency vulnerabilities
+
+  {% if check_level == "strict" %}
+  Additional strict checks:
+  - Cyclomatic complexity < 10
+  - Function length < 50 lines
+  - File length < 300 lines
+  - No TODO/FIXME comments
+  - Full JSDoc on all functions
+  {% endif %}
+
+  {% if fix_issues == "true" %}
+  Automatically fix:
+  - Formatting issues
+  - Simple type annotations
+  - Missing semicolons
+  - Import organization
+  {% endif %}
+
+prompt: |
+  Analyzing code quality for: {{ target_path }}
+
+  Perform comprehensive quality analysis and report findings.
+  {% if fix_issues == "true" %}
+  Apply automatic fixes where safe to do so.
+  {% endif %}
+
+# Automated checks
+retry:
+  max_retries: 2
+  timeout_seconds: 120
+  checks:
+    - type: shell
+      command: |
+        cd sdk && npm run lint -- {{ target_path }} 2>&1 | grep -E "error|warning" | wc -l | awk '{if($1 == 0) exit 0; else exit 1}'
+  on_failure: |
+    echo "Linting issues found. Running detailed analysis..."
+    cd sdk && npm run lint -- {{ target_path }} --format=json
+
+# Structured output
+response:
+  json_schema:
+    type: object
+    properties:
+      path_analyzed:
+        type: string
+      total_issues:
+        type: number
+      critical_issues:
+        type: number
+      warnings:
+        type: number
+      issues_by_category:
+        type: object
+        properties:
+          typescript:
+            type: number
+          documentation:
+            type: number
+          testing:
+            type: number
+          security:
+            type: number
+          structure:
+            type: number
+      auto_fixed:
+        type: number
+      recommendations:
+        type: array
+        items:
+          type: object
+          properties:
+            severity:
+              type: string
+              enum: ["critical", "high", "medium", "low"]
+            category:
+              type: string
+            file:
+              type: string
+            line:
+              type: number
+            issue:
+              type: string
+            recommendation:
+              type: string
+      quality_score:
+        type: number
+        description: "Overall quality score 0-100"
+    required:
+      - path_analyzed
+      - total_issues
+      - quality_score
+
+settings:
+  temperature: 0.1
+  max_tokens: 4096
+
+extensions:
+  - name: developer
+    type: builtin
+    available_tools:
+      - read_file
+      - write_file
+      - run_command
+      - search_files

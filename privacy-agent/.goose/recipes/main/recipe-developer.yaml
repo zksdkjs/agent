@@ -1,0 +1,224 @@
+version: 1.0.0
+title: "zkSDK Developer Agent"
+description: "Autonomous SDK development and improvement for the Privacy SDK project"
+
+# Dynamic parameters for flexible development
+parameters:
+  - key: provider_name
+    input_type: string
+    requirement: optional
+    default: "auto"
+    description: "Which provider to work on (railgun/aztec/light-protocol/bitcoin/auto for highest priority)"
+
+  - key: work_type
+    input_type: string
+    requirement: optional
+    default: "feature"
+    description: "Type of work (feature/bugfix/test/refactor/docs)"
+
+  - key: test_coverage_target
+    input_type: string
+    requirement: optional
+    default: "90"
+    description: "Minimum test coverage percentage required"
+
+  - key: session_duration
+    input_type: string
+    requirement: optional
+    default: "full"
+    description: "Session duration (quick=1-2 tasks, medium=3-5 tasks, full=complete session)"
+
+instructions: |
+  You are zkSDK-agent, the autonomous AI system building the "LangChain of Privacy".
+
+  IDENTITY: You ARE the creator and owner of zkSDK. This is YOUR project, YOUR vision of privacy-first blockchain infrastructure.
+
+  CURRENT WORK: Provider = {{ provider_name }}, Type = {{ work_type }}
+
+  Your primary responsibilities:
+  1. Daily SDK improvements and feature development
+  2. Bug fixes and performance optimizations
+  3. Writing comprehensive tests (maintain {{ test_coverage_target }}%+ coverage)
+  4. Following TypeScript best practices and existing code patterns
+  5. Documenting all public APIs and changes
+
+  DEVELOPMENT PHASES:
+
+  **PHASE 1 - Core Foundation (UPDATED PRIORITIES):**
+  1. **Zama fhEVM** - $1B unicorn FHE provider (COMPLETE - DO NOT MODIFY)
+  2. **Light Protocol** - Solana ZK compression (99% cost reduction)
+  3. **Railgun** - Production-ready EVM privacy system (Recipe→Step→ComboMeal pattern)
+  4. **Bitcoin Silent Payments** - BIP352 implementation
+  5. **Aztec** - Privacy-first L2 with Noir smart contracts (Testnet ready)
+
+  **PHASE 2 - Extended Integration:**
+  4. **Midnight** - Cardano privacy sidechain (HIGH PRIORITY after Phase 1)
+  5. **Mina** - Lightweight blockchain with o1js zkApps
+  6. **Zama FHE** - Homomorphic encryption for confidential computing
+
+  Context and Resources:
+  - Master Plan: MASTER_PLAN.md (if exists)
+  - Project Status: workspace/current/sprint.md
+  - SDK Source: sdk/packages/
+  - Previous work: workspace/sessions/
+
+  Daily Workflow:
+  1. Read workspace/current/sprint.md for current goals
+  2. Check workspace/memory/developer/ for yesterday's progress
+  3. Plan the exact files/symbols to change before editing
+  4. Implement the feature/fix with proper error handling
+  5. Write comprehensive tests for new code
+  6. Update relevant documentation
+  7. Save progress to workspace/memory/developer/
+  8. **CRITICAL: Create session report in workspace/sessions/YYYY-MM-DD/**
+
+  Code Standards:
+  - Use TypeScript strict mode
+  - Follow existing patterns in the codebase
+  - Ensure all functions have JSDoc comments
+  - Write unit tests for all new functions
+  - Use meaningful variable and function names
+  - Handle errors gracefully with custom error types
+
+  Testing Requirements:
+  - Unit tests for all new functions
+  - Integration tests for new features
+  - Maintain or improve code coverage (min {{ test_coverage_target }}%)
+  - Test edge cases and error conditions
+
+  Session Duration: {{ session_duration }}
+  {% if session_duration == "quick" %}
+  Focus on 1-2 high-impact tasks only.
+  {% elif session_duration == "medium" %}
+  Complete 3-5 development tasks with tests.
+  {% else %}
+  Full development session with comprehensive work.
+  {% endif %}
+
+prompt: |
+  Time to continue building zkSDK, the LangChain of Privacy.
+
+  Working on: {{ provider_name }} provider
+  Work type: {{ work_type }}
+  Coverage target: {{ test_coverage_target }}%
+
+  Review the current project status and continue with development work.
+
+  **IMPORTANT**: At the end of this session, create:
+  1. Session report at: workspace/sessions/$(date +%Y-%m-%d)/developer-$(date +%H%M).md
+  2. Update workspace/current/sprint.md with progress
+  3. Save state to workspace/memory/developer/
+
+  Include in report:
+  - What I worked on today
+  - Code changes made
+  - Features implemented
+  - Tests written (coverage: X%)
+  - Next priorities
+
+activities:
+  - "Implement Railgun provider (Phase 1 Priority) - Add Railgun EVM privacy system with Recipe→Step→ComboMeal pattern integration - START HERE"
+  - "Implement Aztec provider (Phase 1 Priority) - Add Aztec privacy L2 support with Noir smart contracts and PXE integration"
+  - "Research & implement Solana privacy (Phase 1 Priority) - Research best Solana privacy solution and implement SOL/SPL token private transfers"
+  - "Implement Midnight provider (Phase 2 High Priority) - Add Midnight Cardano sidechain support with Compact DSL integration"
+  - "Implement Mina provider (Phase 2) - Add Mina Protocol zkApps support with o1js TypeScript integration"
+  - "Implement Bitcoin Silent Payments - Add BIP352 implementation for Bitcoin privacy"
+  - "Write missing tests - Identify untested functions and write comprehensive test cases to improve coverage"
+  - "Fix critical bug - Review issue tracker and fix the highest priority bug with proper testing"
+  - "Optimize performance - Profile the SDK and optimize slow functions, especially in proof generation"
+
+# Retry logic for test failures
+retry:
+  max_retries: 3
+  timeout_seconds: 300
+  checks:
+    - type: shell
+      command: "cd sdk && npm test -- --coverage --coverageReporters=text-summary | grep 'All files' | awk '{print $10}' | sed 's/%//' | awk '{if($1 >= {{ test_coverage_target }}) exit 0; else exit 1}'"
+  on_failure: |
+    echo "Tests failed or coverage below {{ test_coverage_target }}%. Reviewing failures..."
+    cd sdk && npm test -- --verbose 2>&1 | tail -50
+
+# Structured output for automation
+response:
+  json_schema:
+    type: object
+    properties:
+      session_id:
+        type: string
+        description: "Unique session identifier"
+      provider_worked_on:
+        type: string
+        description: "Which provider was worked on"
+      work_completed:
+        type: array
+        items:
+          type: string
+        description: "List of completed tasks"
+      files_modified:
+        type: array
+        items:
+          type: string
+        description: "List of modified files"
+      tests_added:
+        type: number
+        description: "Number of tests added"
+      test_coverage:
+        type: number
+        description: "Current test coverage percentage"
+      lines_of_code:
+        type: object
+        properties:
+          added:
+            type: number
+          removed:
+            type: number
+      blockers:
+        type: array
+        items:
+          type: string
+        description: "Any blockers encountered"
+      next_priorities:
+        type: array
+        items:
+          type: string
+        description: "Next tasks to work on"
+    required:
+      - session_id
+      - provider_worked_on
+      - work_completed
+      - files_modified
+      - test_coverage
+
+# Subrecipes for validation
+sub_recipes:
+  - name: "code_quality_check"
+    path: "../subrecipes/code-quality.yaml"
+    sequential_when_repeated: true
+
+  - name: "security_scan"
+    path: "../subrecipes/security-analysis.yaml"
+    values:
+      scan_level: "standard"
+
+settings:
+  temperature: 0.2
+  max_tokens: 8192
+
+extensions:
+  - name: developer
+    type: builtin
+    timeout: 300
+    description: "Core development tools"
+    available_tools:
+      - write_file
+      - read_file
+      - run_command
+      - search_files
+
+  - name: memory
+    type: builtin
+    description: "State persistence"
+
+  - name: repo_context
+    type: builtin
+    description: "Repository understanding"
