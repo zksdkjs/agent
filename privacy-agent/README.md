@@ -2,6 +2,28 @@
 
 > **"One API for private transfers everywhere"** - ETH, SOL, MATIC, and every major blockchain
 
+## 📚 Development Framework V2
+
+**NEW**: We've migrated to Framework V2 for sustainable long-term development.
+
+- 📖 **[HOW-IT-WORKS.md](./HOW-IT-WORKS.md)** - Complete guide to the new structure
+- 🤖 **[.goose/RULES.md](./.goose/RULES.md)** - Rules for AI agents
+- 🎯 **[workspace/current/](./workspace/current/)** - Current work status
+- 📊 **[insights/](./insights/)** - All reports and research
+- 📋 **[strategy/active/](./strategy/active/)** - Current strategy
+
+**Quick Start for Developers**:
+```bash
+# See what we're working on
+cat workspace/current/sprint.md
+
+# Start a new session
+./automation/scripts/start-new-session.sh
+
+# Run PM research
+./automation/scripts/run-pm-research.sh
+```
+
 [![NPM Version](https://img.shields.io/npm/v/@zksdkjs/core.svg)](https://www.npmjs.com/package/@zksdkjs/core)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -193,6 +215,29 @@ zkSDK-agent/
 
 ## 📊 Current Development Status
 
+### 📁 Project Structure (Framework V2)
+
+```
+privacy-agent/
+├── workspace/        # Active development work
+│   ├── current/     # Current sprint & blockers
+│   ├── sessions/    # Daily work sessions
+│   └── memory/      # Agent state
+├── insights/        # Reports & research
+│   ├── daily/       # Daily reports by date
+│   ├── research/    # Market & technical research
+│   └── weekly/      # Weekly summaries
+├── strategy/        # Plans & decisions
+│   ├── active/      # Current strategy
+│   ├── roadmap/     # Future plans
+│   └── decisions/   # Architecture decisions
+├── sdk/             # The actual SDK code
+│   └── packages/    # Provider implementations
+└── automation/      # AI agent system
+    ├── recipes/     # Agent instructions
+    └── scripts/     # Automation tools
+```
+
 ### 🚀 Autonomous Agent Development
 This SDK is being built by AI agents using the Goose framework. Here's the current status:
 
@@ -200,7 +245,7 @@ This SDK is being built by AI agents using the Goose framework. Here's the curre
 |----------|--------|-------|----------|
 | FHEVM (Zama) | ✅ Complete | 927 | Full implementation with encryption |
 | Railgun | 🚧 In Progress | 196 | Recipe→Step→ComboMeal pattern implemented |
-| Light Protocol | ❌ Not Started | 0 | Solana ZK compression |
+| Light Protocol |  | 0 | Solana ZK compression |
 | Aztec | ❌ Not Started | 0 | L2 privacy circuits |
 | Bitcoin | ❌ Not Started | 0 | Silent payments |
 
@@ -247,17 +292,15 @@ You can see agent todos in the logs:
 tail -f logs/*_session.log | grep -E "TODO|TASK|PLAN"
 ```
 
-### 📁 Project Structure
-```
-privacy-agent/
-├── sdk/                    # The actual SDK being built
-│   └── packages/
-│       └── providers/      # Privacy system implementations
-├── recipes/                # Agent instruction sets
-├── memory/                 # Progress tracking
-├── logs/                   # Agent session logs
-└── scripts/                # Automation tools
-```
+### 🔄 How Development Works
+
+1. **Check Current Work**: `workspace/current/sprint.md`
+2. **Run Agents**: `goose run --recipe automation/recipes/[recipe].yaml`
+3. **Agents Create Reports**: Saved to `insights/daily/[date]/`
+4. **Strategy Updates**: `strategy/active/current.md`
+5. **Continue Next Day**: Read `workspace/sessions/[date]/continuation.md`
+
+**See [HOW-IT-WORKS.md](./HOW-IT-WORKS.md) for complete workflow guide.**
 
 
 ## 📦 Package Structure
