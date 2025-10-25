@@ -55,8 +55,7 @@ mkdir -p workspace/hubs
 goose run \
   --recipe .goose/recipes/main/recipe-privacy-cash-researcher.yaml \
   --max-turns 30 \
-  --name "$SESSION_NAME" \
-  --profile privacy-research
+  --name "$SESSION_NAME"
 
 # Check if report was created
 REPORT_DATE=$(date +%Y-%m-%d)

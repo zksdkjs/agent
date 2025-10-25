@@ -118,13 +118,18 @@ cat workspace/sessions/$(date -d yesterday +%Y-%m-%d)/continuation.md
 
 # Run research → product strategy pipeline
 ./automation/scripts/daily-run-strategy.sh
-# → Updates insights/reports + workspace/hubs/research-latest.md
-# → Updates strategy/product/ and workspace/hubs/strategy-hand-off.md
+# → Writes insights/research/pm-market-research-*.md
+# → Refreshes strategy/product/ and workspace/hubs/research-latest.md & strategy-hand-off.md
 
 # Run developer workflow
 ./automation/scripts/daily-run-dev.sh
 # → Calls run-developer.sh, updates workspace/hubs/dev-hand-off.md
 # → Optionally generates daily report
+
+# Publish marketing/blog update (requires ../zk-landing clone)
+DOC_SITE_ROOT=../zk-landing ./automation/scripts/run-doc-site-writer.sh --scope weekly
+# → Creates docs/zksdkjs/updates/*.mdx in zk-landing and updates docs overview
+# → Refreshes workspace/hubs/docs-hand-off.md for downstream review
 ```
 
 ### Evening: Wrap Up
@@ -149,6 +154,7 @@ echo "Tomorrow: Continue with X" >> workspace/sessions/$(date +%Y-%m-%d)/continu
 | Current blockers | `workspace/current/` | `workspace/current/blockers.md` |
 | Agent memory | `workspace/memory/` | `workspace/memory/developer/current_task.md` |
 | Code changes | `sdk/packages/` | `sdk/packages/providers/railgun/` |
+| Marketing update | `../zk-landing/docs/zksdkjs/updates/` | `../zk-landing/docs/zksdkjs/updates/2025-10-24-weekly-update.mdx` |
 | New recipe | `automation/recipes/` | `automation/recipes/recipe-bitcoin-specialist.yaml` |
 
 ## 🤖 For AI Agents: Where to Put Everything
@@ -183,6 +189,9 @@ When starting work, ALWAYS read in this order:
 
 # Generate daily report
 ./automation/scripts/generate-daily-report.sh
+
+# Publish marketing/blog update (requires ../zk-landing clone)
+DOC_SITE_ROOT=../zk-landing ./automation/scripts/run-doc-site-writer.sh --scope weekly
 
 # Run PM market research
 ./automation/scripts/run-pm-research.sh
