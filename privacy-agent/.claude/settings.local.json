@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/saeeddawod/.local/share/goose/sessions/**)",
+      "Bash(chmod:*)",
+      "Bash(bash:*)",
+      "Read(//Users/saeeddawod/Desktop/agent/zk-landing/docs/zksdkjs/updates/**)",
+      "Read(//Users/saeeddawod/Desktop/agent/zk-landing/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(for dir in main specialists subrecipes utilities)",
+      "Bash(do echo \"=== .goose/recipes/$dir ===\")",
+      "Bash(ls:*)",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -16,6 +16,7 @@ zkSDK/
 │   │   ├── railgun/       # Railgun integration (primary provider)
 │   │   ├── aztec/         # Aztec integration (secondary provider)
 │   │   └── ...            # Other privacy systems
+│   ├── wallet-connect/    # Unified wallet interface (zkWalletConnect)
 │   ├── recipes/           # Pre-built privacy patterns
 │   └── cli/               # Command-line interface
 ├── docs/                  # Documentation
@@ -36,3 +37,6 @@ Pre-built patterns combining operations for common use cases.
 
 ### 4. Steps (Like LangChain Prompts)
 Atomic units of privacy operations.
+
+### 5. Wallet Connect (Like WalletConnect for Privacy)
+Unified wallet interface that makes it easy to connect to any privacy provider.

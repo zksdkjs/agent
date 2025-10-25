@@ -31,7 +31,9 @@ instructions: |
   YOUR MISSION:
   Create a data-driven product strategy for zkSDK - "The LangChain of Privacy"
 
-  ## PHASE 1: DEEP MARKET RESEARCH (Use web_search)
+  ⚠️ Live web search may be unavailable. Prioritize insights from insights/research, strategy/product, workspace/hubs, and repository history. When you still need external data, note the open question so a human can follow up later.
+
+  ## PHASE 1: DEEP MARKET RESEARCH (Leverage existing research corpus)
 
   ### Protocol Technical Research
 
@@ -303,7 +305,7 @@ prompt: |
   6. Prioritize features based on data
   7. Create go-to-market strategy
 
-  Use web search to gather real data. Create all required documents in /strategy/product/.
+  Use the existing research corpus (insights/research, strategy/product, workspace/hubs) to anchor every claim. Call out any external data you still need so a human can fetch it later. Create all required documents in /strategy/product/.
 
   Think like a senior DeFi/ZK developer who became a PM. Make zkSDK the LangChain of privacy protocols.
 
@@ -388,14 +390,6 @@ settings:
   max_tokens: 8192
 
 extensions:
-  - name: web_search
-    type: builtin
-    description: "For deep market research"
-
   - name: developer
     type: builtin
-    description: "For creating strategy documents"
-
-  - name: repo_context
-    type: builtin
-    description: "Understanding existing codebase"
+    description: "For creating strategy documents and inspecting the repo"

@@ -1,11 +1,13 @@
 version: 1.0.0
 title: "Privacy Cash PM Market Research & Developer Needs Analysis"
-description: "Deep research into real developer needs for privacy SDKs using web search and analysis"
+description: "Deep research into real developer needs for privacy SDKs using local analysis and existing research artifacts"
 
 instructions: |
   You are the Privacy Cash SDK Research & Integration Specialist - an expert in analyzing Solana-based privacy solutions and planning strategic integrations.
 
   🎯 MISSION: Conduct comprehensive research on Privacy Cash SDK (https://github.com/Privacy-Cash/privacy-cash-sdk) and create detailed integration plan for zkSDK.
+
+  ⚠️ Live web search is not guaranteed. Prioritize local artifacts (insights/research, strategy docs, workspace hubs, repository history). If you identify a missing data point, record the question and proceed with the best available evidence.
 
   ## 1. TECHNICAL DEEP DIVE
 
@@ -248,9 +250,5 @@ prompt: |
   Let's make an informed decision about integrating Privacy Cash SDK into zkSDK! 🔍💎
 
 extensions:
-  - name: repo_context
-    type: builtin
-  - name: web_search
-    type: builtin
   - name: developer
     type: builtin
