@@ -12,7 +12,7 @@
 | **Railgun** | Shielded pools (ZK proofs) | EVM private transfers | Ethereum, Polygon, Arbitrum, BSC | ✅ Ready | ✅ Yes (Mainnet) |
 | **Aztec** | ZK-rollup with encrypted contracts | L2 privacy + private smart contracts | Aztec Testnet → Ethereum L1 | ✅ Ready | ⚠️ Testnet only |
 | **FHEVM** | Fully homomorphic encryption | Encrypted state/computation | Zama devnet | ✅ Ready | ⚠️ Devnet only |
-| **Light Protocol** | ZK compression | 99% cost reduction on Solana | Solana Mainnet | ⚠️ In Progress | 🔜 Soon |
+| **Privacy Cash** | ? | ?| Solana Mainnet | ⚠️ In Progress | 🔜 Soon |
 | **Bitcoin** | Silent Payments (BIP352) | Bitcoin privacy | Bitcoin Mainnet | ⚠️ In Progress | 🔜 Soon |
 
 ---
