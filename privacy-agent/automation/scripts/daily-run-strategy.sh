@@ -114,7 +114,7 @@ fi
 echo "✅ Sprint pipeline finished."
 echo ""
 echo "Next steps:"
-echo "  • Review market research: reports/pm-market-research-$(date +%Y-%m-%d).md (if generated)"
+echo "  • Review market research: insights/research/pm-market-research-$(date +%Y-%m-%d).md (if generated)"
 echo "  • Check strategy outputs in strategy/product/"
 echo "  • Update sprint notes in workspace/current/sprint.md"
 

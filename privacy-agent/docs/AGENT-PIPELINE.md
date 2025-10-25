@@ -23,7 +23,7 @@ This file is the single source of truth for how the folders, scripts, recipes, a
 | `workspace/memory/` | Canonical agent memory/state | Role-specific recipes | Agents & humans | Persistent notes for agents; maintain here even though context builder does not auto-include it. |
 | `memory/` | Legacy copy of agent memory | — | — | Duplicate of `workspace/memory/`; archive or remove after migration. |
 | `knowledge/` | Future knowledge base | — | — | Currently empty; decide whether to populate or archive. |
-| `reports/` | Legacy research drop zone | Humans | `run-pm-research.sh` | Still receiving PM reports—migrate to `insights/` before deleting. |
+| `reports/` | Deprecated research drop zone | — | — | No longer written; archive after moving any historical files into `insights/`. |
 | `plans/` | Duplicate of `strategy/roadmap/` | — | — | Same files/size; remove once references move to roadmap. |
 | `sdk/` | TypeScript workspace (core & providers) | Developer/tester agents | Developer/tester agents | Tests under `sdk/packages/**/__tests__`; builds with `npm run build`. |
 | `examples/` | Example integrations | Docs/examples agents | `run-example-writer.sh`, humans | Mirrors SDK usage scenarios. |
@@ -33,7 +33,8 @@ This file is the single source of truth for how the folders, scripts, recipes, a
 ### Directory Status Snapshot
 
 - **Active**: `.goose/`, `automation/scripts/`, `automation/recipes/`, `docs/`, `insights/daily/`, `strategy/*`, `workspace/*`, `sdk/`, `examples/`.
-- **Legacy (read-only but still referenced)**: `reports/` (until PM research output migrates), `defi_research/`.
+- **Legacy (read-only but still referenced)**: `defi_research/`.
+- **Deprecated**: `reports/` (no active writers; archive when convenient).
 - **Duplicate / needs decision**: `plans/` (same content as `strategy/roadmap/`), `memory/` (legacy copy of `workspace/memory/`).
 - **Unassigned**: `knowledge/` (empty placeholder) — either populate with vetted guides or archive.
 - **Vendor clones**: `privacy-cash-sdk/`, `goose/` — consider submodules or relocating outside the repo to reduce footprint.
@@ -43,11 +44,12 @@ This file is the single source of truth for how the folders, scripts, recipes, a
 | Script | Primary Recipe | Role | Reads | Writes |
 |--------|----------------|------|-------|--------|
 | `automation/scripts/prepare-context.sh` | — | Context builder | `workspace/current/*`, latest `workspace/sessions/*/continuation.md`, `workspace/hubs/*.md`, `strategy/active/current.md` | `.goose/data/context/current-session.md` |
-| `automation/scripts/run-pm-research.sh` | `.goose/recipes/main/recipe-privacy-cash-researcher.yaml` | Research agent | Context bundle, `.goose/.goosehints` | `reports/pm-market-research-*.md`, `workspace/hubs/research-latest.md`, `workspace/hubs/pipeline-log.md` |
+| `automation/scripts/run-pm-research.sh` | `.goose/recipes/main/recipe-privacy-cash-researcher.yaml` | Research agent | Context bundle, `.goose/.goosehints` | `insights/research/pm-market-research-*.md`, `workspace/hubs/research-latest.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/run-product-manager.sh` | `.goose/recipes/main/recipe-product-manager.yaml` | Product strategy agent | Context bundle, research hand-off | `strategy/product/*.md`, `workspace/hubs/strategy-hand-off.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/run-developer.sh` | `.goose/recipes/main/recipe-developer.yaml` | Implementation agent | Context bundle, strategy hand-off, `sdk/` | `sdk/**`, `workspace/sessions/YYYY-MM-DD/`, `workspace/hubs/dev-hand-off.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/run-test-writer.sh` | `.goose/recipes/main/recipe-tester.yaml` | Testing agent | Context bundle, provider src/tests | `sdk/packages/**/__tests__`, `workspace/memory/tester/*` |
 | `automation/scripts/run-example-writer.sh` | `.goose/recipes/main/recipe-frontend-integration-examples.yaml` | Docs/examples agent | Context bundle, `sdk/` | `sdk/examples/**`, (update `workspace/hubs/docs-hand-off.md` manually) |
+| `automation/scripts/run-doc-site-writer.sh` | `.goose/recipes/main/recipe-doc-site-writer.yaml` | Marketing/docs agent | Context bundle, hub hand-offs, strategy/product | `../zk-landing/docs/zksdkjs/updates/*.mdx`, `../zk-landing/docs/zksdkjs/*.md`, `workspace/hubs/docs-hand-off.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/generate-daily-report.sh` | `.goose/recipes/utilities/recipe-session-reporter.yaml` | Summary agent | `workspace/sessions/` | `insights/daily/YYYY/MM/DD/*` |
 | `automation/scripts/daily-run-strategy.sh` | (calls research & PM scripts) | Pipeline wrapper | — | Orchestrates stages 1–2, appends to pipeline log |
 | `automation/scripts/daily-run-dev.sh` | (calls developer + optional report) | Pipeline wrapper | — | Orchestrates stage 3 (+ report), appends to pipeline log |
@@ -83,7 +85,7 @@ graph TD
     CONTEXT --> DEV[daily-run-dev.sh → run-developer.sh]
 
     PMR -->|handoff| HUBR[workspace/hubs/research-latest.md]
-    PMR -->|report (legacy)| REPORTS[reports/pm-market-research-YYYY-MM-DD.md]
+    PMR -->|research report| INSRESEARCH[insights/research/pm-market-research-YYYY-MM-DD.md]
     PMR --> PIPELOG[workspace/hubs/pipeline-log.md]
     HUBR --> PM
 
@@ -101,12 +103,18 @@ graph TD
     REPORT -->|daily summary| INSIGHTS[insights/daily/YYYY/MM/DD/daily-summary.md]
     REPORT --> PIPELOG
 
-    HUBD --> DOCSAGENTS[run-example-writer.sh / run-test-writer.sh]
+    HUBD --> DOCSAGENTS[Docs & Examples<br/>run-example-writer.sh<br/>run-test-writer.sh]
     HUBS --> DOCSAGENTS
     DOCSAGENTS -->|docs & examples| DOCOUT[docs/, sdk/examples/]
     DOCSAGENTS -->|insights| INSIGHTS
     DOCSAGENTS -->|hand-off| HUBDOC[workspace/hubs/docs-hand-off.md]
     DOCSAGENTS --> PIPELOG
+
+    HUBS --> DOCSITE[Doc Site Writer<br/>run-doc-site-writer.sh]
+    HUBD --> DOCSITE
+    DOCSITE -->|marketing updates| EXT[../zk-landing/docs/zksdkjs/**]
+    DOCSITE -->|hand-off| HUBDOC
+    DOCSITE --> PIPELOG
 ```
 
 All pipeline stages append a breadcrumb to `workspace/hubs/pipeline-log.md`, making it easy to audit which automation ran most recently.
@@ -122,8 +130,7 @@ All pipeline stages append a breadcrumb to `workspace/hubs/pipeline-log.md`, mak
 - **Script:** `automation/scripts/run-pm-research.sh` (or `daily-run-strategy.sh` step 1).
 - **Inputs:** Context bundle, `.goose/recipes/main/recipe-privacy-cash-researcher.yaml`.
 - **Outputs:**
-  - `reports/pm-market-research-YYYY-MM-DD.md` – current canonical report (legacy location until migration to `insights/research/`).
-  - `insights/research/` – optional deep-dive summaries when generated manually.
+  - `insights/research/pm-market-research-YYYY-MM-DD.md` – canonical research report.
   - `workspace/hubs/research-latest.md` – summary + preview for downstream agents.
   - `workspace/hubs/pipeline-log.md` – timestamped entry (`pm-research ...`).
 - **Follow-up:** Product Manager agent reads the hub file to incorporate the latest findings.
@@ -150,12 +157,12 @@ All pipeline stages append a breadcrumb to `workspace/hubs/pipeline-log.md`, mak
   - Pipeline breadcrumb (`developer ...`) in `workspace/hubs/pipeline-log.md`.
 - **Hand-off:** Update `workspace/current/sprint.md` and continuation files per `.goose/RULES.md`.
 
-## Stage 4 – Docs, Blog, and Social Agents
+## Stage 4 – Documentation, Blog, and Marketing Agents
 
-- **Scripts:** `automation/scripts/run-example-writer.sh`, `automation/scripts/run-test-writer.sh`, plus custom Goose runs.
-- **Inputs:** Strategy hand-off + dev hand-off hub files.
-- **Outputs:** Documentation in `docs/`, examples in `sdk/examples/`, content in `insights/daily/...`, and status notes appended to `workspace/hubs/docs-hand-off.md`.
-- **Reminder:** Drop any external-facing summary (tweets, blog drafts) into `insights/daily/` following the date structure.
+- **Scripts:** `automation/scripts/run-example-writer.sh`, `automation/scripts/run-test-writer.sh`, `automation/scripts/run-doc-site-writer.sh`, plus custom Goose runs.
+- **Inputs:** Strategy & development hand-off files, context bundle, and when relevant the cloned `../zk-landing` repository.
+- **Outputs:** Documentation in `docs/`, examples in `sdk/examples/`, marketing posts in `../zk-landing/docs/zksdkjs/updates/`, refreshed copy in `../zk-landing/docs/zksdkjs/*.md`, and status notes appended to `workspace/hubs/docs-hand-off.md`.
+- **Reminder:** Keep `../zk-landing/docs/zkthings/**` untouched; all marketing updates belong under the `zksdkjs` section. Drop any external-facing summary (tweets, blog drafts) into `insights/daily/` following the date structure.
 
 ## Stage 5 – Reporting & Continuity
 
@@ -167,18 +174,21 @@ All pipeline stages append a breadcrumb to `workspace/hubs/pipeline-log.md`, mak
 
 - **Full strategy pass:** `automation/scripts/daily-run-strategy.sh`
 - **Developer focus:** `automation/scripts/daily-run-dev.sh -- [developer args]`
+- **Docs/blog refresh:** `DOC_SITE_ROOT=../zk-landing ./automation/scripts/run-doc-site-writer.sh --scope weekly`
 - **Manual steps:** You can still call `run-pm-research.sh`, `run-product-manager.sh`, or `run-developer.sh` individually; each script refreshes the context bundle and hub files before launching Goose.
 
 Keep the hub files tidy: every script overwrites its own hand-off file so the next agent always sees the latest state. If you add a new specialist (QA, marketing, etc.), give it a dedicated hub file in `workspace/hubs/` and update `prepare-context.sh` to include it in the context packet.
 
 ## Cleanup & Directory Decisions
 
-- **Move research reports**: Update `automation/scripts/run-pm-research.sh` (and wrappers) to publish under `insights/research/` or dated `insights/daily/` folders, then retire `reports/`.
+- **Archive `reports/`**: Move any historic markdowns into `insights/research/` (if not already migrated) and remove the empty folder.
 - **Consolidate plans**: Point any documents or scripts to `strategy/roadmap/` and remove the duplicate `plans/` directory once references are updated.
 - **Canonical memory**: Keep `workspace/memory/` as the only writable memory tree; archive or delete the root-level `memory/` after confirming no recipes read it.
 - **Decide on `knowledge/`**: Either seed it with curated references or archive it to reduce tree noise.
 - **Vendor repositories**: Evaluate converting `privacy-cash-sdk/` and `goose/` to Git submodules or relocating them outside the main workspace to shrink the repo footprint.
 - After any move, rerun `automation/scripts/prepare-context.sh` so `.goose/data/context/current-session.md` reflects the new layout.
+
+> **Note:** The doc-site writer expects the marketing repo to live at `../zk-landing`. Adjust the `DOC_SITE_ROOT` environment variable or `--site-root` flag if you keep it elsewhere.
 
 ## Quick Checklist Before Running Agents
 

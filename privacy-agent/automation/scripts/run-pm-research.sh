@@ -60,7 +60,9 @@ goose run \
 
 # Check if report was created
 REPORT_DATE=$(date +%Y-%m-%d)
-REPORT_PATH="$WORKSPACE/reports/pm-market-research-$REPORT_DATE.md"
+RESEARCH_DIR="$WORKSPACE/insights/research"
+mkdir -p "$RESEARCH_DIR"
+REPORT_PATH="$RESEARCH_DIR/pm-market-research-$REPORT_DATE.md"
 
 if [ -f "$REPORT_PATH" ]; then
     echo ""
@@ -71,20 +73,20 @@ if [ -f "$REPORT_PATH" ]; then
     head -20 "$REPORT_PATH"
     echo ""
     echo "To view full report: cat $REPORT_PATH"
-    echo "To continue development: Check reports/session-continuation-$REPORT_DATE.md"
+    echo "To continue development: review workspace/hubs/research-latest.md and workspace/sessions/$(date +%Y-%m-%d)/"
 
     {
       echo "# Research Hand-off"
       echo "Run: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
       echo "Session: $SESSION_NAME"
       echo "Recipe: .goose/recipes/main/recipe-privacy-cash-researcher.yaml"
-      echo "Report: reports/pm-market-research-$REPORT_DATE.md"
+      echo "Report: insights/research/pm-market-research-$REPORT_DATE.md"
       echo ""
       echo "## Preview"
       head -20 "$REPORT_PATH"
     } > workspace/hubs/research-latest.md
 
-    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") pm-research $SESSION_NAME reports/pm-market-research-$REPORT_DATE.md" >> workspace/hubs/pipeline-log.md
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") pm-research $SESSION_NAME insights/research/pm-market-research-$REPORT_DATE.md" >> workspace/hubs/pipeline-log.md
 else
     echo ""
     echo "⚠️  Report not found. Check session logs:"
