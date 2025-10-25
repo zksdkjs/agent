@@ -13,7 +13,7 @@ echo "3. Study Aztec production applications"
 echo "4. Create comprehensive market research report"
 echo "5. Update strategy based on findings"
 echo ""
-echo "Starting research agent with web search capabilities..."
+echo "Starting research agent with the current research corpus..."
 echo ""
 
 # Set up environment
@@ -25,7 +25,7 @@ export WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
 # Create session name with timestamp
 SESSION_NAME="pm_research_$(date +%Y%m%d_%H%M%S)"
 
-# Run the PM research recipe with web search
+# Run the PM research recipe against the latest local context
 if ! command -v goose >/dev/null 2>&1; then
   echo "❌ goose CLI not found. Install it or add it to your PATH."
   exit 1
