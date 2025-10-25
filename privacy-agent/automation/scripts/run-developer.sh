@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run zkSDK Developer Agent with Goose Best Practices
 
-set -e
+set -euo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -15,7 +15,8 @@ echo "================================================"
 echo ""
 
 # Get workspace root
-WORKSPACE="/Users/saeeddawod/Desktop/agent/privacy-agent"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$WORKSPACE"
 
 # Parse command line arguments
@@ -53,14 +54,22 @@ echo ""
 SESSION_NAME="developer_$(date +%Y%m%d_%H%M%S)"
 
 # Set environment variables
-export GOOSE_MODEL="${GOOSE_MODEL:-claude-3-sonnet-20241022}"
-export GOOSE_PROVIDER="${GOOSE_PROVIDER:-anthropic}"
+export GOOSE_MODEL="${GOOSE_MODEL:-qwen/qwen3-coder-plus}"
+export GOOSE_PROVIDER="${GOOSE_PROVIDER:-openrouter}"
 export GOOSE_TEMPERATURE="${GOOSE_TEMPERATURE:-0.2}"
 export GOOSE_MAX_TURNS="${GOOSE_MAX_TURNS:-50}"
 
 # Create session directory
 SESSION_DIR="workspace/sessions/$(date +%Y-%m-%d)"
 mkdir -p "$SESSION_DIR"
+mkdir -p workspace/hubs
+
+if [[ "$GOOSE_PROVIDER" == "anthropic" || "$GOOSE_MODEL" == claude* ]]; then
+    if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+        echo -e "${YELLOW}Warning:${NC} ANTHROPIC_API_KEY not set but Anthropic provider selected."
+        echo "         Run 'goose configure' or export the key before continuing."
+    fi
+fi
 
 echo -e "${BLUE}Starting Developer Session: $SESSION_NAME${NC}"
 echo "Model: $GOOSE_MODEL"
@@ -69,6 +78,11 @@ echo ""
 
 # Run goose with the developer recipe and parameters
 echo -e "${GREEN}Launching Goose Developer Agent...${NC}"
+
+# Refresh shared context so the agent reads the latest plan
+if [ -x "automation/scripts/prepare-context.sh" ]; then
+    automation/scripts/prepare-context.sh
+fi
 
 goose run \
     --recipe "$RECIPE_PATH" \
@@ -86,15 +100,25 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo -e "${GREEN}✅ Development session completed successfully!${NC}"
 
     # Check for session report
-    REPORT_FILE="$SESSION_DIR/developer-*.md"
-    if ls $REPORT_FILE 1> /dev/null 2>&1; then
+    shopt -s nullglob
+    REPORT_FILES=("$SESSION_DIR"/developer-*.md)
+    shopt -u nullglob
+    if [ ${#REPORT_FILES[@]} -gt 0 ]; then
+        LATEST_REPORT="${REPORT_FILES[0]}"
+        for candidate in "${REPORT_FILES[@]}"; do
+            if [ "$candidate" -nt "$LATEST_REPORT" ]; then
+                LATEST_REPORT="$candidate"
+            fi
+        done
         echo ""
         echo -e "${BLUE}📊 Session Report Summary:${NC}"
         echo "----------------------------"
-        head -20 $REPORT_FILE
+        head -20 "$LATEST_REPORT"
         echo "..."
         echo ""
-        echo -e "Full report: ${YELLOW}$REPORT_FILE${NC}"
+        echo -e "Full report: ${YELLOW}$LATEST_REPORT${NC}"
+    else
+        LATEST_REPORT=""
     fi
 
     # Check test coverage if available
@@ -109,9 +133,36 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo ""
     echo -e "${BLUE}📋 Next Steps:${NC}"
     echo "1. Review session report: workspace/sessions/$(date +%Y-%m-%d)/"
-    echo "2. Check updated sprint: workspace/current/sprint.md"
-    echo "3. Review any blockers: workspace/current/blockers.md"
+    echo "2. Update development hand-off: workspace/hubs/dev-hand-off.md"
+    echo "3. Review blockers: workspace/current/blockers.md"
     echo "4. Continue with: goose session --resume --name $SESSION_NAME"
+
+    {
+        cat <<EOF
+# Development Hand-off
+Run: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+Session: $SESSION_NAME
+Provider Target: $PROVIDER
+Work Type: $WORK_TYPE
+Coverage Target: $COVERAGE%
+
+## Session Log
+EOF
+        if [ -n "$LATEST_REPORT" ] && [ -f "$LATEST_REPORT" ]; then
+            rel_path="${LATEST_REPORT#./}"
+            echo "- Report: ${rel_path:-$LATEST_REPORT}"
+            echo ""
+            head -n 15 "$LATEST_REPORT"
+        else
+            echo "(no session report found)"
+        fi
+        echo ""
+        echo "## Next Actions"
+        echo "- Review sprint priorities: workspace/current/sprint.md"
+        echo "- Update continuation if additional work is required."
+    } > workspace/hubs/dev-hand-off.md
+
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") developer $SESSION_NAME workspace/sessions/$(date +%Y-%m-%d)" >> workspace/hubs/pipeline-log.md
 else
     echo ""
     echo -e "${RED}❌ Development session encountered issues (exit code: $EXIT_CODE)${NC}"

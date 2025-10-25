@@ -2,15 +2,15 @@
 
 > **"One API for private transfers everywhere"** - ETH, SOL, MATIC, and every major blockchain
 
-## 📚 Development Framework V2
+##  Development Framework V2
 
 **NEW**: We've migrated to Framework V2 for sustainable long-term development.
 
-- 📖 **[HOW-IT-WORKS.md](./HOW-IT-WORKS.md)** - Complete guide to the new structure
-- 🤖 **[.goose/RULES.md](./.goose/RULES.md)** - Rules for AI agents
-- 🎯 **[workspace/current/](./workspace/current/)** - Current work status
-- 📊 **[insights/](./insights/)** - All reports and research
-- 📋 **[strategy/active/](./strategy/active/)** - Current strategy
+-  **[HOW-IT-WORKS.md](./HOW-IT-WORKS.md)** - Complete guide to the new structure
+-  **[.goose/RULES.md](./.goose/RULES.md)** - Rules for AI agents
+-  **[workspace/current/](./workspace/current/)** - Current work status
+-  **[insights/](./insights/)** - All reports and research
+-  **[strategy/active/](./strategy/active/)** - Current strategy
 
 **Quick Start for Developers**:
 ```bash
@@ -28,7 +28,7 @@ cat workspace/current/sprint.md
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 The Problem
+##  The Problem
 
 Developers want to add privacy to token transfers but face a fragmented landscape:
 
@@ -39,7 +39,7 @@ Developers want to add privacy to token transfers but face a fragmented landscap
 
 **Result**: Privacy remains accessible only to advanced teams, limiting adoption across Web3.
 
-## ✨ The Solution
+##  The Solution
 
 **zkSDK provides one simple API for private transfers across every major blockchain:**
 
@@ -85,13 +85,13 @@ await zkSDK.transfer({
 - **Avalanche C-Chain** (AVAX + ERC20)
 - **BSC** (BNB + BEP20 tokens)
 
-### **Phase 2: Alt-Chain Expansion** 🔄
+### **Phase 2: Alt-Chain Expansion** 
 - **Solana** (SOL + SPL tokens)
 - **Cardano** (ADA + native tokens)
 - **Cosmos** (ATOM + IBC tokens)
 - **Polkadot** (DOT + parachain tokens)
 
-### **Phase 3: Everything Else** 🔮
+### **Phase 3: Everything Else** 
 - **New L1s** as they launch
 - **New L2s** on any chain
 - **Cross-chain** private bridges
@@ -101,18 +101,18 @@ await zkSDK.transfer({
 
 **zkSDK is developed by zkSDK-agent, a strategic AI system with 7 specialized agents:**
 
-### **🧠 Chief Strategy Officer**
+### ** Chief Strategy Officer**
 - **Strategic planning** and project coordination
 - **Market intelligence** and competitive analysis  
 - **Cross-agent coordination** and priority setting
 
-### **👨‍💻 Developer Agent (24/7 Coding)**
+### **👨 Developer Agent (24/7 Coding)**
 - **Implements** Railgun, Aztec, Solana privacy providers
 - **Writes comprehensive tests** for all integrations
 - **Creates daily development summaries** for social content
 - **Command**: `goose run --recipe recipe-developer.yaml --max-turns 10`
 
-### **📱 Social Agent (Content Creator)**
+### ** Social Agent (Content Creator)**
 - **Daily Twitter threads** from development summaries (`outputs/social/dev_summary_*.md`)
 - **Weekly blog posts** aggregating all logs, sessions, and progress
 - **Technical tutorials** for new features implemented by Developer Agent
@@ -126,22 +126,22 @@ await zkSDK.transfer({
 - Generates tutorials based on actual code implementations
 - Produces weekly progress reports for the community
 
-### **🔍 Research & Intelligence Agent**
+### ** Research & Intelligence Agent**
 - **Researches** new privacy protocols across all chains
 - **Competitive analysis** and market trend identification
 - **Technology evaluation** and integration recommendations
 
-### **📈 Marketing & Growth Agent**
+### ** Marketing & Growth Agent**
 - **Developer adoption strategies** and outreach campaigns
 - **Market analysis** and positioning optimization
 - **Growth metrics** and community building
 
-### **🧪 Tester Agent**
+### **Tester Agent**
 - **Quality assurance** and comprehensive testing
 - **Performance benchmarking** and security auditing
 - **Test coverage** improvement and edge case testing
 
-### **⚙️ Release & Operations Agent**
+### ** Release & Operations Agent**
 - **Release management** and deployment coordination
 - **Operational excellence** and performance monitoring
 - **Enterprise support** and customer success
@@ -252,19 +252,20 @@ This SDK is being built by AI agents using the Goose framework. Here's the curre
 ### 🤖 Running the Autonomous Development
 
 ```bash
-# Check current implementation status
-./check-real-status.sh
+# Refresh shared context for agents
+./automation/scripts/prepare-context.sh
 
-# Run continuous development (recommended)
-./run-forever.sh
-# Press Ctrl+C to pause, run again to resume from exact same point
+# Run research → product strategy pipeline
+./automation/scripts/daily-run-strategy.sh
 
-# Run for 1 hour focused session
-./smart-continue-real-hour.sh
+# Run developer workflow (adds dev hand-off + optional report)
+./automation/scripts/daily-run-dev.sh
 
-# Work on specific provider
-./launch-strategic-system.sh railgun
+# Generate end-of-day summary
+./automation/scripts/generate-daily-report.sh
 ```
+
+Legacy orchestrators from Framework V1 are archived in `automation/scripts/legacy/` if you need to reference the old flow.
 
 ### 🧠 How the AI Agents Work
 
@@ -299,6 +300,8 @@ tail -f logs/*_session.log | grep -E "TODO|TASK|PLAN"
 3. **Agents Create Reports**: Saved to `insights/daily/[date]/`
 4. **Strategy Updates**: `strategy/active/current.md`
 5. **Continue Next Day**: Read `workspace/sessions/[date]/continuation.md`
+
+> For a visual map of the multi-agent flow and file hand-offs, see [`docs/AGENT-PIPELINE.md`](docs/AGENT-PIPELINE.md).
 
 **See [HOW-IT-WORKS.md](./HOW-IT-WORKS.md) for complete workflow guide.**
 
@@ -467,32 +470,6 @@ zkSDK development is primarily autonomous, but human contributions are welcome:
 - Contribute to security audits and reviews
 - Share performance optimization insights
 - Collaborate on academic research
-
-## 📊 Roadmap
-
-### **Q1 2025: EVM Dominance**
-- ✅ Ethereum, Polygon, Arbitrum, Optimism support
-- ✅ Major ERC20 token support (USDC, WETH, etc.)
-- ✅ Gas optimization and batching
-- 🔄 Base, Avalanche, BSC integration
-
-### **Q2 2025: Multi-Chain Expansion**
-- 🔄 Solana integration (SOL + SPL tokens)
-- ⏳ Cardano integration (ADA + native tokens)  
-- ⏳ Cross-chain private transfers
-- ⏳ Mobile SDK for React Native
-
-### **Q3 2025: Enterprise Features**
-- ⏳ Compliance-friendly privacy modes
-- ⏳ Enterprise API with SLA guarantees
-- ⏳ Advanced analytics and reporting
-- ⏳ Professional services and support
-
-### **Q4 2025: Ecosystem Dominance**
-- ⏳ 20+ blockchain integrations
-- ⏳ DeFi protocol partnerships
-- ⏳ Wallet integrations (MetaMask, Phantom, etc.)
-- ⏳ Developer grant program
 
 ## 🏢 Built by zksdk.dev
 

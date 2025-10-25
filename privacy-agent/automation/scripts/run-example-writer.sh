@@ -6,7 +6,8 @@ echo "📚 zkSDK Example Writer"
 echo "======================="
 echo ""
 
-cd /Users/saeeddawod/Desktop/agent/privacy-agent
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 mkdir -p memory/examples
 
@@ -72,5 +73,4 @@ goose session start \
 echo ""
 echo "✅ Examples created!"
 echo "📁 Check: sdk/examples/"
-
 

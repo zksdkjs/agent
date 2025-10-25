@@ -21,6 +21,8 @@
 # Start your day
 cat workspace/current/sprint.md                    # See current goals
 ./automation/scripts/start-new-session.sh          # Start work session
+./automation/scripts/daily-run-strategy.sh        # Run PM research + strategy hand-off
+./automation/scripts/daily-run-dev.sh             # Run dev flow + optional report
 
 # During work
 ./automation/scripts/run-pm-research.sh            # Run market research

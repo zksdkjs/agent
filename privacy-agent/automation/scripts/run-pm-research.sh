@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run PM Market Research for Privacy SDK
 
-set -e
+set -euo pipefail
 
 echo "🔬 Starting PM Market Research for Privacy SDK"
 echo "================================================"
@@ -18,25 +18,45 @@ echo ""
 
 # Set up environment
 export GOOSE_MODEL="${GOOSE_MODEL:-qwen/qwen3-coder-plus}"
-export WORKSPACE="/Users/saeeddawod/Desktop/agent/privacy-agent"
+export GOOSE_PROVIDER="${GOOSE_PROVIDER:-openrouter}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Create session name with timestamp
 SESSION_NAME="pm_research_$(date +%Y%m%d_%H%M%S)"
 
 # Run the PM research recipe with web search
+if ! command -v goose >/dev/null 2>&1; then
+  echo "❌ goose CLI not found. Install it or add it to your PATH."
+  exit 1
+fi
+
+if [[ "${GOOSE_PROVIDER:-}" == "anthropic" || "${GOOSE_MODEL:-}" == claude* ]]; then
+  if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+    echo "⚠️  ANTHROPIC_API_KEY not set. goose may fail without configured Anthropic credentials."
+    echo "    Run 'goose configure' or export the key before retrying."
+  fi
+fi
+
 echo "🚀 Launching PM Research Agent: $SESSION_NAME"
 echo "Model: $GOOSE_MODEL"
 echo ""
 
 cd "$WORKSPACE"
 
+# Refresh shared context before launching the agent
+if [ -x "automation/scripts/prepare-context.sh" ]; then
+  automation/scripts/prepare-context.sh
+fi
+
+mkdir -p workspace/hubs
+
 # Run with increased turns for thorough research
 goose run \
   --recipe .goose/recipes/main/recipe-privacy-cash-researcher.yaml \
   --max-turns 30 \
   --name "$SESSION_NAME" \
-  --profile privacy-research \
-  --verbose
+  --profile privacy-research
 
 # Check if report was created
 REPORT_DATE=$(date +%Y-%m-%d)
@@ -52,6 +72,19 @@ if [ -f "$REPORT_PATH" ]; then
     echo ""
     echo "To view full report: cat $REPORT_PATH"
     echo "To continue development: Check reports/session-continuation-$REPORT_DATE.md"
+
+    {
+      echo "# Research Hand-off"
+      echo "Run: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+      echo "Session: $SESSION_NAME"
+      echo "Recipe: .goose/recipes/main/recipe-privacy-cash-researcher.yaml"
+      echo "Report: reports/pm-market-research-$REPORT_DATE.md"
+      echo ""
+      echo "## Preview"
+      head -20 "$REPORT_PATH"
+    } > workspace/hubs/research-latest.md
+
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") pm-research $SESSION_NAME reports/pm-market-research-$REPORT_DATE.md" >> workspace/hubs/pipeline-log.md
 else
     echo ""
     echo "⚠️  Report not found. Check session logs:"

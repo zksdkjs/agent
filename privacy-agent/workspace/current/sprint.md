@@ -39,7 +39,7 @@ Complete PM Market Research and decide SDK scope (Transfer-only vs Full DeFi)
 - Each provider needs different wallet setup
 
 ## 🎯 Next Session
-1. Run PM research: `./automation/scripts/run-pm-research.sh`
+1. Kick off automation: `./automation/scripts/daily-run-strategy.sh`
 2. Review findings in `insights/research/`
 3. Make data-driven decision on SDK scope
 4. Update strategy based on findings

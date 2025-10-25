@@ -107,6 +107,9 @@ temp/
 goose-sessions/
 *.jsonl
 
+# Goose generated context snapshot
+.goose/data/context/current-session.md
+
 # AI Agent memory (may contain API keys)
 memory/
 agent-logs/
@@ -118,6 +121,7 @@ agent-logs/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-Thumbs.db# Privacy Cash SDK - separate project
-privacy-cash-sdk/
+Thumbs.db
 
+# Privacy Cash SDK - separate project
+privacy-cash-sdk/

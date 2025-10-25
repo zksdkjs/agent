@@ -6,7 +6,8 @@ echo "🧪 zkSDK Test Writer"
 echo "===================="
 echo ""
 
-cd /Users/saeeddawod/Desktop/agent/privacy-agent
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Create memory directory if it doesn't exist
 mkdir -p memory/tester
@@ -134,5 +135,4 @@ echo ""
 echo "📊 Check results:"
 echo "   - Tests: sdk/packages/providers/$TARGET/src/__tests__/"
 echo "   - Session log: memory/tester/session_$(date +%Y%m%d)*.md"
-
 

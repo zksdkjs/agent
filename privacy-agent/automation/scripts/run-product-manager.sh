@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run Senior Product Manager - Privacy Protocol Strategy & Architecture
 
-set -e
+set -euo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -18,7 +18,8 @@ echo -e "${BLUE}Expert PM with deep DeFi/ZK/Privacy knowledge${NC}"
 echo ""
 
 # Get workspace root
-WORKSPACE="/Users/saeeddawod/Desktop/agent/privacy-agent"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$WORKSPACE"
 
 # Parse command line arguments
@@ -50,15 +51,16 @@ echo ""
 # Create session name with timestamp
 SESSION_NAME="product_manager_$(date +%Y%m%d_%H%M%S)"
 
-# Set environment variables for PM work
-export GOOSE_MODEL="${GOOSE_MODEL:-claude-3-sonnet-20241022}"
-export GOOSE_PROVIDER="${GOOSE_PROVIDER:-anthropic}"
+# Set environment variables for PM work (respect existing overrides)
+export GOOSE_MODEL="${GOOSE_MODEL:-qwen/qwen3-coder-plus}"
+export GOOSE_PROVIDER="${GOOSE_PROVIDER:-openrouter}"
 export GOOSE_TEMPERATURE="${GOOSE_TEMPERATURE:-0.3}"
 export GOOSE_MAX_TURNS="${GOOSE_MAX_TURNS:-50}"
 
 # Ensure strategy directories exist
 mkdir -p strategy/product
 mkdir -p workspace/current
+mkdir -p workspace/hubs
 
 echo -e "${PURPLE}📊 PM Research Scope:${NC}"
 echo ""
@@ -82,10 +84,22 @@ echo "    • Product requirements"
 echo "    • Go-to-market strategy"
 echo ""
 
+if [[ "$GOOSE_PROVIDER" == "anthropic" || "$GOOSE_MODEL" == claude* ]]; then
+    if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+        echo -e "${YELLOW}Warning:${NC} ANTHROPIC_API_KEY not set but Anthropic provider selected."
+        echo "         Run 'goose configure' or export the key before continuing."
+    fi
+fi
+
 echo -e "${YELLOW}Starting Senior PM Session: $SESSION_NAME${NC}"
 echo "Model: $GOOSE_MODEL"
 echo "Max Turns: $GOOSE_MAX_TURNS"
 echo ""
+
+# Refresh shared context before launching the agent
+if [ -x "automation/scripts/prepare-context.sh" ]; then
+    automation/scripts/prepare-context.sh
+fi
 
 # Run goose with the PM recipe and parameters
 echo -e "${GREEN}Launching Senior Product Manager...${NC}"
@@ -123,12 +137,37 @@ if [ $EXIT_CODE -eq 0 ]; then
 
     echo -e "${PURPLE}🎯 Next Steps:${NC}"
     echo "  1. Review PM findings in strategy/product/"
-    echo "  2. Check product decisions in workspace/current/product-decisions.md"
-    echo "  3. Run Strategy Chief to create technical strategy:"
-    echo "     ${YELLOW}./automation/scripts/run-strategy-chief.sh${NC}"
-    echo "  4. Run Developer to implement based on requirements:"
-    echo "     ${YELLOW}./automation/scripts/run-developer.sh${NC}"
+    echo "  2. Record key updates in workspace/hubs/strategy-hand-off.md"
+    echo "  3. Kick off development: ${YELLOW}./automation/scripts/daily-run-dev.sh${NC}"
+    echo "  4. Continue implementation: ${YELLOW}./automation/scripts/run-developer.sh${NC}"
     echo ""
+
+    # Create hand-off summary for downstream agents
+    {
+        cat <<EOF
+# Strategy Hand-off
+Run: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+Session: $SESSION_NAME
+Recipe: $RECIPE_PATH
+
+## Key Documents
+EOF
+        if ls strategy/product/*.md >/dev/null 2>&1; then
+            ls strategy/product/*.md | sed 's#^#- #'
+        else
+            echo "- (no documents produced)"
+        fi
+        echo ""
+        echo "## Preview"
+        for doc in strategy/product/*.md; do
+            [ -f "$doc" ] || continue
+            echo "### ${doc#strategy/product/}"
+            head -n 10 "$doc"
+            echo ""
+        done
+    } > workspace/hubs/strategy-hand-off.md
+
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") product-manager $SESSION_NAME strategy/product" >> workspace/hubs/pipeline-log.md
 
     # Check for product decisions
     if [ -f "workspace/current/product-decisions.md" ]; then

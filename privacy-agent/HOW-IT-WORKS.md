@@ -16,6 +16,7 @@ workspace/
 │   ├── sprint.md     # Current goals and tasks
 │   ├── blockers.md   # Problems we're facing
 │   └── decisions.md  # Decisions that need to be made
+├── hubs/             # Shared hand-offs between agents
 ├── sessions/         # Work sessions by date
 │   └── 2025-10-23/   
 │       ├── morning.md     # Morning work session
@@ -30,6 +31,7 @@ workspace/
 - Check `current/sprint.md` to see what we're working on
 - Start work by reading `sessions/[today]/continuation.md`
 - Update `current/blockers.md` when stuck
+- Sync with cross-agent hand-offs in `hubs/*.md`
 
 ### 2️⃣ **insights/** - All Reports & Analysis
 This is the filing cabinet for ALL outputs and research.
@@ -111,14 +113,18 @@ cat workspace/sessions/$(date -d yesterday +%Y-%m-%d)/continuation.md
 
 ### During Work: Run Agents
 ```bash
-# Run PM research
-./automation/scripts/run-pm-research.sh
-# → Creates report in insights/research/
+# Refresh shared context bundle
+./automation/scripts/prepare-context.sh
 
-# Run development
-goose run --recipe automation/recipes/recipe-developer.yaml
-# → Updates code in sdk/
-# → Logs to workspace/sessions/
+# Run research → product strategy pipeline
+./automation/scripts/daily-run-strategy.sh
+# → Updates insights/reports + workspace/hubs/research-latest.md
+# → Updates strategy/product/ and workspace/hubs/strategy-hand-off.md
+
+# Run developer workflow
+./automation/scripts/daily-run-dev.sh
+# → Calls run-developer.sh, updates workspace/hubs/dev-hand-off.md
+# → Optionally generates daily report
 ```
 
 ### Evening: Wrap Up

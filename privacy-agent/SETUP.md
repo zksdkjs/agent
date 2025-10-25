@@ -1,5 +1,7 @@
 # zkSDK Strategic System Setup
 
+> **Note:** The automation flow has been modernized. Prefer the new scripts documented in [`docs/AGENT-PIPELINE.md`](docs/AGENT-PIPELINE.md) (`daily-run-strategy.sh`, `daily-run-dev.sh`, `prepare-context.sh`). This file describes the legacy setup that now lives under `automation/scripts/legacy/`.
+
 ## 🚀 Quick Start
 
 ### 1. Install Goose
