@@ -133,7 +133,7 @@ git push origin v1.0.0-beta
 2. **No wallet abstraction** - Each provider uses native wallet
 3. **Test everything** - Run provider tests before committing
 4. **Document clearly** - Frontend devs need clear wallet setup guides
-5. **Privacy Cash != Light Protocol** - Updated naming
+5. **Privacy Cash != Privacy Cash** - Updated naming
 
 ## 🎉 When Everything is Done
 

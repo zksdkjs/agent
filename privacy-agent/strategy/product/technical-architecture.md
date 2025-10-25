@@ -178,7 +178,7 @@ The protocol integration layer provides specific implementations for each suppor
    - Jupiter integration
    - Token program compatibility
 
-2. **Light Protocol**
+2. **Privacy Cash**
    - Elusiv integration
    - ZK proof verification optimization
    - SPL token support

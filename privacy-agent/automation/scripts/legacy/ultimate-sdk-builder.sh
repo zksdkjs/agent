@@ -62,7 +62,7 @@ echo "Zama fhEVM: $ZAMA_STATUS"
 update_progress "zama" "$ZAMA_STATUS"
 
 LIGHT_STATUS=$(check_completion "light-protocol")
-echo "Light Protocol: $LIGHT_STATUS"
+echo "Privacy Cash: $LIGHT_STATUS"
 update_progress "light" "$LIGHT_STATUS"
 
 AZTEC_STATUS=$(check_completion "aztec")

@@ -13,7 +13,7 @@ echo ""
 # Work priorities
 echo "🎯 Work Priority:"
 echo "1. Complete Railgun (currently 196 lines)"
-echo "2. Implement Light Protocol (not started)"
+echo "2. Implement Privacy Cash (not started)"
 echo "3. Implement Aztec (not started)"
 echo ""
 

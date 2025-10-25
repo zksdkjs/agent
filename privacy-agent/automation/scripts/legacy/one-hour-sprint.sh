@@ -23,7 +23,7 @@ if [ -d "sdk/packages/providers/fhevm/src" ]; then
     echo "✅ Zama fhEVM directory exists"
 fi
 if [ -d "sdk/packages/providers/light-protocol/src" ]; then
-    echo "✅ Light Protocol directory exists"
+    echo "✅ Privacy Cash directory exists"
 fi
 
 # Write checkpoint
@@ -40,7 +40,7 @@ $(ls -la sdk/packages/providers/*/src/ 2>/dev/null | grep -E "index.ts|provider.
 
 ## Next Sprint:
 - Zama fhEVM provider
-- Light Protocol provider
+- Privacy Cash provider
 EOF
 
 echo ""

@@ -1,7 +1,7 @@
 # Claude Opus Operates Goose Agents: zkSDK v1.0 Orchestration Plan
 
 **Created**: 2025-10-22
-**Objective**: Orchestrate autonomous Goose agents to deliver production-ready zkSDK v1.0-beta with Railgun, Aztec, FHEVM, and Light Protocol support
+**Objective**: Orchestrate autonomous Goose agents to deliver production-ready zkSDK v1.0-beta with Railgun, Aztec, FHEVM, and Privacy Cash support
 
 ---
 
@@ -14,7 +14,7 @@
 1. ❌ **No system architecture overview** - developers can't understand where things run or how they connect
 2. ❌ **No working examples** - no proof that Railgun/Aztec/FHEVM backends actually work end-to-end
 3. ❌ **No integration guides** - unclear how to connect frontend wallets to SDK backends
-4. ❌ **Light Protocol missing** - Solana support is a Phase 1 priority
+4. ❌ **Privacy Cash missing** - Solana support is a Phase 1 priority
 5. ⚠️ **Tests fragile** - FHEVM needs network mocking, some tests flaky
 
 ### V1 Strategy
@@ -23,7 +23,7 @@ Let each provider handle wallets **their own way** (already working internally):
 - **Railgun**: Takes `walletMnemonic` → creates internal RailgunWallet
 - **Aztec**: Takes `pxeConfig` → PXE manages accounts
 - **FHEVM**: Takes `ethers.Signer` → standard EVM signing
-- **Light Protocol**: Will take Solana `Keypair` → standard Solana
+- **Privacy Cash**: Will take Solana `Keypair` → standard Solana
 
 **Instead of abstractions**, provide:
 - Crystal-clear **architecture diagrams**
@@ -83,7 +83,7 @@ Let each provider handle wallets **their own way** (already working internally):
    │  Blockchain Networks                              │
    │  - Ethereum, Polygon, Arbitrum (Railgun/FHEVM)    │
    │  - Aztec L2 Testnet                               │
-   │  - Solana Mainnet (Light Protocol)                │
+   │  - Solana Mainnet (Privacy Cash)                │
    └───────────────────────────────────────────────────┘
    ```
 
@@ -114,14 +114,14 @@ Let each provider handle wallets **their own way** (already working internally):
    | **Railgun** | Shielded pools | EVM private transfers | RailgunWallet (mnemonic-based) | Ethereum, Polygon, Arbitrum, BSC | ✅ Ready |
    | **Aztec** | ZK-rollup | L2 privacy + private smart contracts | PXE AccountWallet | Aztec Testnet | ✅ Ready |
    | **FHEVM** | Homomorphic encryption | Encrypted state/computation | ethers.Signer (MetaMask, etc.) | Zama devnet | ⚠️ Needs test mocking |
-   | **Light Protocol** | ZK compression | 99% cost reduction on Solana | Solana Keypair | Solana Mainnet | ❌ Not implemented |
+   | **Privacy Cash** | ZK compression | 99% cost reduction on Solana | Solana Keypair | Solana Mainnet | ❌ Not implemented |
 
    ## When to Use Each Provider
 
    - **Railgun**: Production EVM privacy needs (mainnet ready)
    - **Aztec**: Experimenting with private smart contracts (testnet only)
    - **FHEVM**: Encrypted computation use cases (early stage)
-   - **Light Protocol**: Solana apps needing compression (gaming, DeFi)
+   - **Privacy Cash**: Solana apps needing compression (gaming, DeFi)
    ```
 
 3. **`docs/INTEGRATION_FLOWS.md`** - Sequence diagrams for common flows
@@ -395,7 +395,7 @@ echo "✅ All backend validators complete"
    - **Railgun**: Needs user's mnemonic phrase + EVM RPC access
    - **Aztec**: Needs PXE server + account mnemonic
    - **FHEVM**: Needs standard ethers.js Signer (MetaMask, WalletConnect)
-   - **Light Protocol**: Needs Solana Keypair (Phantom, Solflare)
+   - **Privacy Cash**: Needs Solana Keypair (Phantom, Solflare)
 
    ## Security Considerations
 
@@ -409,7 +409,7 @@ echo "✅ All backend validators complete"
    - [Railgun Wallet Setup](./railgun-wallet-setup.md)
    - [Aztec Wallet Setup](./aztec-wallet-setup.md)
    - [FHEVM Wallet Setup](./fhevm-wallet-setup.md)
-   - [Light Protocol Wallet Setup](./light-protocol-wallet-setup.md)
+   - [Privacy Cash Wallet Setup](./light-protocol-wallet-setup.md)
    ```
 
 2. **`docs/frontend/railgun-wallet-setup.md`**
@@ -571,18 +571,18 @@ echo "✅ All backend validators complete"
 
 ---
 
-### **Phase 4: Light Protocol Implementation** ☀️
+### **Phase 4: Privacy Cash Implementation** ☀️
 
-**Goal**: Implement Solana Light Protocol provider (99% cost reduction via ZK compression)
+**Goal**: Implement Solana Privacy Cash provider (99% cost reduction via ZK compression)
 
 **Goose Recipe**: `automation/recipes/recipe-light-protocol-specialist.yaml` *(already exists!)*
 
-**Agent**: Light Protocol specialist (Qwen Coder model)
+**Agent**: Privacy Cash specialist (Qwen Coder model)
 
 **Max Turns**: 45
 
 **Tasks**:
-1. Research Light Protocol GitHub: https://github.com/Lightprotocol/light-protocol
+1. Research Privacy Cash GitHub: https://github.com/Lightprotocol/light-protocol
 2. Study zkcompression.com documentation
 3. Create provider at `sdk/packages/providers/light-protocol/src/`
 4. Implement core features:
@@ -611,7 +611,7 @@ export class LightProtocolProvider extends BasePrivacyProvider {
 
   async initialize(config: LightProtocolConfig): Promise<void> {
     // Initialize Solana connection
-    // Set up Light Protocol SDK
+    // Set up Privacy Cash SDK
     // Configure compressed state management
   }
 
@@ -677,7 +677,7 @@ export class LightProtocolProvider extends BasePrivacyProvider {
    # FHEVM (with test wallet)
    PRIVATE_KEY="0x..." npm run example:fhevm
 
-   # Light Protocol (with test keypair)
+   # Privacy Cash (with test keypair)
    SOLANA_PRIVATE_KEY="..." npm run example:light-protocol
    ```
 
@@ -707,7 +707,7 @@ export class LightProtocolProvider extends BasePrivacyProvider {
    - [ ] Railgun: Production ready
    - [ ] Aztec: Testnet ready
    - [ ] FHEVM: Dev environment ready
-   - [ ] Light Protocol: Mainnet ready
+   - [ ] Privacy Cash: Mainnet ready
 
    ## Package Management
    - [ ] All packages buildable
@@ -790,9 +790,9 @@ goose run --recipe automation/recipes/recipe-frontend-wallet-guides.yaml \
 
 echo "✅ Phase 3 Complete"
 
-# PHASE 4: Light Protocol Implementation
+# PHASE 4: Privacy Cash Implementation
 echo ""
-echo "☀️ PHASE 4: Implementing Light Protocol Provider"
+echo "☀️ PHASE 4: Implementing Privacy Cash Provider"
 goose run --recipe automation/recipes/recipe-light-protocol-specialist.yaml \
   --max-turns 45 --name light_protocol_$(date +%H%M%S)
 
@@ -968,7 +968,7 @@ goose run --recipe automation/recipes/recipe-qa-full-integration.yaml \
 | 2b | Aztec Backend | 45-60 minutes | 35 |
 | 2c | FHEVM Backend | 30-45 minutes | 30 |
 | 3 | Frontend Guides | 45-60 minutes | 30 |
-| 4 | Light Protocol | 90-120 minutes | 45 |
+| 4 | Privacy Cash | 90-120 minutes | 45 |
 | 5 | QA & Integration | 30-45 minutes | 25 |
 | **TOTAL** | **End-to-end** | **~5-7 hours** | **225 turns** |
 
@@ -998,7 +998,7 @@ goose run --recipe automation/recipes/recipe-qa-full-integration.yaml \
 - ✅ **Railgun**: Production-ready on Ethereum/Polygon/Arbitrum
 - ✅ **Aztec**: Testnet-ready with PXE integration
 - ✅ **FHEVM**: Dev environment ready with Zama integration
-- ✅ **Light Protocol**: Mainnet-ready on Solana with compression
+- ✅ **Privacy Cash**: Mainnet-ready on Solana with compression
 
 ### **Developer Experience**
 - ✅ New developer can understand system in <10 minutes

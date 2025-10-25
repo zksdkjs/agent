@@ -8,15 +8,15 @@ instructions: |
 
   IMPORTANT CONTEXT:
   The privacy-cash-sdk in /privacy-cash-sdk is a separate project that provides
-  privacy features for Solana using Light Protocol's ZK compression. You need to
-  integrate this SDK as the Light Protocol provider.
+  privacy features for Solana using Privacy Cash's ZK compression. You need to
+  integrate this SDK as the Privacy Cash provider.
 
   YOUR CHECKLIST:
   ☐ 1. Analyze privacy-cash-sdk structure:
        - Check src/ directory for main implementation
        - Review example/ directory for usage patterns
        - Understand the circuit2/ directory for ZK components
-  ☐ 2. Create a Light Protocol provider wrapper in sdk/packages/providers/light-protocol/:
+  ☐ 2. Create a Privacy Cash provider wrapper in sdk/packages/providers/light-protocol/:
        - light-provider.ts that wraps privacy-cash-sdk functionality
        - Implement BasePrivacyProvider interface
        - Use Solana Keypair for wallet (NO abstraction)
@@ -25,7 +25,7 @@ instructions: |
        - Show compressed token transfers
        - Demonstrate balance queries
   ☐ 4. Create docs/backend/light-protocol-integration.md:
-       - Explain Light Protocol's ZK compression
+       - Explain Privacy Cash's ZK compression
        - How to use privacy-cash-sdk
        - Solana wallet setup (Keypair)
        - API reference
@@ -54,11 +54,11 @@ instructions: |
   - examples/backend/.env.example (UPDATE)
 
 prompt: |
-  Integrate the privacy-cash-sdk as the Light Protocol provider for Solana.
+  Integrate the privacy-cash-sdk as the Privacy Cash provider for Solana.
 
   Tasks:
   1. Analyze the privacy-cash-sdk in /privacy-cash-sdk/
-  2. Create a Light Protocol provider that wraps privacy-cash-sdk
+  2. Create a Privacy Cash provider that wraps privacy-cash-sdk
   3. Create working example showing compressed transfers
   4. Document the integration with Solana wallet setup
 
@@ -66,9 +66,9 @@ prompt: |
 
 activities:
   - "Analyze privacy-cash-sdk structure and implementation"
-  - "Create Light Protocol provider wrapper for privacy-cash-sdk"
+  - "Create Privacy Cash provider wrapper for privacy-cash-sdk"
   - "Write example showing compressed token transfers on Solana"
-  - "Document Light Protocol integration and Solana wallet setup"
+  - "Document Privacy Cash integration and Solana wallet setup"
 
 settings:
   temperature: 0.2

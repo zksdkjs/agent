@@ -6,7 +6,7 @@ echo ""
 echo "Choose which specialist agent to launch:"
 echo ""
 echo "1) Zama FHE Specialist (Implement fhEVM provider)"
-echo "2) Light Protocol Specialist (Solana ZK compression)"
+echo "2) Privacy Cash Specialist (Solana ZK compression)"
 echo "3) Bitcoin Privacy Specialist (Silent Payments)"
 echo "4) Railgun Specialist (Complete EVM privacy)"
 echo "5) Aztec Specialist (L2 privacy)"
@@ -24,7 +24,7 @@ case $choice in
             --max-turns 20
         ;;
     2)
-        echo "⚡ Launching Light Protocol Specialist..."
+        echo "⚡ Launching Privacy Cash Specialist..."
         goose run --recipe recipes/recipe-light-protocol-specialist.yaml \
             --name "light_protocol_$(date +%m%d_%H%M)" \
             --max-turns 20
@@ -54,7 +54,7 @@ case $choice in
         goose run --recipe recipes/recipe-zama-fhe-specialist.yaml \
             --name "zama_$(date +%m%d)" --max-turns 10
         
-        echo "Step 2/5: Light Protocol..."
+        echo "Step 2/5: Privacy Cash..."
         goose run --recipe recipes/recipe-light-protocol-specialist.yaml \
             --name "light_$(date +%m%d)" --max-turns 10
         

@@ -15,7 +15,7 @@ instructions: |
   1. Aztec provider tests - packages/providers/aztec/__tests__/
   2. Railgun provider tests - packages/providers/railgun/src/__tests__/
   
-  IGNORE: Bitcoin, FHEVM, Light Protocol, recipes tests - skip them for now
+  IGNORE: Bitcoin, FHEVM, Privacy Cash, recipes tests - skip them for now
   
   COMMON FIXES:
   - Wrong import paths (use ../file not ./file from __tests__)

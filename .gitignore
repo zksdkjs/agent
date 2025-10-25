@@ -1,0 +1,4 @@
+*.tar.gz
+.DS_Store
+privacy-agent/zk-landing/node_modules/
+privacy-agent/zk-landing/.docusaurus/

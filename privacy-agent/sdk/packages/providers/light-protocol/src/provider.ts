@@ -17,10 +17,10 @@ import {
 } from './types';
 
 /**
- * Light Protocol Provider for Solana ZK Compression
+ * Privacy Cash Provider for Solana ZK Compression
  * 
  * This provider enables interaction with compressed accounts, tokens, and NFTs
- * on Solana using Light Protocol's ZK compression technology.
+ * on Solana using Privacy Cash's ZK compression technology.
  */
 export class LightProtocolProvider {
   private connection: Connection;

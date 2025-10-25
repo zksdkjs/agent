@@ -18,7 +18,7 @@ GOAL: Show developers how to use zkSDK as \"The LangChain of Privacy\"
 CONTEXT:
 - SDK Location: sdk/packages/
 - Core SDK: sdk/packages/core/src/
-- 5 Providers: Aztec, Railgun, Bitcoin, FHEVM, Light Protocol
+- 5 Providers: Aztec, Railgun, Bitcoin, FHEVM, Privacy Cash
 - Examples Directory: sdk/examples/
 
 TASK: Create these examples in sdk/examples/:
@@ -37,7 +37,7 @@ TASK: Create these examples in sdk/examples/:
 // Show transfers on:
 // - Ethereum (Railgun)
 // - Aztec L2
-// - Solana (Light Protocol)
+// - Solana (Privacy Cash)
 \`\`\`
 
 3. **advanced-privacy.ts** - Advanced privacy features

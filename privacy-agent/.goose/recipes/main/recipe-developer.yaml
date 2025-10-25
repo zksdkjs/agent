@@ -46,7 +46,7 @@ instructions: |
 
   **PHASE 1 - Core Foundation (UPDATED PRIORITIES):**
   1. **Zama fhEVM** - $1B unicorn FHE provider (COMPLETE - DO NOT MODIFY)
-  2. **Light Protocol** - Solana ZK compression (99% cost reduction)
+  2. **Privacy Cash** - Solana ZK compression (99% cost reduction)
   3. **Railgun** - Production-ready EVM privacy system (Recipe→Step→ComboMeal pattern)
   4. **Bitcoin Silent Payments** - BIP352 implementation
   5. **Aztec** - Privacy-first L2 with Noir smart contracts (Testnet ready)

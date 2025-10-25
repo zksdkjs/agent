@@ -25,7 +25,7 @@ zkSDK is a universal privacy SDK that provides a **unified API** for executing p
 ### Core Design Principles
 
 - **Unified API**: Same interface for all privacy providers
-- **Provider Agnostic**: Support multiple privacy protocols (Railgun, Aztec, FHEVM, Light Protocol, Bitcoin)
+- **Provider Agnostic**: Support multiple privacy protocols (Railgun, Aztec, FHEVM, Privacy Cash, Bitcoin)
 - **Modular Architecture**: Each provider is independently implemented and maintained
 - **Type Safety**: Full TypeScript support with strict typing
 - **Environment Flexible**: Works in both browser and Node.js environments
@@ -148,7 +148,7 @@ sequenceDiagram
 | **Railgun** | ✅ | ✅ | Uses IndexedDB (browser) or file-based DB (Node.js) for state |
 | **Aztec** | ⚠️ | ✅ | Requires PXE server connection (typically Node.js or remote) |
 | **FHEVM** | ✅ | ✅ | Standard RPC + fhevmjs encryption library |
-| **Light Protocol** | ✅ | ✅ | Solana RPC + Helius indexer for compressed state |
+| **Privacy Cash** | ✅ | ✅ | Solana RPC + Helius indexer for compressed state |
 | **Bitcoin** | ✅ | ✅ | BIP352 Silent Payments (wallet-only, no full node required) |
 
 ### Storage Requirements
@@ -164,7 +164,7 @@ sequenceDiagram
 **FHEVM**
 - **None**: Stateless encryption, all data on-chain
 
-**Light Protocol**
+**Privacy Cash**
 - **Minimal**: Solana Keypair only
 - **Indexer**: Helius provides compressed account lookups
 
@@ -296,7 +296,7 @@ await light.initialize({
 
 **Dependencies**:
 - `@solana/web3.js`: Solana SDK
-- `@lightprotocol/sdk`: Light Protocol SDK
+- `@lightprotocol/sdk`: Privacy Cash SDK
 - Helius indexer for compressed account lookups
 
 ### @zksdk/providers/bitcoin
@@ -354,7 +354,7 @@ await bitcoin.initialize({
 - Encrypted values can only be decrypted by authorized contracts
 - ACL contract manages decryption permissions
 
-**Light Protocol**:
+**Privacy Cash**:
 - Solana Keypair controls all assets
 - Compressed state still requires Solana consensus
 - Helius indexer is trusted for state lookups (can run own indexer)
@@ -376,7 +376,7 @@ await bitcoin.initialize({
 | Railgun | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Aztec | 🔗 | 🔗 | 🔗 | ❌ | ❌ | ❌ | ✅ |
 | FHEVM | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Light Protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Privacy Cash | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | Bitcoin | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 **Legend**:

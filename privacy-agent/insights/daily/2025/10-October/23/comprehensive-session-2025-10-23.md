@@ -52,7 +52,7 @@ Successfully advanced zkSDK from 0% to 60% completion in a single session, imple
 - PXE setup documentation
 - Uses PXE AccountWallet natively
 
-### 6. Phase 4a: Light Protocol/Privacy Cash Integration ✅
+### 6. Phase 4a: Privacy Cash/Privacy Cash Integration ✅
 **Goose Agent**: recipe-light-protocol-privacy-cash.yaml
 **Key Decision**: Use existing `privacy-cash-sdk` as Solana provider
 **Created**:
@@ -76,7 +76,7 @@ Successfully advanced zkSDK from 0% to 60% completion in a single session, imple
 | Railgun | ✅ Complete | 13 passing | ✅ | ✅ |
 | Aztec | ✅ Complete | Passing | ✅ | ✅ |
 | FHEVM | ⏸️ Deprioritized | - | - | - |
-| Light Protocol | ✅ Complete | - | ✅ | ✅ |
+| Privacy Cash | ✅ Complete | - | ✅ | ✅ |
 | Bitcoin | ⏳ Pending | - | - | - |
 
 ### Goose Sessions Executed
@@ -84,7 +84,7 @@ Successfully advanced zkSDK from 0% to 60% completion in a single session, imple
 2. `railgun_backend_145457` - Railgun implementation
 3. `aztec_backend_115602` - Aztec (rate limited, switched)
 4. `aztec_plus_120954` - Aztec with qwen3-coder-plus
-5. `light_privacy_cash_123302` - Light Protocol integration
+5. `light_privacy_cash_123302` - Privacy Cash integration
 
 ## 🔧 Problems Solved
 
@@ -98,8 +98,8 @@ Successfully advanced zkSDK from 0% to 60% completion in a single session, imple
    - Each provider uses native wallet type
    - Documented in `wallets-integration-important!.md`
 
-3. **Privacy Cash vs Light Protocol**
-   - Clarified naming: Light Protocol is old name
+3. **Privacy Cash vs Privacy Cash**
+   - Clarified naming: Privacy Cash is old name
    - Privacy Cash is the new Solana ZK compression SDK
    - Successfully integrated as external dependency
 
@@ -165,7 +165,7 @@ Testing:       40%        ████████████████░░
 
 - **Most Impressive**: Solving rate limit issue with creative model switching
 - **Best Decision**: Using qwen3-coder-plus for stability
-- **Key Innovation**: Wrapping privacy-cash-sdk as Light Protocol provider
+- **Key Innovation**: Wrapping privacy-cash-sdk as Privacy Cash provider
 - **Time Saved**: ~10 hours by using Goose agents vs manual implementation
 
 ## 📝 Notes for Next Session
@@ -173,7 +173,7 @@ Testing:       40%        ████████████████░░
 1. Create Bitcoin recipe first (template provided in next-actions-bitcoin-frontend.md)
 2. Use `GOOSE_MODEL="qwen/qwen3-coder-plus"` for all runs
 3. Remember: No wallet abstraction
-4. Privacy Cash = Solana provider (not Light Protocol)
+4. Privacy Cash = Solana provider (not Privacy Cash)
 5. All code pushed to GitHub except privacy-cash-sdk
 
 ---

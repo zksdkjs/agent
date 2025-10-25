@@ -24,14 +24,14 @@ Last Updated: $(date)
   - TODO: Add swap, liquidity, shield/unshield operations
 
 ## ❌ NOT STARTED
-- Light Protocol (Solana ZK compression)
+- Privacy Cash (Solana ZK compression)
 - Aztec L2 
 - Bitcoin Silent Payments
 
 ## NEXT TASKS
 1. Complete Railgun Recipe→Step→ComboMeal pattern
 2. Add Railgun swap operations
-3. Implement Light Protocol provider
+3. Implement Privacy Cash provider
 
 ## FILES TO WORK ON
 - sdk/packages/providers/railgun/src/recipe.ts (CREATE)

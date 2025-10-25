@@ -71,7 +71,7 @@ Complete PM Market Research and decide SDK scope (Transfer-only vs Full DeFi)
 
 ## 📝 Notes
 - We're "The LangChain of Privacy" - need to be as easy as LangChain
-- Privacy Cash SDK is for SOLANA (not "Light Protocol")
+- Privacy Cash SDK is for SOLANA (not "Privacy Cash")
 - We integrate WITH MetaMask/WalletConnect, not against them
 - User emphasized: Make it easy for frontend devs
 - **NEW:** zkWalletConnect solves the "different wallet setup" problem

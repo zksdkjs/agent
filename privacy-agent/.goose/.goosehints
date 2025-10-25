@@ -14,7 +14,7 @@ Status: Active development, 60% complete (3/5 providers implemented)
 ## CURRENT IMPLEMENTATION STATUS
 - ✅ FHEVM Provider: COMPLETE (927 lines) - DO NOT MODIFY
 - 🚧 Railgun Provider: IN PROGRESS (196 lines) - Needs Recipe→Step→ComboMeal pattern
-- ❌ Light Protocol: NOT STARTED - Solana ZK compression implementation needed
+- ❌ Privacy Cash: NOT STARTED - Solana ZK compression implementation needed
 - ❌ Aztec Provider: NOT STARTED - Noir smart contracts integration
 - ❌ Bitcoin Provider: NOT STARTED - Silent Payments (BIP352) implementation
 
@@ -68,11 +68,11 @@ export class ProviderName extends BasePrivacyProvider {
 - TODO: Implement Recipe→Step→ComboMeal pattern
 - Reference: https://docs.railgun.org
 
-### Light Protocol (Privacy Cash SDK) - ❌ NOT STARTED
+### Privacy Cash (Privacy Cash SDK) - ❌ NOT STARTED
 - Solana ZK compression for 99% cost reduction
 - Path: sdk/packages/providers/light-protocol/
 - Key Features: Compressed accounts, private transfers on Solana
-- Note: This is "Privacy Cash SDK" not "Light Protocol" in user-facing docs
+- Note: This is "Privacy Cash SDK" not "Privacy Cash" in user-facing docs
 
 ### Aztec - ❌ NOT STARTED
 - Privacy-first L2 with Noir smart contracts

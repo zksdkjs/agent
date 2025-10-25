@@ -126,7 +126,7 @@ sequenceDiagram
 
 ---
 
-### Light Protocol Wallet Connection (Solana)
+### Privacy Cash Wallet Connection (Solana)
 
 ```mermaid
 sequenceDiagram
@@ -152,7 +152,7 @@ sequenceDiagram
 **Key Steps**:
 1. Connect Phantom wallet
 2. Extract Solana public key
-3. Initialize Light Protocol with keypair
+3. Initialize Privacy Cash with keypair
 4. Verify Helius indexer access
 5. Display Solana address
 
@@ -368,7 +368,7 @@ sequenceDiagram
         Provider->>Network/Indexer: Query Encrypted On-Chain State
         Network/Indexer-->>Provider: Encrypted Balances
         Provider->>Provider: Decrypt with ACL Permission
-    else Light Protocol
+    else Privacy Cash
         Provider->>Network/Indexer: Query Helius Compressed State
         Network/Indexer-->>Provider: Compressed Account Data
         Provider->>Provider: Decompress State
@@ -383,7 +383,7 @@ sequenceDiagram
 - Railgun: 1-3 seconds (requires local decryption)
 - Aztec: 0.5-2 seconds (PXE cached)
 - FHEVM: 1-2 seconds (on-chain query)
-- Light Protocol: 0.5-1 second (Helius indexed)
+- Privacy Cash: 0.5-1 second (Helius indexed)
 
 ---
 

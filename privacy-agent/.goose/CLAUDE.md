@@ -5,7 +5,7 @@
 ## CURRENT STATUS (AUTO-UPDATED)
 - FHEVM: ✅ COMPLETE (927 lines) - DO NOT TOUCH
 - Railgun: 🚧 IN PROGRESS (196 lines) - NEEDS WORK
-- Light Protocol: ❌ NOT STARTED
+- Privacy Cash: ❌ NOT STARTED
 - Aztec: ❌ NOT STARTED  
 - Bitcoin: ❌ NOT STARTED
 
@@ -14,7 +14,7 @@
    - Path: sdk/packages/providers/railgun/src/
    - Need: recipe.ts, steps/, combomeals/
    
-2. **Light Protocol** - Solana ZK compression
+2. **Privacy Cash** - Solana ZK compression
    - Path: sdk/packages/providers/light-protocol/src/
    - Need: Full implementation
 

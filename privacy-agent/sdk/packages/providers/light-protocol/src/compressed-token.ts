@@ -12,10 +12,10 @@ import { LightProtocolProvider } from './provider';
 import { CompressedTokenAccount, GetCompressedTokenBalanceResponse } from './types';
 
 /**
- * Compressed Token Operations for Light Protocol
+ * Compressed Token Operations for Privacy Cash
  * 
  * Provides functionality for interacting with compressed SPL tokens
- * using Light Protocol's ZK compression technology.
+ * using Privacy Cash's ZK compression technology.
  */
 export class CompressedToken {
   private provider: LightProtocolProvider;
@@ -37,7 +37,7 @@ export class CompressedToken {
     mint: PublicKey
   ): Promise<TransactionInstruction> {
     // TODO: Implement actual compressed token account creation
-    // This would interact with Light Protocol's compressed token program
+    // This would interact with Privacy Cash's compressed token program
     
     // Placeholder implementation
     return SystemProgram.createAccount({
@@ -91,7 +91,7 @@ export class CompressedToken {
     const transaction = new Transaction();
 
     // TODO: Implement actual compressed token minting
-    // This would interact with Light Protocol's compressed token minting program
+    // This would interact with Privacy Cash's compressed token minting program
     
     // Placeholder implementation
     console.log(`Minting ${amount} compressed tokens to ${to.toBase58()}`);

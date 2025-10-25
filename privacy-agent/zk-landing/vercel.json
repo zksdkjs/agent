@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build", 
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "docusaurus-2",
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}

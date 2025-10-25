@@ -47,7 +47,7 @@ Located in `.goose/recipes/main/`:
 Located in `.goose/recipes/specialists/`:
 - `recipe-aztec-specialist.yaml` - Aztec protocol expert
 - `recipe-bitcoin-privacy-specialist.yaml` - Bitcoin privacy
-- `recipe-light-protocol-specialist.yaml` - Light Protocol
+- `recipe-light-protocol-specialist.yaml` - Privacy Cash
 - `recipe-light-protocol-privacy-cash.yaml` - Privacy Cash SDK
 - `recipe-railgun-specialist.yaml` - Railgun expert
 - `recipe-zama-fhe-specialist.yaml` - Zama FHE expert

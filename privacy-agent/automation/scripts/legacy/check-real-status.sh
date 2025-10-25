@@ -65,7 +65,7 @@ if [ $RAILGUN -ne 0 ]; then
 elif [ $FHEVM -ne 0 ]; then
     echo "🎯 FHEVM needs completion"
 elif [ $LIGHT -ne 0 ]; then
-    echo "🎯 Light Protocol needs implementation"
+    echo "🎯 Privacy Cash needs implementation"
 elif [ $AZTEC -ne 0 ]; then
     echo "🎯 Aztec needs implementation"
 elif [ $BITCOIN -ne 0 ]; then

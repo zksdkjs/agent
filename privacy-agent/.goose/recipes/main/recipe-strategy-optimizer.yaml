@@ -7,7 +7,7 @@ instructions: |
   and determine the OPTIMAL path to v1.0 release that maximizes value.
 
   CURRENT STATE:
-  - 3/5 providers complete (Railgun, Aztec, Light Protocol)
+  - 3/5 providers complete (Railgun, Aztec, Privacy Cash)
   - Backend implementations working
   - No frontend integration layer
   - No unified wallet interface

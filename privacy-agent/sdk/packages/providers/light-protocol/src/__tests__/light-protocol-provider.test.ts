@@ -1,5 +1,5 @@
 /**
- * Tests for Light Protocol Provider
+ * Tests for Privacy Cash Provider
  */
 
 import { LightProtocolProvider } from '../provider';

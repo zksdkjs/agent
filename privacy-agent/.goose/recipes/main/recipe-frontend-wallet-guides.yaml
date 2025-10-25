@@ -12,7 +12,7 @@ instructions: |
   - Railgun: User mnemonic + EVM wallet (MetaMask) for RPC
   - Aztec: PXE server + account mnemonic
   - FHEVM: Standard ethers.js Signer (MetaMask, WalletConnect, etc.)
-  - Light Protocol: Solana Keypair (Phantom, Solflare wallets)
+  - Privacy Cash: Solana Keypair (Phantom, Solflare wallets)
 
   Read wallets-integration-important!.md for detailed requirements!
 
@@ -178,7 +178,7 @@ prompt: |
   2. docs/frontend/railgun-wallet-setup.md - Railgun + MetaMask
   3. docs/frontend/aztec-wallet-setup.md - Aztec + PXE
   4. docs/frontend/fhevm-wallet-setup.md - FHEVM + MetaMask
-  5. docs/frontend/light-protocol-wallet-setup.md - Light Protocol + Phantom
+  5. docs/frontend/light-protocol-wallet-setup.md - Privacy Cash + Phantom
 
   Each guide should include:
   - Installation steps

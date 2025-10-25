@@ -19,7 +19,7 @@ instructions: |
   ☐ 5. Create comprehensive report in reports/session-YYYY-MM-DD.md
   ☐ 6. Include:
        - Problems solved (rate limits, TypeScript errors)
-       - Providers completed (Railgun, Aztec, Light Protocol/Privacy Cash)
+       - Providers completed (Railgun, Aztec, Privacy Cash/Privacy Cash)
        - Documentation created
        - Examples created
        - Tests status

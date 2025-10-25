@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(echo $PATH)",
+      "Bash(ls:*)",
+      "Bash(sudo rm:*)",
+      "Bash(rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Read(//var/folders/17/5h7752mn40vfv7nwcrwb3hx80000gn/T/TemporaryItems/NSIRD_screencaptureui_jVYMzz/**)",
+      "Read(//var/folders/17/5h7752mn40vfv7nwcrwb3hx80000gn/T/TemporaryItems/NSIRD_screencaptureui_XwO2WH/**)",
+      "Read(//var/folders/17/5h7752mn40vfv7nwcrwb3hx80000gn/T/TemporaryItems/NSIRD_screencaptureui_CxSt8n/**)"
+    ],
+    "deny": []
+  }
+}

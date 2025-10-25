@@ -32,6 +32,7 @@ out/
 
 # Development
 .vscode/settings.json
+.claude/
 .idea/
 *.swp
 *.swo

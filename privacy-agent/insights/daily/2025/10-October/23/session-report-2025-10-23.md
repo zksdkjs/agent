@@ -30,7 +30,7 @@
 - Documentation for PXE setup
 - Uses PXE AccountWallet natively
 
-### 5. Light Protocol/Privacy Cash (Phase 4a) ✅
+### 5. Privacy Cash/Privacy Cash (Phase 4a) ✅
 - Integrated existing `privacy-cash-sdk` as Solana provider
 - Created wrapper in `light-provider.ts`
 - Created `examples/backend/light-protocol-example.ts`

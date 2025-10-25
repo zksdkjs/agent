@@ -4,10 +4,10 @@ import { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.j
 import { PrivacyCash } from 'privacycash';
 
 /**
- * Light Protocol Provider for Solana using privacy-cash-sdk
+ * Privacy Cash Provider for Solana using privacy-cash-sdk
  * 
  * This provider implements the BasePrivacyProvider interface to enable
- * private transactions on Solana using Light Protocol's ZK compression.
+ * private transactions on Solana using Privacy Cash's ZK compression.
  */
 export class LightProtocolPrivacyProvider extends BasePrivacyProvider {
   name = 'light-protocol';
@@ -28,11 +28,11 @@ export class LightProtocolPrivacyProvider extends BasePrivacyProvider {
     
     // Validate required configuration
     if (!this.config.rpcUrl) {
-      throw new Error('RPC URL is required for Light Protocol provider');
+      throw new Error('RPC URL is required for Privacy Cash provider');
     }
     
     if (!this.config.privateKey) {
-      throw new Error('Private key is required for Light Protocol provider');
+      throw new Error('Private key is required for Privacy Cash provider');
     }
     
     // Create Solana connection

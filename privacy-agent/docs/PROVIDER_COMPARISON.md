@@ -29,7 +29,7 @@
 │        └─ No, just private transfers → Use RAILGUN (production ready)
 │
 ├─ Need privacy on Solana?
-│  └─ Yes → Use LIGHT PROTOCOL (99% cost reduction)
+│  └─ Yes → Use Privacy Cash (99% cost reduction)
 │
 └─ Need privacy on Bitcoin?
    └─ Yes → Use BITCOIN (BIP352 Silent Payments)
@@ -217,7 +217,7 @@ const encrypted = await fhevm.encrypt(
 
 ---
 
-### 4. Light Protocol Provider ☀️
+### 4. Privacy Cash Provider ☀️
 
 **Best For**: 99% cost reduction on Solana via ZK compression
 
@@ -339,7 +339,7 @@ await bitcoin.transfer({
 | Ethereum privacy | Railgun | FHEVM (devnet) |
 | Polygon privacy | Railgun | - |
 | Arbitrum privacy | Railgun | - |
-| Solana privacy | Light Protocol | - |
+| Solana privacy | Privacy Cash | - |
 | Bitcoin privacy | Bitcoin (Silent Payments) | - |
 | Aztec L2 | Aztec | - |
 
@@ -349,17 +349,17 @@ await bitcoin.transfer({
 |----------|---------------------|-----|
 | Private token transfers (EVM) | Railgun | Production ready, battle-tested |
 | Encrypted smart contracts | Aztec (testnet) or FHEVM | Programmable privacy |
-| Low-cost Solana apps | Light Protocol | 99% cost reduction |
+| Low-cost Solana apps | Privacy Cash | 99% cost reduction |
 | Private voting/governance | FHEVM | Encrypted votes with FHE |
 | Bitcoin privacy | Bitcoin | BIP352 Silent Payments |
-| Gaming (high volume) | Light Protocol | Massive cost savings |
+| Gaming (high volume) | Privacy Cash | Massive cost savings |
 | DeFi privacy | Railgun | Works with existing DeFi |
 
 ### By Development Stage
 
 | Stage | Recommended Provider |
 |-------|---------------------|
-| **Production (Mainnet)** | Railgun, Light Protocol (Solana) |
+| **Production (Mainnet)** | Railgun, Privacy Cash (Solana) |
 | **Testing (Testnet)** | Aztec, FHEVM |
 | **Research/Experiment** | Aztec, FHEVM |
 
@@ -370,7 +370,7 @@ await bitcoin.transfer({
 | **Maximum anonymity** | Railgun (large anonymity set) | ZK-SNARKs, shielded pools |
 | **Encrypted state** | FHEVM | Homomorphic encryption |
 | **Programmable privacy** | Aztec | Noir contracts, ZK-rollup |
-| **Cost-efficient** | Light Protocol | Compression (privacy via efficiency) |
+| **Cost-efficient** | Privacy Cash | Compression (privacy via efficiency) |
 | **Bitcoin native** | Bitcoin | BIP352 reusable codes |
 
 ---
@@ -383,8 +383,8 @@ await bitcoin.transfer({
 3. **Week 4**: Explore FHEVM for confidential computation use cases
 
 ### Scaling Up
-1. Add Light Protocol for Solana support
-2. Consider cross-chain routing (Railgun → Light Protocol via bridge)
+1. Add Privacy Cash for Solana support
+2. Consider cross-chain routing (Railgun → Privacy Cash via bridge)
 3. Monitor Aztec/FHEVM mainnet launches
 
 ---
@@ -396,14 +396,14 @@ await bitcoin.transfer({
 | Railgun | ~5-15 seconds | ~30-60 seconds | Ethereum finality (~12-15 min) |
 | Aztec | ~10-30 seconds | ~1-3 minutes | L2 instant, L1 finality (~15 min) |
 | FHEVM | ~1-5 seconds (encryption) | ~30-60 seconds | Zama devnet finality (~30 sec) |
-| Light Protocol | ~1-3 seconds | ~1-2 seconds | Solana finality (~13 sec) |
+| Privacy Cash | ~1-3 seconds | ~1-2 seconds | Solana finality (~13 sec) |
 | Bitcoin | N/A | ~10-60 minutes | Bitcoin finality (~60 min) |
 
 ---
 
 ## Cost Comparison (Approximate)
 
-| Operation | Railgun (ETH) | Aztec (testnet) | FHEVM (devnet) | Light Protocol (SOL) |
+| Operation | Railgun (ETH) | Aztec (testnet) | FHEVM (devnet) | Privacy Cash (SOL) |
 |-----------|---------------|-----------------|----------------|----------------------|
 | Private Transfer | ~$5-20 | ~$0.01-0.1 | ~$1-5 | ~$0.00001 |
 | Contract Deploy | N/A | ~$0.1-1 | ~$2-10 | N/A |

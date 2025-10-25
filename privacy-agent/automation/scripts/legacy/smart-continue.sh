@@ -48,7 +48,7 @@ elif [ $ZAMA_STATUS -ne 0 ]; then
     TARGET="zama"
     RECIPE="recipe-zama-fhe-specialist.yaml"
 elif [ $LIGHT_STATUS -ne 0 ]; then
-    echo "🎯 PRIORITY: Complete Light Protocol provider"
+    echo "🎯 PRIORITY: Complete Privacy Cash provider"
     TARGET="light"
     RECIPE="recipe-light-protocol-specialist.yaml"
 else

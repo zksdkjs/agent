@@ -35,12 +35,12 @@ instructions: |
 
   ## 2. COMPARATIVE ANALYSIS
 
-  **vs Light Protocol (Current Implementation):**
-  - Compare feature completeness (Privacy Cash vs Light Protocol stub)
+  **vs Privacy Cash (Current Implementation):**
+  - Compare feature completeness (Privacy Cash vs Privacy Cash stub)
   - Analyze API simplicity and developer experience
   - Compare production readiness and audit status
   - Evaluate privacy guarantees: real privacy vs compression
-  - Document migration path from Light Protocol to Privacy Cash
+  - Document migration path from Privacy Cash to Privacy Cash
 
   **vs Other zkSDK Providers:**
   - Compare with Railgun (EVM privacy)
@@ -108,8 +108,8 @@ instructions: |
 
   ## 5. MIGRATION PLANNING
 
-  **From Light Protocol to Privacy Cash:**
-  - Document all Light Protocol references
+  **From Privacy Cash to Privacy Cash:**
+  - Document all Privacy Cash references
   - Plan deprecation strategy
   - Create migration checklist
   - Update documentation and examples
@@ -182,7 +182,7 @@ instructions: |
      - Document findings in /plans/privacy-cash-sdk-research-report.md
 
   2. **Analysis Phase:**
-     - Compare with Light Protocol
+     - Compare with Privacy Cash
      - Compare with other providers
      - Assess integration complexity
      - Evaluate risks and benefits
@@ -229,7 +229,7 @@ prompt: |
   Your mission:
   1. Clone and analyze Privacy Cash SDK repository (https://github.com/Privacy-Cash/privacy-cash-sdk)
   2. Run all tests and validate functionality
-  3. Compare with our current Light Protocol implementation
+  3. Compare with our current Privacy Cash implementation
   4. Create comprehensive research report in /plans/ directory
   5. Design integration architecture
   6. Create detailed implementation plan
@@ -239,7 +239,7 @@ prompt: |
   - Deep technical analysis of Privacy Cash SDK
   - Privacy mechanism and security review
   - Integration complexity assessment
-  - Comparison with Light Protocol stub
+  - Comparison with Privacy Cash stub
   - Clear go/no-go recommendation
 
   Deliverables to create in /Users/saeeddawod/Desktop/agent/privacy-agent/plans/:

@@ -18,7 +18,7 @@
    - Issue: Needs PXE server running
    - Frontend devs don't know how to connect to PXE
 
-3. **Light Protocol/Privacy Cash** ✅
+3. **Privacy Cash/Privacy Cash** ✅
    - Using privacy-cash-sdk (separate project)
    - Issue: Solana wallet integration different from EVM
    - Frontend devs expect MetaMask, get Solana Keypair

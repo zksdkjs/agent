@@ -1,7 +1,7 @@
 {
   "name": "@zk-sdk/light-protocol",
   "version": "0.1.0",
-  "description": "Light Protocol provider for Solana ZK Compression",
+  "description": "Privacy Cash provider for Solana ZK Compression",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {

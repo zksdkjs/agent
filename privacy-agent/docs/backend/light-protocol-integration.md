@@ -1,14 +1,14 @@
-# Light Protocol Integration for Solana
+# Privacy Cash Integration for Solana
 
-This document explains how to integrate and use the Light Protocol provider for Solana using the privacy-cash-sdk.
+This document explains how to integrate and use the Privacy Cash provider for Solana using the privacy-cash-sdk.
 
 ## Overview
 
-The Light Protocol provider enables private transactions on Solana using Zero-Knowledge compression technology. It wraps the privacy-cash-sdk to provide a standardized interface that conforms to the BasePrivacyProvider specification.
+The Privacy Cash provider enables private transactions on Solana using Zero-Knowledge compression technology. It wraps the privacy-cash-sdk to provide a standardized interface that conforms to the BasePrivacyProvider specification.
 
 ## ZK Compression Technology
 
-Light Protocol uses Zero-Knowledge compression to enable private transactions on Solana. This technology allows:
+Privacy Cash uses Zero-Knowledge compression to enable private transactions on Solana. This technology allows:
 
 - **Privacy**: Transaction details are hidden using ZK proofs
 - **Scalability**: Compressed accounts reduce on-chain storage
@@ -16,7 +16,7 @@ Light Protocol uses Zero-Knowledge compression to enable private transactions on
 
 ## Installation
 
-To use the Light Protocol provider, ensure you have the required dependencies:
+To use the Privacy Cash provider, ensure you have the required dependencies:
 
 ```bash
 npm install @solana/web3.js
@@ -40,7 +40,7 @@ await provider.initialize({
 
 ### 2. Solana Wallet Setup
 
-The Light Protocol provider requires a Solana Keypair for wallet operations. No wallet abstraction layer is used - the Keypair is used directly.
+The Privacy Cash provider requires a Solana Keypair for wallet operations. No wallet abstraction layer is used - the Keypair is used directly.
 
 ```typescript
 import { Keypair } from '@solana/web3.js';

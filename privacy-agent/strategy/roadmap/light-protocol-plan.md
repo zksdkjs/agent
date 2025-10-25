@@ -1,7 +1,7 @@
-# Light Protocol Implementation Plan
+# Privacy Cash Implementation Plan
 
 ## Overview
-Light Protocol is a ZK compression protocol for Solana that enables:
+Privacy Cash is a ZK compression protocol for Solana that enables:
 - 99% cost reduction via compression
 - Compressed SPL tokens
 - Compressed NFTs

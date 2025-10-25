@@ -95,8 +95,8 @@ if [ "$RUN_DOCS" == "true" ]; then
     echo ""
 
     # Check if zk-landing exists
-    if [ -d "../zk-landing" ]; then
-        export DOC_SITE_ROOT="../zk-landing"
+    if [ -d "./zk-landing" ]; then
+        export DOC_SITE_ROOT="./zk-landing"
         if bash "$SCRIPT_DIR/run-doc-site-writer.sh" --scope weekly; then
             echo -e "${GREEN}✅ Doc Site Writer completed successfully${NC}"
         else
@@ -104,7 +104,7 @@ if [ "$RUN_DOCS" == "true" ]; then
             FAILED_STAGES+=("doc-site-writer")
         fi
     else
-        echo -e "${YELLOW}⚠️  Skipping Doc Site Writer: ../zk-landing not found${NC}"
+        echo -e "${YELLOW}⚠️  Skipping Doc Site Writer: ./zk-landing not found${NC}"
     fi
     echo ""
 fi

@@ -23,7 +23,7 @@ Last Updated: 2025-10-22 12:45
    - Migration path recommendations
 
 3. **docs/INTEGRATION_FLOWS.md** (656 lines)
-   - Frontend wallet connection flows (Railgun, Aztec, FHEVM, Light Protocol)
+   - Frontend wallet connection flows (Railgun, Aztec, FHEVM, Privacy Cash)
    - Provider initialization sequences
    - Private transfer execution flows
    - Balance query flows
@@ -65,10 +65,10 @@ Last Updated: 2025-10-22 12:45
 - Create 4 provider-specific wallet guides
 - React component examples
 
-### Phase 4: Light Protocol Implementation
+### Phase 4: Privacy Cash Implementation
 - Implement sdk/packages/providers/light-protocol/
 - Create examples and tests
-- Document Light Protocol integration
+- Document Privacy Cash integration
 
 ### Phase 5: Full Integration QA
 - Run complete test suite
@@ -86,7 +86,7 @@ Last Updated: 2025-10-22 12:45
 | Phase 1: Architecture Docs | ✅ Complete | 100% |
 | Phase 2: Backend Validation | 🔄 Ready to Execute | 0% |
 | Phase 3: Frontend Guides | ⏸️ Pending | 0% |
-| Phase 4: Light Protocol | ⏸️ Pending | 0% |
+| Phase 4: Privacy Cash | ⏸️ Pending | 0% |
 | Phase 5: QA & Release | ⏸️ Pending | 0% |
 
 **Overall**: 20% Complete (1/5 phases done)

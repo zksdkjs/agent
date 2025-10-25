@@ -160,7 +160,7 @@ api-docs/
 # PRIVACY-AGENT SPECIFIC
 # ===========================================
 
-# Light Protocol SDK (external dependency)
+# Privacy Cash SDK (external dependency)
 privacy-cash-sdk/
 
 # Session data that might be large

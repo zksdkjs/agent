@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-DOC_SITE_ROOT="${DOC_SITE_ROOT:-$WORKSPACE/../zk-landing}"
+DOC_SITE_ROOT="${DOC_SITE_ROOT:-$WORKSPACE/zk-landing}"
 DOC_SECTION="${DOC_SECTION:-docs/zksdkjs}"
 POST_SCOPE="${POST_SCOPE:-weekly}"
 
@@ -15,7 +15,7 @@ usage() {
 Usage: run-doc-site-writer.sh [options]
 
 Options:
-  --site-root <path>   Path to zk-landing repository (default: ../zk-landing)
+  --site-root <path>   Path to zk-landing repository (default: ./zk-landing)
   --section <path>     Docs subdirectory to update (default: docs/zksdkjs)
   --scope <label>      Update scope (daily/weekly/launch/etc., default: weekly)
   -h, --help           Show this help message

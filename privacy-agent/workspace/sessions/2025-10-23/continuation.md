@@ -73,7 +73,7 @@ The critical question: **What do developers ACTUALLY need?**
 We have 3 working providers but only basic transfer support. The research will tell us if that's enough or if we need DeFi capabilities (swaps, lending, contract calls).
 
 Remember:
-- Privacy Cash SDK = Solana (not "Light Protocol")
+- Privacy Cash SDK = Solana (not "Privacy Cash")
 - We're building "The LangChain of Privacy"
 - Frontend devs need simple integration
 - We complement MetaMask/WalletConnect, not compete

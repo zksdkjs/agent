@@ -12,7 +12,15 @@
       "Bash(for dir in main specialists subrecipes utilities)",
       "Bash(do echo \"=== .goose/recipes/$dir ===\")",
       "Bash(ls:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Read(//var/folders/17/5h7752mn40vfv7nwcrwb3hx80000gn/T/TemporaryItems/NSIRD_screencaptureui_YjCfuR/**)",
+      "Read(//Users/saeeddawod/Desktop/agent/**)",
+      "Bash(cat:*)",
+      "Bash(git rm:*)",
+      "Bash(test:*)",
+      "Bash(tree:*)",
+      "Bash(awk:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []

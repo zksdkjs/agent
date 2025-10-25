@@ -98,7 +98,7 @@ sdk/packages/wallet-connect/
 4. **Coverage Gap: 43.7% → 90%**
    - Aztec: 30.57%
    - Bitcoin: 41.37%
-   - Light Protocol: 38.46%
+   - Privacy Cash: 38.46%
    - Recipes: Multiple failures
 
 ---
@@ -123,7 +123,7 @@ sdk/packages/wallet-connect/
 4. **Improve Provider Coverage**
    - Write tests for Aztec (30% → 90%)
    - Write tests for Bitcoin (41% → 90%)
-   - Write tests for Light Protocol (38% → 90%)
+   - Write tests for Privacy Cash (38% → 90%)
 
 5. **Generate Daily Report**
    ```bash

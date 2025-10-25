@@ -7,9 +7,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  console.log('Light Protocol Privacy Provider Example');
+  console.log('Privacy Cash Privacy Provider Example');
   
-  // Initialize the Light Protocol provider
+  // Initialize the Privacy Cash provider
   const provider = new LightProtocolPrivacyProvider();
   
   try {
