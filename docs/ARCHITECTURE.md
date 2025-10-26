@@ -228,6 +228,8 @@ await railgun.initialize({
 - RPC endpoints for each supported chain
 - Local database for transaction history
 
+**Detailed Documentation**: See [Railgun EVM Privacy](./backend/railgun-evm-privacy.md) for comprehensive integration guide
+
 ### @zksdk/providers/aztec
 
 **Purpose**: Privacy-first L2 with encrypted smart contracts

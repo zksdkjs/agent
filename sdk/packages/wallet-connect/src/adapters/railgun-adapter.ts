@@ -4,62 +4,18 @@
  */
 
 import { BasePrivacyProvider, ProviderConfig, TransferParams, TransferResult, Balance } from '@zksdk/core';
-// Note: In a real implementation, we would import the actual RailgunProvider
-// For now, we'll create a mock implementation to avoid dependency issues
+import { RailgunProvider, RailgunConfig } from '@zksdk/railgun-provider';
 
-export interface RailgunAdapterConfig extends ProviderConfig {
-  walletMnemonic?: string;
-  rpcEndpoints?: Record<string, string>;
-  engineDbPath?: string;
-}
-
-// Mock RailgunProvider for testing purposes
-class MockRailgunProvider extends BasePrivacyProvider {
-  name = 'MockRailgun';
-  
-  async initialize(config: ProviderConfig): Promise<void> {
-    // Mock initialization
-    console.log('Mock Railgun provider initialized');
-  }
-  
-  async transfer(params: TransferParams): Promise<TransferResult> {
-    return {
-      transactionHash: '0x' + '1'.repeat(64),
-      status: 'pending',
-      timestamp: Date.now()
-    };
-  }
-  
-  async getBalances(address: string): Promise<Balance[]> {
-    return [
-      {
-        token: {
-          address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-          symbol: 'USDC',
-          decimals: 6
-        },
-        balance: '1000000000'
-      }
-    ];
-  }
-  
-  async getTransactionStatus(txHash: string): Promise<TransferResult> {
-    return {
-      transactionHash: txHash,
-      status: 'success',
-      timestamp: Date.now()
-    };
-  }
-}
+export interface RailgunAdapterConfig extends RailgunConfig {}
 
 export class RailgunAdapter extends BasePrivacyProvider {
   name = 'Railgun';
-  private railgunProvider: MockRailgunProvider;
+  private railgunProvider: RailgunProvider;
   private initialized = false;
 
   constructor(config: RailgunAdapterConfig = {}) {
     super(config);
-    this.railgunProvider = new MockRailgunProvider();
+    this.railgunProvider = new RailgunProvider(config);
   }
 
   /**
@@ -107,6 +63,32 @@ export class RailgunAdapter extends BasePrivacyProvider {
     }
     
     return await this.railgunProvider.getTransactionStatus(txHash);
+  }
+
+  /**
+   * Shield tokens from public to private (0x → 0zk)
+   */
+  async shield(tokenAddress: string, amount: string, network: string): Promise<TransferResult> {
+    if (!this.initialized) {
+      throw new Error('Railgun adapter not initialized. Call initialize() first.');
+    }
+    
+    // Cast to RailgunProvider to access shield method
+    const provider = this.railgunProvider as any as { shield: (tokenAddress: string, amount: string, network: string) => Promise<TransferResult> };
+    return await provider.shield(tokenAddress, amount, network);
+  }
+
+  /**
+   * Unshield tokens from private to public (0zk → 0x)
+   */
+  async unshield(tokenAddress: string, amount: string, recipientAddress: string, network: string): Promise<TransferResult> {
+    if (!this.initialized) {
+      throw new Error('Railgun adapter not initialized. Call initialize() first.');
+    }
+    
+    // Cast to RailgunProvider to access unshield method
+    const provider = this.railgunProvider as any as { unshield: (tokenAddress: string, amount: string, recipientAddress: string, network: string) => Promise<TransferResult> };
+    return await provider.unshield(tokenAddress, amount, recipientAddress, network);
   }
 
   /**

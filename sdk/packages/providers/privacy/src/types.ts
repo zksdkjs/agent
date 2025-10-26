@@ -2,6 +2,7 @@
 // File: sdk/packages/providers/privacy/src/types.ts
 
 import { ProviderConfig, TransferParams, TransferResult, Balance, Token } from '@zksdk/core';
+import { Keypair } from '@solana/web3.js';
 
 /**
  * Privacy Cash Configuration
@@ -10,6 +11,8 @@ export interface PrivacyCashConfig extends ProviderConfig {
   rpcEndpoint?: string;
   commitment?: 'processed' | 'confirmed' | 'finalized';
   cluster?: 'mainnet-beta' | 'testnet' | 'devnet';
+  // Optional keypair for signing transactions
+  keypair?: Keypair;
 }
 
 /**

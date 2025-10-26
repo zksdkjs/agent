@@ -24,7 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "@zksdk/core": "^0.1.0",
-    "@zksdk/providers/privacy": "^0.1.0"
+    "@zksdk/providers/privacy": "^0.1.0",
+    "@zksdk/railgun-provider": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0"

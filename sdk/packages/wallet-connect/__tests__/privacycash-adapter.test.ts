@@ -3,16 +3,22 @@
  */
 
 import { PrivacyCashAdapter } from '../src/adapters/privacycash-adapter';
+import { Keypair } from '@solana/web3.js';
 
 describe('PrivacyCashAdapter', () => {
   let adapter: PrivacyCashAdapter;
   let config: any;
+  let mockKeypair: Keypair;
 
   beforeEach(() => {
+    // Create a mock keypair for testing
+    mockKeypair = Keypair.generate();
+    
     config = {
       rpcEndpoint: 'https://api.devnet.solana.com',
       commitment: 'confirmed',
-      cluster: 'devnet'
+      cluster: 'devnet',
+      keypair: mockKeypair
     };
     
     adapter = new PrivacyCashAdapter(config);

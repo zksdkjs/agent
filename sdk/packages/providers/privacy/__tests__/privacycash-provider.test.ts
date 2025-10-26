@@ -2,16 +2,22 @@
 // File: sdk/packages/providers/privacy/__tests__/privacycash-provider.test.ts
 
 import { PrivacyCashProvider } from '../src/privacycash-provider';
+import { Keypair } from '@solana/web3.js';
 
 describe('PrivacyCashProvider', () => {
   let provider: PrivacyCashProvider;
   let config: any;
+  let mockKeypair: Keypair;
 
   beforeEach(() => {
+    // Create a mock keypair for testing
+    mockKeypair = Keypair.generate();
+    
     config = {
       rpcEndpoint: 'https://api.devnet.solana.com',
       commitment: 'confirmed',
-      cluster: 'devnet'
+      cluster: 'devnet',
+      keypair: mockKeypair
     };
     
     provider = new PrivacyCashProvider(config);
@@ -86,6 +92,34 @@ describe('PrivacyCashProvider', () => {
       await expect(uninitializedProvider.transfer(transferParams))
         .rejects
         .toThrow('Privacy Cash provider not initialized');
+    });
+
+    it('should throw error when transfer called without keypair', async () => {
+      const providerWithoutKeypair = new PrivacyCashProvider({
+        rpcEndpoint: 'https://api.devnet.solana.com',
+        commitment: 'confirmed',
+        cluster: 'devnet'
+        // No keypair provided
+      });
+      
+      await providerWithoutKeypair.initialize({
+        rpcEndpoint: 'https://api.devnet.solana.com',
+        commitment: 'confirmed',
+        cluster: 'devnet'
+        // No keypair provided
+      });
+      
+      const transferParams: any = {
+        to: '9WPLRbG2qGm5RRYEN6ZYbrqtSGPs4y2u2UjnHP3c3dJp',
+        amount: '1000000000',
+        token: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        chain: 'solana',
+        privacy: 'anonymous'
+      };
+
+      await expect(providerWithoutKeypair.transfer(transferParams))
+        .rejects
+        .toThrow('Keypair is required for signing transactions');
     });
   });
 

@@ -4,7 +4,7 @@
  */
 
 import { BasePrivacyProvider, ProviderConfig, TransferParams, TransferResult, Balance, Token } from '@zksdk/core';
-import { Connection, PublicKey, Keypair } from '@solana/web3.js';
+import { Connection, PublicKey, Keypair, VersionedTransaction } from '@solana/web3.js';
 import { transfer, compress } from '@lightprotocol/compressed-token';
 import { Rpc, defaultTestStateTreeAccounts, getCompressedTokenAccountsByOwnerTest } from '@lightprotocol/stateless.js';
 
@@ -27,6 +27,7 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
   private initialized = false;
   private connection!: Connection;
   private lightRpc!: Rpc;
+  private keypair?: Keypair;
 
   constructor(config: PrivacyCashConfig = {}) {
     super(config);
@@ -36,6 +37,11 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
       rpcEndpoint: 'https://api.devnet.solana.com',
       ...config
     };
+    
+    // Store keypair if provided
+    if (config.keypair) {
+      this.keypair = config.keypair;
+    }
   }
 
   /**
@@ -53,6 +59,11 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
     }
     
     this.config = { ...this.config, ...config };
+    
+    // Store keypair if provided in initialize config
+    if (config.keypair) {
+      this.keypair = config.keypair;
+    }
     
     try {
       // Connect to Solana RPC
@@ -102,13 +113,17 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
       throw new Error('Privacy Cash only supports anonymous privacy level');
     }
 
+    // Check if keypair is available for signing
+    if (!this.keypair) {
+      throw new Error('Keypair is required for signing transactions. Please provide a keypair in the configuration.');
+    }
+
     try {
-      // For a real implementation, we would need:
-      // 1. A valid signer (keypair) to sign the transaction
-      // 2. Compressed token accounts to transfer from
-      // 3. Valid Merkle tree accounts for the compression system
-      
-      // Since this is a demonstration, we'll simulate the process
+      // Convert addresses to PublicKey objects
+      const recipientPublicKey = new PublicKey(params.to);
+      const mintPublicKey = new PublicKey(params.token);
+      const senderPublicKey = this.keypair.publicKey;
+
       console.log(`Creating private transfer on ${params.chain} for ${params.amount} ${params.token} to ${params.to}`);
       
       // In a real implementation, this would:
@@ -117,6 +132,25 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
       // 3. Generate zero-knowledge proof for the transfer
       // 4. Submit the transaction to Solana
       // 5. Return the transaction hash and status
+      
+      // For demonstration, we'll create a mock transaction that simulates the process
+      // In a production implementation, we would use the Light Protocol's transfer function:
+      /*
+      const tx = await transfer({
+        payer: this.keypair.publicKey,
+        owner: this.keypair,
+        source: [senderCompressedAccount], // Would need to fetch actual compressed accounts
+        recipient: recipientPublicKey,
+        amount: BigInt(params.amount),
+        mint: mintPublicKey,
+        rpc: this.lightRpc,
+        // Additional parameters for Merkle tree accounts would be needed
+      });
+      
+      // Sign and send the transaction
+      const signature = await this.connection.sendTransaction(tx, [this.keypair]);
+      await this.connection.confirmTransaction(signature, this.config.commitment || 'confirmed');
+      */
       
       // Mock transaction hash for demonstration
       const txHash = '5zXb6h82c1d4e3f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9';
