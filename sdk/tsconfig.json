@@ -19,6 +19,8 @@
       "@zksdk/providers/*": ["packages/providers/*"],
       "@zksdk/privacy-provider": ["packages/providers/privacy/src"],
       "@zksdk/privacy-provider/*": ["packages/providers/privacy/src/*"],
+      "@zksdk/railgun-provider": ["packages/providers/railgun/src"],
+      "@zksdk/railgun-provider/*": ["packages/providers/railgun/src/*"],
       "@zksdk/types": ["types/index"],
       "@zksdk/types/*": ["types/*"]
     }

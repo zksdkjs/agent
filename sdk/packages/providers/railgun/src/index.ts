@@ -21,11 +21,17 @@ import {
 
 import {
   generateProofTransactions,
-  populateProvedTransfer,
-  TXIDVersion
+  populateProvedTransfer
 } from '@railgun-community/wallet';
 
-import { AbstractLevelDOWN } from 'abstract-leveldown';
+// Import Railgun shared models
+import {
+  NetworkName,
+  TXIDVersion,
+  RailgunERC20AmountRecipient,
+  ProofType
+} from '@railgun-community/shared-models';
+
 import { FallbackProvider, JsonRpcProvider } from 'ethers';
 
 export interface RailgunConfig extends ProviderConfig {
@@ -137,7 +143,7 @@ export class RailgunProvider extends BasePrivacyProvider {
       console.log('Generating zero-knowledge proof...');
       
       const { provedTransactions } = await generateProofTransactions(
-        'transfer', // proofType
+        ProofType.Transfer, // proofType
         railgunNetwork,
         this.walletId,
         txidVersion,
@@ -417,7 +423,7 @@ export class RailgunProvider extends BasePrivacyProvider {
    * Get explorer URL for a network
    */
   private getExplorerUrl(network: NetworkName, txHash: string): string {
-    const explorerMap: Record<NetworkName, string> = {
+    const explorerMap: Partial<Record<NetworkName, string>> = {
       [NetworkName.Ethereum]: 'https://etherscan.io/tx/',
       [NetworkName.Polygon]: 'https://polygonscan.com/tx/',
       [NetworkName.Arbitrum]: 'https://arbiscan.io/tx/'
