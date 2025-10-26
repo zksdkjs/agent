@@ -216,7 +216,9 @@ display_dashboard() {
                 ;;
         esac
 
-        echo -e "${MAGENTA}│${NC} ${status_icon} ${BOLD}${CYAN}${agent^}${NC} ${status_color}[$status]${NC}"
+        # Capitalize agent name
+        local agent_cap=$(echo "$agent" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+        echo -e "${MAGENTA}│${NC} ${status_icon} ${BOLD}${CYAN}${agent_cap}${NC} ${status_color}[$status]${NC}"
 
         # Session progress
         if [ "$session_info" != "N/A" ]; then
