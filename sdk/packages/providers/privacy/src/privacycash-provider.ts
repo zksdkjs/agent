@@ -60,7 +60,14 @@ export class PrivacyCashProvider extends BasePrivacyProvider {
       this.connection = new Connection(rpcEndpoint, this.config.commitment || 'confirmed');
       
       // Initialize Light Protocol RPC
-      this.lightRpc = new Rpc(rpcEndpoint, 'devnet', defaultTestStateTreeAccounts());
+      this.lightRpc = new Rpc(
+        rpcEndpoint,
+        rpcEndpoint, // compression API endpoint (same as RPC for devnet)
+        rpcEndpoint, // prover endpoint (same as RPC for devnet)
+        {
+          commitment: this.config.commitment || 'confirmed'
+        }
+      );
       
       console.log(`Initializing Privacy Cash provider on ${this.config.cluster}`);
       this.initialized = true;

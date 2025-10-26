@@ -2,7 +2,6 @@
 // File: sdk/packages/providers/privacy/__tests__/privacycash-provider.test.ts
 
 import { PrivacyCashProvider } from '../src/privacycash-provider';
-import { CompressedTokenOperations } from '../src/compressed-token';
 
 describe('PrivacyCashProvider', () => {
   let provider: PrivacyCashProvider;
