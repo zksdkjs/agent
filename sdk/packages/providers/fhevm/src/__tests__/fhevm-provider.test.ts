@@ -5,7 +5,7 @@
 import { FHEVMProvider } from '../provider';
 import { ethers } from 'ethers';
 
-// Mock ethers
+// Mock the entire ethers module to avoid network calls
 jest.mock('ethers', () => {
   const actual = jest.requireActual('ethers');
   return {
@@ -26,7 +26,7 @@ jest.mock('ethers', () => {
 describe('FHEVMProvider', () => {
   let provider: FHEVMProvider;
   const mockConfig = {
-    rpcUrl: 'https://devnet.zama.ai',
+    rpcUrl: 'http://localhost:8545', // Use localhost to avoid network calls
     aclAddress: '0x1234567890123456789012345678901234567890',
     networkId: 8009,
     chainId: 8009,

@@ -1,3 +1,4 @@
+
 # zkSDK Agent Workspace
 
 This repository houses the autonomous workspace that designs, researches, and ships the zkSDK (“the LangChain of Privacy”). It combines planning artefacts, research outputs, TypeScript source code, and Goose automation so every agent and human shares the same ground truth.

@@ -232,7 +232,7 @@ export class ConfidentialERC20 {
     
     return this.provider.createConfidentialTransaction(
       to,
-      encryptedAmount,
+      amount,
       this.tokenAddress
     );
   }

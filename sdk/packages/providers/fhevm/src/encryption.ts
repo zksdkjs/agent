@@ -111,11 +111,7 @@ export class EncryptionUtils {
       value: ethers.hexlify(encryptedData),
       proof: proof,
       contractAddress: '',
-      timestamp: Date.now(),
-      metadata: {
-        bitSize,
-        publicKey: this.publicKey
-      }
+      timestamp: Date.now()
     };
   }
 
@@ -126,7 +122,11 @@ export class EncryptionUtils {
     // In production, this would generate an actual ZK proof
     // For now, create a mock proof
     const proofData = ethers.randomBytes(64);
-    return ethers.hexlify(proofData) as FHEProof;
+    return {
+      proof: ethers.hexlify(proofData),
+      publicInputs: [],
+      proofType: 'mock'
+    };
   }
 
   /**
@@ -138,7 +138,7 @@ export class EncryptionUtils {
   ): Promise<boolean> {
     // In production, this would verify the actual proof
     // For now, just check that proof exists
-    return proof.length > 0 && encryptedAmount.proof === proof;
+    return proof.proof.length > 0 && encryptedAmount.proof.proof === proof.proof;
   }
 
   /**
@@ -157,12 +157,7 @@ export class EncryptionUtils {
       value: ethers.hexlify(reEncrypted),
       proof: newProof,
       contractAddress: encryptedAmount.contractAddress,
-      timestamp: Date.now(),
-      metadata: {
-        ...encryptedAmount.metadata,
-        publicKey: newPublicKey,
-        previousEncryption: encryptedAmount.value
-      }
+      timestamp: Date.now()
     };
   }
 
@@ -181,7 +176,7 @@ export class EncryptionUtils {
   serializeForContract(encryptedAmount: EncryptedAmount): string {
     return ethers.AbiCoder.defaultAbiCoder().encode(
       ['bytes', 'bytes'],
-      [encryptedAmount.value, encryptedAmount.proof]
+      [encryptedAmount.value, encryptedAmount.proof.proof]
     );
   }
 
@@ -196,7 +191,11 @@ export class EncryptionUtils {
     
     return {
       value,
-      proof: proof as FHEProof,
+      proof: {
+        proof: proof as string,
+        publicInputs: [],
+        proofType: 'mock'
+      },
       contractAddress,
       timestamp: Date.now()
     };
