@@ -9,3 +9,4 @@ Timestamped entries from automation scripts (UTC). Newest entries append to the 
 2025-10-25T08:40:26Z doc-site-writer doc_site_20251025_153918 docs/zksdkjs
 2025-10-25T09:38:57Z developer developer_20251025_163406 workspace/sessions/2025-10-25
 2025-10-25T09:59:53Z test-writer tester_20251025_165348 target=wallet-connect coverage=90
+2025-10-26T05:16:47Z coinbase-x402-research coinbase_x402_research_20251026_115338 plans/x402/x402-research-report.md

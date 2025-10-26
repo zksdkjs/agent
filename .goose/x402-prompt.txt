@@ -1,0 +1,1 @@
+Begin the Coinbase x402 research and documentation as specified in the recipe. Analyze the external/x402 repository and produce all required deliverables.
