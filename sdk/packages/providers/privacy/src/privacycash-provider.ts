@@ -20,7 +20,7 @@ export interface CompressedTokenAccount {
 
 export class PrivacyCashProvider extends BasePrivacyProvider {
   name = 'PrivacyCash';
-  private config: PrivacyCashConfig;
+  protected config: PrivacyCashConfig;
   private initialized = false;
 
   constructor(config: PrivacyCashConfig = {}) {
