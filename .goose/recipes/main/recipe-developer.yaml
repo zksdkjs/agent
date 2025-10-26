@@ -109,17 +109,25 @@ prompt: |
 
   Review the current project status and continue with development work.
 
-  **IMPORTANT**: At the end of this session, create:
-  1. Session report at: workspace/sessions/$(date +%Y-%m-%d)/developer-$(date +%H%M).md
-  2. Update workspace/current/sprint.md with progress
-  3. Save state to workspace/memory/developer/
+  **CRITICAL - FINAL STEP (REQUIRED)**:
+  Before finishing, you MUST update workspace/hubs/dev-hand-off.md with:
 
-  Include in report:
-  - What I worked on today
-  - Code changes made
-  - Features implemented
-  - Tests written (coverage: X%)
-  - Next priorities
+  ## ✅ Completed Work
+  - List all code changes made (files modified)
+  - Test results (X passing, Y failing)
+  - Coverage changes (before → after)
+
+  ## 📊 Current Status
+  - Test coverage: X%
+  - Remaining issues
+
+  ## 🎯 Next Actions
+  - What should be worked on next
+
+  ## 📁 Files Modified
+  - List all files you changed
+
+  This handoff document is MANDATORY. Do NOT finish without creating it.
 
 activities:
   - "Implement Railgun provider (Phase 1 Priority) - Add Railgun EVM privacy system with Recipe→Step→ComboMeal pattern integration - START HERE"

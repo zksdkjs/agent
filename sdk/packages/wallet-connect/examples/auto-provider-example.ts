@@ -1,79 +1,104 @@
 /**
- * Example usage of zkWalletConnect with Auto provider
+ * Example demonstrating the auto provider functionality in zkSDK
+ * This example shows how to use the AutoPrivacyProvider to automatically
+ * detect and connect to the best available privacy provider.
  */
 
-import { ZkSDK } from '@zksdk/core';
-import { AutoPrivacyProvider } from '@zksdk/wallet-connect';
+import { AutoPrivacyProvider, ZkWalletConnect } from '@zksdk/wallet-connect';
 
-async function example() {
-  console.log('🚀 Starting zkWalletConnect Auto Provider Example');
+async function demonstrateAutoProvider() {
+  console.log('=== zkSDK Auto Provider Demo ===\n');
   
-  // Create the Auto provider
+  // Example 1: Using AutoPrivacyProvider directly
+  console.log('1. Using AutoPrivacyProvider directly:');
+  
   const autoProvider = new AutoPrivacyProvider({
     providers: {
-      railgun: {
+      railgun: { 
+        apiKey: 'your-railgun-api-key',
         rpcEndpoints: {
-          ethereum: 'https://eth.llamarpc.com',
-          polygon: 'https://polygon-rpc.com'
-        },
-        engineDbPath: './railgun-db'
+          ethereum: 'https://eth.llamarpc.com'
+        }
       },
-      aztec: {
-        pxeUrl: 'http://localhost:8080',
+      aztec: { 
+        apiKey: 'your-aztec-api-key',
+        pxeUrl: 'https://aztec-connect.dev'
       }
     },
     defaultProvider: 'railgun'
   });
   
-  // Initialize the auto provider
   try {
+    // Initialize the auto provider (this will automatically connect to the best available provider)
     await autoProvider.initialize({});
-    console.log('✅ Auto provider initialized successfully');
+    console.log('   ✓ Auto provider initialized successfully');
+    
+    // Execute a private transfer
+    const transferResult = await autoProvider.transfer({
+      chain: 'ethereum',
+      token: 'ETH',
+      amount: '1000000000000000000', // 1 ETH in wei
+      to: '0xRecipientAddress',
+      privacy: 'anonymous'
+    });
+    
+    console.log('   ✓ Transfer executed successfully');
+    console.log('   Transaction Hash:', transferResult.transactionHash);
+    console.log('   Status:', transferResult.status);
+    
   } catch (error) {
-    console.error('❌ Failed to initialize auto provider:', error.message);
-    return;
+    console.error('   ✗ Error with auto provider:', error.message);
   }
   
-  // Create SDK instance with the auto provider
-  const sdk = new ZkSDK({
+  console.log('\n2. Using ZkWalletConnect with auto detection:');
+  
+  const walletConnect = new ZkWalletConnect({
+    autoDetect: true,
     providers: {
-      auto: autoProvider,
-      railgun: new RailgunProvider({
+      railgun: { 
+        apiKey: 'your-railgun-api-key',
         rpcEndpoints: {
-          ethereum: 'https://eth.llamarpc.com',
-          polygon: 'https://polygon-rpc.com'
-        },
-        engineDbPath: './railgun-db'
-      })
+          ethereum: 'https://eth.llamarpc.com'
+        }
+      },
+      aztec: { 
+        apiKey: 'your-aztec-api-key',
+        pxeUrl: 'https://aztec-connect.dev'
+      }
     },
-    defaultProvider: 'auto'
+    defaultProvider: 'railgun'
   });
   
-  console.log('✅ SDK initialized with auto provider');
-  
-  // Example transfer (this would fail in a real implementation without proper setup)
   try {
-    const transferParams = {
-      chain: 'ethereum',
-      token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
-      amount: '1000000', // 1 USDC (6 decimals)
-      to: '0x742d35Cc6634C434C434C434C434C434C434C434',
-      privacy: 'shielded'
-    };
+    // Connect with auto detection
+    const connectionResult = await walletConnect.connect('auto');
+    console.log('   ✓ Connected to provider:', connectionResult.provider);
+    console.log('   Address:', connectionResult.address);
     
-    console.log('💸 Attempting transfer with auto provider...');
-    // const result = await sdk.transfer(transferParams);
-    // console.log('✅ Transfer completed:', result);
-    
-    console.log('💡 In a real implementation, this would execute a private transfer');
-    console.log('💡 using the best available privacy provider');
+    if (connectionResult.connected) {
+      // Get balances
+      const balances = await walletConnect.getBalances();
+      console.log('   ✓ Balances retrieved:', balances.length, 'tokens');
+      
+      // Execute transfer
+      const transferResult = await walletConnect.transfer({
+        chain: 'ethereum',
+        token: 'ETH',
+        amount: '500000000000000000', // 0.5 ETH in wei
+        to: '0xAnotherRecipient',
+        privacy: 'shielded'
+      });
+      
+      console.log('   ✓ Transfer executed successfully');
+      console.log('   Transaction Hash:', transferResult.transactionHash);
+    }
     
   } catch (error) {
-    console.error('❌ Transfer failed:', error.message);
+    console.error('   ✗ Error with wallet connect:', error.message);
   }
   
-  console.log('🎉 Example completed!');
+  console.log('\n=== Demo Complete ===');
 }
 
-// Run the example
-example().catch(console.error);
+// Run the demo
+demonstrateAutoProvider().catch(console.error);
