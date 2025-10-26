@@ -28,6 +28,11 @@ instructions: |
   - Test extensively on testnets before mainnet
   - Create examples for other developers
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Railgun Integration Specialist` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Railgun Integration Specialist` at the top.
+
+
 prompt: |
   Time to advance Railgun integration for zkSDK. 
   

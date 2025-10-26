@@ -30,6 +30,11 @@ instructions: |
   BE AGGRESSIVE: If a test is broken beyond repair, REWRITE it from scratch.
   Keep it simple, just test basic functionality works.
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: QA Agent - Fix & Run Tests Until They Pass` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: QA Agent - Fix & Run Tests Until They Pass` at the top.
+
+
 prompt: |
   Fix ONLY Aztec and Railgun provider tests. Make them pass.
   

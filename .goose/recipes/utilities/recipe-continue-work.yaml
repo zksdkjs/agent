@@ -28,6 +28,11 @@ instructions: |
   - Tests for your implementation
   - Update index.ts exports
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Continue SDK Development` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Continue SDK Development` at the top.
+
+
 prompt: |
   Continue implementing the SDK providers. Read memory files first to understand current status.
   Focus on incomplete work and build upon existing code.

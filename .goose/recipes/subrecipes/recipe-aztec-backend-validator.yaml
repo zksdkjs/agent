@@ -130,6 +130,11 @@ instructions: |
   - Use mocks for PXE interactions (don't require live PXE server)
   - Integration tests should cover: init, transfer, balances, contract calls
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Aztec Backend Validator & Documentation` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Aztec Backend Validator & Documentation` at the top.
+
+
 prompt: |
   Validate and fix the Aztec provider backend implementation.
 

@@ -168,6 +168,11 @@ instructions: |
   - Clear error handling patterns
   - Responsive to user's wallet setup (detected vs not detected)
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Frontend Wallet Integration Guides Generator` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Frontend Wallet Integration Guides Generator` at the top.
+
+
 prompt: |
   Create comprehensive frontend wallet integration guides for all zkSDK providers.
 

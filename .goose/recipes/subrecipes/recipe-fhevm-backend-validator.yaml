@@ -158,6 +158,11 @@ instructions: |
   - Test encryption/decryption flows
   - Validate error handling for invalid encrypted data
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: FHEVM Backend Validator & Documentation` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: FHEVM Backend Validator & Documentation` at the top.
+
+
 prompt: |
   Validate the FHEVM provider backend implementation and make it testable offline.
 

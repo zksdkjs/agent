@@ -2,8 +2,8 @@
  * Example usage of zkWalletConnect with Auto provider
  */
 
-import { ZkSDK, AutoPrivacyProvider } from '@zksdk/core';
-import { RailgunProvider } from '@zksdk/providers-railgun';
+import { ZkSDK } from '@zksdk/core';
+import { AutoPrivacyProvider } from '@zksdk/wallet-connect';
 
 async function example() {
   console.log('🚀 Starting zkWalletConnect Auto Provider Example');

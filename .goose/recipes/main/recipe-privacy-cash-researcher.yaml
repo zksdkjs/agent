@@ -223,6 +223,11 @@ instructions: |
   - Actionable recommendations
   - Well-structured with clear sections
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Privacy Cash PM Market Research & Developer Needs Analysis` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Privacy Cash PM Market Research & Developer Needs Analysis` at the top.
+
+
 prompt: |
   Time to conduct world-class research on Privacy Cash SDK!
 

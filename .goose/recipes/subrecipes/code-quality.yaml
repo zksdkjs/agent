@@ -77,6 +77,11 @@ instructions: |
   - Import organization
   {% endif %}
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Code Quality Analysis Subrecipe` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Code Quality Analysis Subrecipe` at the top.
+
+
 prompt: |
   Analyzing code quality for: {{ target_path }}
 

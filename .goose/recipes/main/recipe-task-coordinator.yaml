@@ -25,6 +25,11 @@ instructions: |
   - Coordinate handoffs between specialists
   - Generate comprehensive progress reports
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Multi-Agent Task Coordinator` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Multi-Agent Task Coordinator` at the top.
+
+
 prompt: |
   Review current zkSDK development progress and coordinate next steps across specialist agents.
   

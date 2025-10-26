@@ -98,6 +98,11 @@ instructions: |
   - LOW: Best practice improvements
   - INFO: Informational findings
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Security Analysis Subrecipe` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Security Analysis Subrecipe` at the top.
+
+
 prompt: |
   Performing security analysis on: {{ scan_path }}
 

@@ -53,6 +53,11 @@ instructions: |
   - docs/backend/light-protocol-integration.md (NEW)
   - examples/backend/.env.example (UPDATE)
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Privacy Cash SDK Specialist (Solana)` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Privacy Cash SDK Specialist (Solana)` at the top.
+
+
 prompt: |
   Integrate the privacy-cash-sdk as the Privacy Cash provider for Solana.
 

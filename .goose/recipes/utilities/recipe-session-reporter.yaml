@@ -40,6 +40,11 @@ instructions: |
   - Next Steps
   - Lessons Learned
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Session Report Generator` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Session Report Generator` at the top.
+
+
 prompt: |
   Generate a comprehensive session report for today's work on zkSDK v1.0.
 

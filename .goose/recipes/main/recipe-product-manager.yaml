@@ -290,6 +290,11 @@ instructions: |
   Your output must be TECHNICAL, DETAILED, and ACTIONABLE.
   No shallow analysis - deep technical product work only.
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Senior Product Manager - Privacy Protocol Strategy & Architecture` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Senior Product Manager - Privacy Protocol Strategy & Architecture` at the top.
+
+
 prompt: |
   Conduct comprehensive technical product research for zkSDK.
 

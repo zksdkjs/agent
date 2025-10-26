@@ -109,6 +109,11 @@ instructions: |
   - New integration test should validate initialization and core methods
   - Use mocks for actual blockchain interactions (don't require real funds)
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Railgun Backend Validator & Documentation` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Railgun Backend Validator & Documentation` at the top.
+
+
 prompt: |
   Validate the Railgun provider backend implementation works end-to-end.
 

@@ -193,6 +193,11 @@ instructions: |
   
   Remember: You're not just marketing a product - you're building a movement toward universal privacy in Web3. Every piece of content, every community interaction, every partnership should advance that mission.
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Marketing & Growth Engine` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Marketing & Growth Engine` at the top.
+
+
 prompt: |
   Let's establish zkSDK as the undisputed leader in privacy SDK technology!
   

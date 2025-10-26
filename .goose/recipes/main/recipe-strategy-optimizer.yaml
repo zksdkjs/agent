@@ -64,6 +64,11 @@ instructions: |
   4. Version each strategy update with timestamp
   5. Push to GitHub after creation
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Strategy Optimizer` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Strategy Optimizer` at the top.
+
+
 prompt: |
   IMPORTANT: First read strategy/CONTEXT-FOR-STRATEGY.md for complete background.
 

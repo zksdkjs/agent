@@ -212,6 +212,11 @@ instructions: |
   - [Your name/team]
   ```
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Full Integration Testing & QA` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Full Integration Testing & QA` at the top.
+
+
 prompt: |
   Perform comprehensive QA for zkSDK v1.0.0-beta release.
 

@@ -58,3 +58,8 @@ instructions: |
   - Respect existing file conventions (frontmatter, heading levels).
   - Keep tone factual and bias to actionable recommendations.
   - Include next actions for Product Manager and Developer agents.
+
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Coinbase x402 Research & zkSDK Integration Blueprint` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Coinbase x402 Research & zkSDK Integration Blueprint` at the top.
+

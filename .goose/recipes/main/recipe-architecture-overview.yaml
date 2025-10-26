@@ -53,6 +53,11 @@ instructions: |
   - Make it scannable (headings, tables, bullet points)
   - Assume reader is new to privacy tech but experienced developer
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Architecture Documentation Generator` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Architecture Documentation Generator` at the top.
+
+
 prompt: |
   Generate comprehensive architecture documentation for zkSDK.
 

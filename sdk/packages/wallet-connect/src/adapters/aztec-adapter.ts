@@ -35,7 +35,7 @@ export class AztecAdapter extends BasePrivacyProvider {
       // Mock initialization
       console.log('Initializing Aztec adapter with PXE:', config.pxeUrl || 'default');
       this.initialized = true;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Failed to initialize Aztec adapter: ${error.message}`);
     }
   }

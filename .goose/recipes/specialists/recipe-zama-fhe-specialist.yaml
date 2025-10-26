@@ -25,6 +25,11 @@ instructions: |
   Save all progress to memory/zama-fhe-progress.md
   Update checklist status after each task
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Zama FHE Specialist Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Zama FHE Specialist Agent` at the top.
+
+
 prompt: |
   Start implementing Zama fhEVM provider for zkSDK. I am a Zama FHE specialist.
   

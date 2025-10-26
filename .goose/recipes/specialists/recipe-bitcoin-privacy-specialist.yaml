@@ -25,6 +25,11 @@ instructions: |
   
   Save progress to memory/bitcoin-privacy-progress.md
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Bitcoin Privacy Specialist Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Bitcoin Privacy Specialist Agent` at the top.
+
+
 prompt: |
   Implement Bitcoin Silent Payments provider. I am a Bitcoin privacy specialist.
   

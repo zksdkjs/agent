@@ -23,6 +23,11 @@ instructions: |
   
   BE THOROUGH - The specialists will use your research!
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Railgun Deep Research Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Railgun Deep Research Agent` at the top.
+
+
 prompt: |
   Research Railgun's Recipe→Step→ComboMeal pattern in the cookbook/ directory.
   Study cookbook/src/recipes/, cookbook/src/steps/, and cookbook/src/combo-meals/.

@@ -44,6 +44,11 @@ instructions: |
   6. Document any issues found
   7. Create test summary
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Tester Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Tester Agent` at the top.
+
+
 prompt: |
   Let's ensure the zkSDK meets our quality standards.
   Start by reviewing the current test coverage and identifying areas that need testing.

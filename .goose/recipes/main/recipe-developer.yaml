@@ -95,6 +95,11 @@ instructions: |
   Full development session with comprehensive work.
   {% endif %}
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Developer Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Developer Agent` at the top.
+
+
 prompt: |
   Time to continue building zkSDK, the LangChain of Privacy.
 

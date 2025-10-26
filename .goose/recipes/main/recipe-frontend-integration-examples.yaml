@@ -74,6 +74,11 @@ instructions: |
   }
   ```
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Frontend Integration Examples - React, Vue, Next.js` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Frontend Integration Examples - React, Vue, Next.js` at the top.
+
+
 prompt: |
   Create production-ready frontend examples showing zkWalletConnect integration.
 

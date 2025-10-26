@@ -28,6 +28,11 @@ instructions: |
   
   Focus on practical, actionable improvements that will help the project move forward effectively.
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Goose Improvement Agent` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Goose Improvement Agent` at the top.
+
+
 settings:
   temperature: 0.3
   max_tokens: 4096

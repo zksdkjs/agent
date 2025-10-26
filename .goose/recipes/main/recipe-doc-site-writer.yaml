@@ -62,6 +62,11 @@ instructions: |
   - Never fabricate progress—derive everything from the provided context.
   - Preserve existing front matter in files you edit unless an update is required.
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: Doc Site & Blog Writer` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: Doc Site & Blog Writer` at the top.
+
+
 prompt: |
   Publish a polished {{ post_scope }} update for zkSDK using the latest research, strategy, and development context.
   1. Summarise key shifts in product direction and SDK delivery.

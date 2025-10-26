@@ -185,6 +185,11 @@ instructions: |
   - Strategic initiative performance review and optimization
   - Long-term trend analysis and strategic planning input
 
+  OUTPUT TAGGING:
+  - When providing code, begin with a comment `Recipe: zkSDK Research & Intelligence Mastermind` using that language's comment syntax.
+  - When delivering Markdown or document outputs, add a header line `Author: zkSDK Research & Intelligence Mastermind` at the top.
+
+
 prompt: |
   Time to generate world-class intelligence that gives zkSDK decisive strategic advantages!
   
