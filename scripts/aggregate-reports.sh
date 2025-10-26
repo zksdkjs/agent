@@ -125,15 +125,19 @@ for agent in "${AGENTS[@]}"; do
         continue
     fi
 
-    # Agent section header
+    # Agent section header (capitalize agent name)
+    AGENT_NAME_CAP=$(echo "$agent" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+    AGENT_WORKING_DIR=$(yq eval ".agents.${agent}.working_dir" "$CONFIG_FILE" 2>/dev/null || echo "N/A")
+    AGENT_DESC=$(yq eval ".agents.${agent}.description" "$CONFIG_FILE" 2>/dev/null || echo "N/A")
+
     cat >> "$OUTPUT_FILE" << EOF
 
 ---
 
-## 🤖 ${agent^} Agent
+## 🤖 ${AGENT_NAME_CAP} Agent
 
-**Working Directory:** \`$(yq eval ".agents.${agent}.working_dir" "$CONFIG_FILE" 2>/dev/null || echo "N/A")\`
-**Description:** $(yq eval ".agents.${agent}.description" "$CONFIG_FILE" 2>/dev/null || echo "N/A")
+**Working Directory:** \`${AGENT_WORKING_DIR}\`
+**Description:** ${AGENT_DESC}
 
 EOF
 
