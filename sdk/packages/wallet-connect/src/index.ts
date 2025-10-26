@@ -8,7 +8,7 @@ import { BasePrivacyProvider, ProviderConfig, TransferParams, TransferResult, Ba
 // Import provider adapters
 import { RailgunAdapter } from './adapters/railgun-adapter';
 import { AztecAdapter } from './adapters/aztec-adapter';
-// Solana adapter will be imported when we implement it
+import { PrivacyCashAdapter } from './adapters/privacycash-adapter';
 
 export interface WalletConnectConfig {
   // Default provider to use when auto-detection fails
@@ -56,8 +56,10 @@ export class ZkWalletConnect {
         this.adapters.aztec = new AztecAdapter(this.config.providers.aztec);
       }
       
-      // Future adapters can be added here
-      // this.adapters.solana = new SolanaAdapter(this.config.providers?.solana);
+      // Initialize PrivacyCash adapter if configuration is provided
+      if (this.config.providers?.privacycash) {
+        this.adapters.solana = new PrivacyCashAdapter(this.config.providers.privacycash);
+      }
     } catch (error) {
       console.error('Failed to initialize adapters:', error);
     }

@@ -18,7 +18,7 @@ parameters:
   - key: post_scope
     input_type: string
     requirement: optional
-    default: "weekly"
+    default: "daily"
     description: "Type of update (daily/weekly/launch) to shape voice and structure."
 
 instructions: |
@@ -30,7 +30,7 @@ instructions: |
   - `workspace/hubs/dev-hand-off.md`
   - The newest files under `insights/research/` (especially `pm-market-research-*.md`)
   - Key deliverables in `strategy/product/` (personas, architecture, requirements, GTM)
-  - Today's session notes in `workspace/sessions/YYYY-MM-DD/`
+  - **ALL session reports** in `workspace/sessions/YYYY-MM-DD/` (read EVERY *.md file to capture all dev sessions from today)
   - Existing docs in `{{ doc_site_root }}/{{ doc_section }}/`
 
   ## OUTPUT TARGETS
@@ -39,12 +39,12 @@ instructions: |
      - Use Docusaurus front matter:
        ```yaml
        ---
-       id: 2025-10-24-weekly-update
-       title: "Weekly Update – October 24, 2025"
-       sidebar_label: "Oct 24, 2025"
-       description: "Railgun launch status, SDK roadmap highlights, and new research insights."
-       tags: [weekly, roadmap, sdk, privacy]
-       date: 2025-10-24
+       id: 2025-10-26-daily-update
+       title: "Daily Update – October 26, 2025"
+       sidebar_label: "Oct 26, 2025"
+       description: "Today's development progress across all sessions"
+       tags: [daily, progress, sdk, privacy]
+       date: 2025-10-26
        ---
        ```
      - Structure the post with clear sections: Executive Summary, Product Progress, Research Highlights, Upcoming Work, Call to Action.
@@ -68,9 +68,12 @@ instructions: |
 
 
 prompt: |
-  Publish a polished {{ post_scope }} update for zkSDK using the latest research, strategy, and development context.
-  1. Summarise key shifts in product direction and SDK delivery.
-  2. Highlight notable technical achievements or blockers.
+  Publish a polished {{ post_scope }} update for zkSDK by aggregating ALL development sessions from today.
+
+  Read EVERY session report from workspace/sessions/YYYY-MM-DD/ to capture the full day's work across all dev sessions.
+
+  1. Summarise key shifts in product direction and SDK delivery from all sessions today.
+  2. Highlight notable technical achievements or blockers across all sessions.
   3. Map upcoming priorities directly to next-action files in the workspace.
   4. Update the marketing docs so they match today's reality.
 
@@ -80,7 +83,7 @@ prompt: |
   - Updated workspace/hubs/docs-hand-off.md with a concise summary and follow-ups
 
 activities:
-  - "Draft Executive Summary for zkSDK weekly update"
+  - "Draft Executive Summary for zkSDK daily update aggregating all sessions from today"
   - "Document product & SDK progress with references to strategy/product outputs"
   - "Extract research insights from insights/research and translate into marketing copy"
   - "Refresh overview page to reflect latest roadmap status"

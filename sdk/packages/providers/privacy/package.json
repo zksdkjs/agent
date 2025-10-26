@@ -1,0 +1,23 @@
+{
+  "name": "@zksdk/privacy-provider",
+  "version": "0.1.0",
+  "description": "Privacy Cash provider for zkSDK - Solana ZK Compression with 99% cost reduction",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": ["privacy", "solana", "compression", "zk", "zkp"],
+  "author": "zkSDK Team",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@zksdk/core": "^0.1.0"
+  }
+}
