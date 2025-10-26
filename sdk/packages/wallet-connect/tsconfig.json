@@ -4,9 +4,20 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@zksdk/core": ["../../packages/core/src"],
+      "@zksdk/core/*": ["../../packages/core/src/*"],
+      "@zksdk/privacy-provider": ["../../packages/providers/privacy/src"],
+      "@zksdk/privacy-provider/*": ["../../packages/providers/privacy/src/*"]
+    }
   },
   "include": [
     "src/**/*"
+  ],
+  "references": [
+    { "path": "../core" },
+    { "path": "../providers/privacy" }
   ]
 }

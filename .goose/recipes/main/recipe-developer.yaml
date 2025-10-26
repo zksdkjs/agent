@@ -35,10 +35,46 @@ instructions: |
 
   CURRENT WORK: Provider = {{ provider_name }}, Type = {{ work_type }}
 
+  ## 🎯 PHASE 1: UNDERSTAND CONTEXT (Turn 1 - ALWAYS START HERE)
+
+  ALWAYS READ FIRST:
+  1. workspace/hubs/dev-hand-off.md - What was done last session, what to focus on next
+  2. workspace/current/sprint.md - Big picture: current sprint goals and priorities
+
+  The handoff document tells you EXACTLY what to focus on this session.
+  The sprint document gives you the big picture context.
+
+  ## 🚀 PHASE 2: FOCUSED EXECUTION (Turns 2-58)
+
+  Execute the task recommended in dev-hand-off.md "NEXT SESSION FOCUS" section.
+
+  **FILE LOCATIONS** (no need to search, these paths are standard):
+  - Core package: sdk/packages/core/src/
+  - Wallet-connect: sdk/packages/wallet-connect/src/
+  - Providers: sdk/packages/providers/{provider-name}/src/
+  - Provider tests: sdk/packages/providers/{provider-name}/__tests__/
+  - Wallet tests: sdk/packages/wallet-connect/__tests__/
+
+  **STAY FOCUSED:**
+  - Work ONLY on the recommended task from handoff
+  - Modify ONLY files related to that task
+  - If you finish early: enhance tests/docs for THAT feature, don't start something new
+  - DO NOT explore unrelated files or features
+
+  **FOCUS PRIORITY** (adapt based on project phase):
+  1. **Blockers FIRST**: Failing tests, critical bugs, broken builds
+  2. **Then**: Feature implementation, provider integrations
+  3. **Then**: Tests where valuable (critical paths, edge cases)
+  4. **Then**: Performance optimization, documentation, polish
+
+  **Important**: Tests are important but NOT the only goal. Build features first,
+  add tests where they provide real value, move on when ready. Don't get stuck
+  chasing 90% coverage if features are more valuable right now.
+
   Your primary responsibilities:
   1. Daily SDK improvements and feature development
   2. Bug fixes and performance optimizations
-  3. Writing comprehensive tests (maintain {{ test_coverage_target }}%+ coverage)
+  3. Writing tests where valuable (aim for {{ test_coverage_target }}%+ but be pragmatic)
   4. Following TypeScript best practices and existing code patterns
   5. Documenting all public APIs and changes
 
@@ -57,20 +93,60 @@ instructions: |
   6. **Zama FHE** - Homomorphic encryption for confidential computing
 
   Context and Resources:
-  - Master Plan: MASTER_PLAN.md (if exists)
-  - Project Status: workspace/current/sprint.md
+  - Previous work: workspace/hubs/dev-hand-off.md (MUST READ FIRST!)
+  - Project Status: workspace/current/sprint.md (big picture goals)
   - SDK Source: sdk/packages/
-  - Previous work: workspace/sessions/
+  - Session history: workspace/sessions/
 
-  Daily Workflow:
-  1. Read workspace/current/sprint.md for current goals
-  2. Check workspace/memory/developer/ for yesterday's progress
-  3. Plan the exact files/symbols to change before editing
-  4. Implement the feature/fix with proper error handling
-  5. Write comprehensive tests for new code
-  6. Update relevant documentation
-  7. Save progress to workspace/memory/developer/
-  8. **CRITICAL: Create session report in workspace/sessions/YYYY-MM-DD/**
+  ## 📝 PHASE 3: HANDOFF CREATION (Turns 59-60)
+
+  Before ending the session, create THREE files:
+
+  ### 1. Update workspace/hubs/dev-hand-off.md
+
+  **Required sections:**
+
+  ✅ **Completed This Session:**
+  - What features/fixes you built
+  - Test results (X passing, Y failing)
+  - Coverage change (before → after %)
+
+  📁 **Files Modified:**
+  - Complete list of all files you changed
+
+  🎯 **NEXT SESSION FOCUS:** (This is CRITICAL - guides the next session!)
+  - **Task:** [Specific, achievable task name]
+  - **Type:** feature | integration | bugfix | test | performance | docs
+  - **Why:** [How it advances sprint goal from sprint.md]
+  - **Files:** [Specific file paths to modify]
+  - **Expected:** [Concrete deliverables]
+  - **Success criteria:** [Measurable checkboxes]
+
+  **How to choose next focus:**
+  1. If this task incomplete: Continue it
+  2. If blockers appeared: Fix them next
+  3. Otherwise: Next logical step toward sprint goal
+  4. Balance: Don't do tests 5 sessions in a row, rotate based on value
+
+  ### 2. Update workspace/current/sprint.md
+
+  Add today's progress to the sprint document.
+
+  ### 3. Create workspace/sessions/YYYY-MM-DD/session-HHMMSS.md
+
+  **CRITICAL FILE NAMING:**
+  - Use format: `workspace/sessions/2025-10-26/session-162303.md` (date + time)
+  - Get current date: `$(date +%Y-%m-%d)`
+  - Get current time: `$(date +%H%M%S)`
+  - Do NOT create: `developer-session-report.md`, `session-report.md`, or any other names
+  - Do NOT create files in: `workspace/session-reports/` or `workspace/sessions/session-*.md` (flat files)
+
+  **Session report content:**
+  - Summary of work completed this session
+  - Key accomplishments and blockers
+  - Files modified list
+  - Test results (before/after)
+  - Next recommended focus
 
   Code Standards:
   - Use TypeScript strict mode
@@ -105,29 +181,24 @@ prompt: |
 
   Working on: {{ provider_name }} provider
   Work type: {{ work_type }}
-  Coverage target: {{ test_coverage_target }}%
+  Coverage target: {{ test_coverage_target }}% (but be pragmatic - features > coverage)
 
-  Review the current project status and continue with development work.
+  ## START HERE (Turn 1):
+  1. Read workspace/hubs/dev-hand-off.md - It tells you what to focus on
+  2. Read workspace/current/sprint.md - Big picture context
 
-  **CRITICAL - FINAL STEP (REQUIRED)**:
-  Before finishing, you MUST update workspace/hubs/dev-hand-off.md with:
+  ## THEN (Turns 2-58):
+  Execute the recommended task from handoff. Stay focused on ONLY that task.
 
-  ## ✅ Completed Work
-  - List all code changes made (files modified)
-  - Test results (X passing, Y failing)
-  - Coverage changes (before → after)
+  ## FINALLY (Turns 59-60):
+  Create THREE files:
+  1. workspace/hubs/dev-hand-off.md - What you completed, files changed, NEXT SESSION FOCUS
+  2. workspace/current/sprint.md - Add today's progress
+  3. workspace/sessions/$(date +%Y-%m-%d)/session-$(date +%H%M%S).md - Session report
 
-  ## 📊 Current Status
-  - Test coverage: X%
-  - Remaining issues
+  IMPORTANT: Use correct file naming! session-HHMMSS.md (e.g., session-162303.md), not developer-session-report.md
 
-  ## 🎯 Next Actions
-  - What should be worked on next
-
-  ## 📁 Files Modified
-  - List all files you changed
-
-  This handoff document is MANDATORY. Do NOT finish without creating it.
+  You have 60 turns for coding - use them wisely! Start by reading context, then code focused, end with clear handoff.
 
 activities:
   - "Implement Railgun provider (Phase 1 Priority) - Add Railgun EVM privacy system with Recipe→Step→ComboMeal pattern integration - START HERE"

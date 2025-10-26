@@ -2,7 +2,7 @@
  * Test suite for PrivacyCashAdapter
  */
 
-import { PrivacyCashAdapter } from '../adapters/privacycash-adapter';
+import { PrivacyCashAdapter } from '../src/adapters/privacycash-adapter';
 
 describe('PrivacyCashAdapter', () => {
   let adapter: PrivacyCashAdapter;

@@ -12,6 +12,29 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Show help if requested (check before any processing)
+if [ "${1:-}" == "--help" ] || [ "${1:-}" == "-h" ]; then
+    echo "Usage: $0 [provider] [work_type] [coverage] [session]"
+    echo ""
+    echo "Parameters:"
+    echo "  provider:  auto|railgun|aztec|light-protocol|bitcoin (default: auto)"
+    echo "  work_type: feature|bugfix|test|refactor|docs (default: feature)"
+    echo "  coverage:  Test coverage target percentage (default: 90)"
+    echo "  session:   quick|medium|full (default: full)"
+    echo ""
+    echo "Examples:"
+    echo "  $0                    # Auto-select provider, feature work"
+    echo "  $0 railgun            # Work on Railgun provider"
+    echo "  $0 aztec bugfix 95    # Fix bugs in Aztec with 95% coverage"
+    echo ""
+    echo "This script runs in 2 phases:"
+    echo "  Phase 1: Developer agent does work (60 turns max)"
+    echo "  Phase 2: Auto-resume to force handoff creation (10 turns)"
+    echo ""
+    echo "GUARANTEED handoff creation - no more manual handoffs!"
+    exit 0
+fi
+
 echo -e "${BLUE}🚀 zkSDK Developer Agent - Auto Handoff Edition${NC}"
 echo "================================================"
 echo ""
@@ -54,6 +77,8 @@ echo ""
 
 # Create session name with timestamp
 SESSION_NAME="developer_$(date +%Y%m%d_%H%M%S)"
+SESSION_TIMESTAMP="$(date +%H%M%S)"
+SESSION_DATE="$(date +%Y-%m-%d)"
 
 # Set environment variables
 export GOOSE_MODEL="${GOOSE_MODEL:-qwen/qwen3-coder-plus}"
@@ -67,17 +92,17 @@ mkdir -p workspace/hubs
 
 echo -e "${BLUE}Starting Developer Session: $SESSION_NAME${NC}"
 echo "Model: $GOOSE_MODEL"
-echo "Max Turns: 40 (dev) + 10 (handoff) = 50 total"
+echo "Max Turns: 60 (dev) + 10 (handoff) = 70 total"
 echo ""
 
-# PHASE 1: Run developer agent with 40 turn limit (saves 10 for handoff)
-echo -e "${GREEN}Phase 1: Running developer agent (40 turns max)...${NC}"
+# PHASE 1: Run developer agent with 60 turn limit (saves 10 for handoff)
+echo -e "${GREEN}Phase 1: Running developer agent (60 turns max)...${NC}"
 echo ""
 
 goose run \
     --recipe "$RECIPE_PATH" \
     --name "$SESSION_NAME" \
-    --max-turns 40 \
+    --max-turns 60 \
     --params "provider_name=$PROVIDER" \
     --params "work_type=$WORK_TYPE" \
     --params "test_coverage_target=$COVERAGE" \
@@ -106,10 +131,20 @@ Your ONLY tasks now:
 
 2. Update workspace/current/sprint.md with today's progress
 
-3. Create workspace/sessions/$(date +%Y-%m-%d)/developer-session-report.md
+3. Create workspace/sessions/${SESSION_DATE}/session-${SESSION_TIMESTAMP}.md
+   - Summary of work completed this session
+   - Key accomplishments and blockers
+   - Files modified list
+   - Test results
+
+IMPORTANT FILE NAMING:
+- Session report MUST be: workspace/sessions/${SESSION_DATE}/session-${SESSION_TIMESTAMP}.md
+- Do NOT create files in workspace/session-reports/
+- Do NOT create files like workspace/sessions/session-YYYY-MM-DD.md (flat files)
+- Do NOT use names like developer-session-report.md or session-report.md
 
 DO NOT write more code. DO NOT run more tests.
-ONLY create the documentation above and call final_output.
+ONLY create the THREE files above (dev-hand-off.md, sprint.md, and session-HHMMSS.md).
 
 DO IT NOW."
 
@@ -122,17 +157,58 @@ echo ""
 echo -e "${BLUE}Phase 2 completed with exit code: $PHASE2_EXIT${NC}"
 echo ""
 
+# Validate expected files were created
+echo -e "${BLUE}Validating session output...${NC}"
+EXPECTED_SESSION_REPORT="workspace/sessions/${SESSION_DATE}/session-${SESSION_TIMESTAMP}.md"
+
 # Check if handoff was created
 if [ -f "workspace/hubs/dev-hand-off.md" ]; then
     echo -e "${GREEN}✅ Handoff document created successfully!${NC}"
+else
+    echo -e "${RED}⚠️  Warning: Handoff document not found!${NC}"
+    echo "Expected: workspace/hubs/dev-hand-off.md"
+fi
+
+# Check if session report was created in correct location
+if [ -f "$EXPECTED_SESSION_REPORT" ]; then
+    echo -e "${GREEN}✅ Session report created: session-${SESSION_TIMESTAMP}.md${NC}"
+else
+    echo -e "${RED}⚠️  Warning: Session report not found at expected location!${NC}"
+    echo "Expected: $EXPECTED_SESSION_REPORT"
+fi
+
+# Check for files in wrong locations
+WRONG_LOCATIONS_FOUND=false
+
+if [ -d "workspace/session-reports" ]; then
+    echo -e "${YELLOW}⚠️  Found files in wrong directory: workspace/session-reports/${NC}"
+    ls workspace/session-reports/
+    WRONG_LOCATIONS_FOUND=true
+fi
+
+if ls workspace/sessions/*.md 2>/dev/null | grep -q "session-.*\.md"; then
+    echo -e "${YELLOW}⚠️  Found flat files in workspace/sessions/ (should be in dated subdirectories)${NC}"
+    ls workspace/sessions/*.md 2>/dev/null | head -3
+    WRONG_LOCATIONS_FOUND=true
+fi
+
+if [ "$WRONG_LOCATIONS_FOUND" = true ]; then
     echo ""
-    echo -e "${BLUE}📊 Handoff Summary:${NC}"
+    echo -e "${YELLOW}Run 'bash scripts/cleanup-session-files.sh' to fix file locations${NC}"
+fi
+
+echo ""
+echo -e "${BLUE}📊 Session Output Files:${NC}"
+echo "----------------------------"
+echo "Handoff: workspace/hubs/dev-hand-off.md"
+echo "Sprint: workspace/current/sprint.md"
+echo "Session: $EXPECTED_SESSION_REPORT"
+echo ""
+if [ -f "workspace/hubs/dev-hand-off.md" ]; then
+    echo -e "${BLUE}📝 Handoff Preview:${NC}"
     echo "----------------------------"
     head -30 workspace/hubs/dev-hand-off.md
     echo ""
-else
-    echo -e "${RED}⚠️  Warning: Handoff document not found!${NC}"
-    echo "Check: workspace/hubs/dev-hand-off.md"
 fi
 
 # Show test results if available
@@ -149,26 +225,3 @@ echo "Session: $SESSION_NAME"
 echo "Handoff: workspace/hubs/dev-hand-off.md"
 echo "Timestamp: $(date)"
 echo ""
-
-# Usage help
-if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-    echo "Usage: $0 [provider] [work_type] [coverage] [session]"
-    echo ""
-    echo "Parameters:"
-    echo "  provider:  auto|railgun|aztec|light-protocol|bitcoin (default: auto)"
-    echo "  work_type: feature|bugfix|test|refactor|docs (default: feature)"
-    echo "  coverage:  Test coverage target percentage (default: 90)"
-    echo "  session:   quick|medium|full (default: full)"
-    echo ""
-    echo "Examples:"
-    echo "  $0                    # Auto-select provider, feature work"
-    echo "  $0 railgun            # Work on Railgun provider"
-    echo "  $0 aztec bugfix 95    # Fix bugs in Aztec with 95% coverage"
-    echo ""
-    echo "This script runs in 2 phases:"
-    echo "  Phase 1: Developer agent does work (40 turns max)"
-    echo "  Phase 2: Auto-resume to force handoff creation (10 turns)"
-    echo ""
-    echo "GUARANTEED handoff creation - no more manual handoffs!"
-    exit 0
-fi

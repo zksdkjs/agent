@@ -9,15 +9,24 @@
     "test": "jest",
     "lint": "eslint src/**/*.ts"
   },
-  "keywords": ["privacy", "solana", "compression", "zk", "zkp"],
+  "keywords": [
+    "privacy",
+    "solana",
+    "compression",
+    "zk",
+    "zkp"
+  ],
   "author": "zkSDK Team",
   "license": "MIT",
-  "dependencies": {
-  },
   "devDependencies": {
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
-    "@zksdk/core": "^0.1.0"
+    "@zksdk/core": "file:../../core"
+  },
+  "dependencies": {
+    "@lightprotocol/compressed-token": "^0.22.0",
+    "@lightprotocol/stateless.js": "^0.22.0",
+    "@solana/web3.js": "^1.98.4"
   }
 }

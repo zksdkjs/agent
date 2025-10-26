@@ -1,8 +1,8 @@
 /**
  * Shared types for zkSDK providers
  */
-export type { Network, PrivacyLevel, Token, TransferParams, TransferResult, Balance, ProviderConfig } from './core/src/index';
 export type ChainId = number;
+export type { TransferParams, TransferResult, Balance, ProviderConfig } from '@zksdk/core';
 export interface TokenInfo {
     address: string;
     symbol: string;
@@ -45,6 +45,19 @@ export interface Transaction {
     amount?: string;
     token?: TokenInfo;
     fee?: string;
+}
+export interface TransactionResult {
+    hash: string;
+    status: 'pending' | 'confirmed' | 'failed';
+    provider: string;
+    chainId: ChainId;
+    timestamp: number;
+    transactions?: {
+        hash: string;
+        status: 'pending' | 'confirmed' | 'failed';
+        timestamp: number;
+    }[];
+    success?: boolean;
 }
 export interface PrivateAddressInfo {
     address: string;
@@ -95,7 +108,7 @@ export interface ContractCallParams {
     contractAddress: string;
     artifact: any;
     method: string;
-    args: any[];
+    args?: any[];
     walletAddress?: string;
     sponsoredFee?: boolean;
 }

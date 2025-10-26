@@ -17,6 +17,8 @@
       "@zksdk/core": ["packages/core/src"],
       "@zksdk/core/*": ["packages/core/src/*"],
       "@zksdk/providers/*": ["packages/providers/*"],
+      "@zksdk/privacy-provider": ["packages/providers/privacy/src"],
+      "@zksdk/privacy-provider/*": ["packages/providers/privacy/src/*"],
       "@zksdk/types": ["types/index"],
       "@zksdk/types/*": ["types/*"]
     }

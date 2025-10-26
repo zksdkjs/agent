@@ -319,3 +319,4 @@ export class AutoPrivacyProvider extends BasePrivacyProvider {
 // Export main classes and types
 export * from './adapters/railgun-adapter';
 export * from './adapters/aztec-adapter';
+export * from './adapters/privacycash-adapter';

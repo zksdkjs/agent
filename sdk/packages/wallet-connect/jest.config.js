@@ -12,6 +12,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^@zksdk/core$": "<rootDir>/../core/src",
-    "^@zksdk/core/(.*)$": "<rootDir>/../core/src/$1"
+    "^@zksdk/core/(.*)$": "<rootDir>/../core/src/$1",
+    "^@zksdk/privacy-provider$": "<rootDir>/../providers/privacy/src",
+    "^@zksdk/privacy-provider/(.*)$": "<rootDir>/../providers/privacy/src/$1"
   }
 };
