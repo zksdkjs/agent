@@ -20,7 +20,7 @@ echo ""
 export GOOSE_MODEL="${GOOSE_MODEL:-qwen/qwen3-coder-plus}"
 export GOOSE_PROVIDER="${GOOSE_PROVIDER:-openrouter}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
+export WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Create session name with timestamp
 SESSION_NAME="pm_research_$(date +%Y%m%d_%H%M%S)"

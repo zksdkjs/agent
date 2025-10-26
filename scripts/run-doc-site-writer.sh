@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 DOC_SITE_ROOT="${DOC_SITE_ROOT:-$WORKSPACE/zk-landing}"
 DOC_SECTION="${DOC_SECTION:-docs/zksdkjs}"

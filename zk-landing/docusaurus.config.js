@@ -106,7 +106,7 @@ const config = {
             items: [
               {
                 label: 'zkSDKjs Documentation',
-                to: '/docs/zksdkjs/whitepaper',
+                to: '/docs/zksdkjs/building-sdk/whitepaper',
               },
               {
                 label: 'GitHub',

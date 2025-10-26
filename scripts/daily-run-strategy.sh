@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 PM_RESEARCH_SCRIPT="$SCRIPT_DIR/run-pm-research.sh"
 PRODUCT_MANAGER_SCRIPT="$SCRIPT_DIR/run-product-manager.sh"

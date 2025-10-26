@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE="$(cd "$SCRIPT_DIR/../.." && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 DEV_SCRIPT="$SCRIPT_DIR/run-developer.sh"
 REPORT_SCRIPT="$SCRIPT_DIR/generate-daily-report.sh"
 CONTEXT_SCRIPT="$SCRIPT_DIR/prepare-context.sh"

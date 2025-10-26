@@ -8,6 +8,7 @@ private.json
 secrets.json
 config/secrets.js
 config/private.js
+/external/
 
 # API Keys and Credentials
 openrouter.key
@@ -128,5 +129,5 @@ Thumbs.db
 privacy-cash-sdk/
 *.tar.gz
 .DS_Store
-/zk-landing/node_modules/
-/zk-landing/.docusaurus/
+/zk-landing
+/zk-landing

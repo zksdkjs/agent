@@ -2,17 +2,17 @@
 id: 2025-10-25-privacy-cash-update
 title: "Privacy Cash Integration Update – October 26, 2025"
 sidebar_label: "Oct 25, 2025 – Privacy Cash"
-description: "Privacy Cash chosen as Solana privacy provider, replacing Privacy Cash references; implementation progress and roadmap."
+description: "Privacy Cash chosen as Solana privacy provider, replacing Light Protocol references; implementation progress and roadmap."
 tags: ["technical", "privacy-cash", "solana", "integration"]
 date: 2025-10-25
 ---
 
 ## Executive Summary
 
-- **Decision**: Privacy Cash SDK selected as the zkSDK's Solana privacy provider over initial Privacy Cash stub.
+- **Decision**: Privacy Cash SDK selected as the zkSDK's Solana privacy provider over initial Light Protocol stub.
 - **Rationale**: Privacy Cash delivers intent-based privacy with relayer network compliance, production-ready SDK, and Zigtur security audit.
 - **Implementation**: Initial provider implementation complete at `sdk/packages/providers/light-protocol/` (wraps Privacy Cash SDK).
-- **Documentation**: All public-facing references updated from "Privacy Cash" to "Privacy Cash" to reflect strategic direction.
+- **Documentation**: All public-facing references updated from "Light Protocol" to "Privacy Cash" to reflect strategic direction.
 
 ---
 
@@ -40,11 +40,11 @@ After comprehensive technical analysis and comparative research (see `privacy-ag
    - **Compliance domains**: Enables institutional use cases (regulated DeFi, gaming, payments)
    - **Cost efficiency**: Leverages Solana's low-cost infrastructure for high-volume applications
 
-#### Comparison vs. Privacy Cash
+#### Comparison vs. Light Protocol
 
-While Privacy Cash offers impressive ZK compression (99% cost reduction), Privacy Cash provides stronger privacy guarantees:
+While Light Protocol offers impressive ZK compression (99% cost reduction), Privacy Cash provides stronger privacy guarantees:
 
-| Aspect | Privacy Cash | Privacy Cash |
+| Aspect | Privacy Cash | Light Protocol |
 |--------|-------------|----------------|
 | **Privacy Model** | Intent relay + unlinkability | ZK compression (efficiency focus) |
 | **Production Status** | ✅ Mainnet, audited | ⚠️ Devnet, evolving |
@@ -52,7 +52,7 @@ While Privacy Cash offers impressive ZK compression (99% cost reduction), Privac
 | **API Maturity** | ✅ Stable, documented | ⚠️ Rapid iteration |
 | **Use Cases** | Private settlements, regulated DeFi | High-volume state compression |
 
-**Decision**: Privacy Cash's production readiness, audit status, and compliance features make it the right choice for zkSDK's privacy-first mission, while Privacy Cash remains an excellent general-purpose compression solution.
+**Decision**: Privacy Cash's production readiness, audit status, and compliance features make it the right choice for zkSDK's privacy-first mission, while Light Protocol remains an excellent general-purpose compression solution.
 
 ---
 
@@ -105,7 +105,7 @@ All documentation has been updated to reflect Privacy Cash as the Solana provide
 - ✅ `zk-landing/docs/zksdkjs/agents.md` – Agent recipe references
 - ✅ `zk-landing/src/pages/index.js` – Marketing copy and landing page
 
-**Verification**: `rg -i "Privacy Cash"` returns no matches across public documentation (zk-landing repository).
+**Verification**: `rg -i "Light Protocol"` returns no matches across public documentation (zk-landing repository).
 
 ---
 
@@ -114,7 +114,7 @@ All documentation has been updated to reflect Privacy Cash as the Solana provide
 ### ✅ Completed
 
 1. **Research & Decision**
-   - Comparative analysis completed (Privacy Cash vs Privacy Cash vs alternatives)
+   - Comparative analysis completed (Privacy Cash vs Light Protocol vs alternatives)
    - ADR drafted (pending formalization in `privacy-agent/strategy/decisions/`)
    - Decision validated with security audit review and production checklist
 
@@ -124,7 +124,7 @@ All documentation has been updated to reflect Privacy Cash as the Solana provide
    - Basic test coverage (deposit, balance query, status check)
 
 3. **Documentation Migration**
-   - All public-facing "Privacy Cash" references replaced with "Privacy Cash"
+   - All public-facing "Light Protocol" references replaced with "Privacy Cash"
    - Provider comparison table updated with Privacy Cash features
    - Technical integration guide drafted (`privacy-agent/docs/backend/light-protocol-integration.md`)
 
@@ -277,7 +277,7 @@ Agent memory files and context documents updated to reflect Privacy Cash decisio
 
 - **Privacy Cash GitHub**: [github.com/Privacy-Cash/privacy-cash-sdk](https://github.com/Privacy-Cash/privacy-cash-sdk)
 - **Zigtur Audit**: [Referenced in Privacy Cash documentation]
-- **zkSDK Provider Comparison**: [/docs/zksdkjs/provider-comparison](/docs/zksdkjs/provider-comparison)
+- **zkSDK Provider Comparison**: [View the comparison guide](../privacy-sdk/provider-comparison.md)
 - **Integration Guide**: `privacy-agent/docs/backend/light-protocol-integration.md`
 
 ---
@@ -294,4 +294,3 @@ For questions about the Privacy Cash integration:
 **Last Updated**: 2025-10-26  
 **Author**: zkSDK Development Team  
 **Review Status**: Ready for publication.
-

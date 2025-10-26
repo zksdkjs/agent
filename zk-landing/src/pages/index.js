@@ -1005,7 +1005,7 @@ await sdk.transfer(
               alignItems: isMobile ? "stretch" : "center"
             }}>
               <Link
-                to="/docs/zksdkjs/overview"
+                to="/docs/zksdkjs/privacy-sdk/overview"
                 style={{
                   display: "inline-block",
                   padding: "12px 32px",
