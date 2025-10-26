@@ -1,0 +1,157 @@
+# Multi-Agent Parallel Development Configuration
+# Recipe: Multi-Agent System
+# Author: zkSDK Orchestrator
+
+version: 1.0.0
+description: "Configuration for running multiple specialized agents in parallel"
+
+# Agent Definitions
+agents:
+  privacycash:
+    name: "PrivacyCash Specialist"
+    recipe: "specialists/recipe-privacy-cash-sdk.yaml"
+    workspace: "workspace/agents/privacycash"
+    working_dir: "sdk/packages/providers/privacy"
+    sessions: 4  # Deep focus sessions for PrivacyCash
+    priority: "high"
+    description: "Solana ZK Compression privacy provider using Light Protocol"
+
+  railgun:
+    name: "Railgun Specialist"
+    recipe: "specialists/recipe-railgun-specialist.yaml"
+    workspace: "workspace/agents/railgun"
+    working_dir: "sdk/packages/providers/railgun"
+    sessions: 5  # Railgun needs more sessions (Recipe→Step→ComboMeal)
+    priority: "high"
+    description: "EVM privacy system with Recipe→Step→ComboMeal pattern"
+
+  aztec:
+    name: "Aztec Specialist"
+    recipe: "specialists/recipe-aztec-specialist.yaml"
+    workspace: "workspace/agents/aztec"
+    working_dir: "sdk/packages/providers/aztec"
+    sessions: 4
+    priority: "medium"
+    description: "Aztec privacy L2 with Noir smart contracts"
+
+  bitcoin:
+    name: "Bitcoin Privacy Specialist"
+    recipe: "specialists/recipe-bitcoin-privacy-specialist.yaml"
+    workspace: "workspace/agents/bitcoin"
+    working_dir: "sdk/packages/providers/bitcoin"
+    sessions: 3
+    priority: "medium"
+    description: "Bitcoin Silent Payments (BIP352) implementation"
+
+  fhe:
+    name: "Zama FHE Specialist"
+    recipe: "specialists/recipe-zama-fhe-specialist.yaml"
+    workspace: "workspace/agents/fhe"
+    working_dir: "sdk/packages/providers/fhevm"
+    sessions: 2  # Verification only (already complete)
+    priority: "low"
+    description: "Zama homomorphic encryption verification"
+
+# API Key Configuration
+# These can be overridden by environment variables
+api_keys:
+  default: "${OPENROUTER_API_KEY}"
+  privacycash: "${OPENROUTER_API_KEY}"
+  railgun: "${OPENROUTER_API_KEY_2:-${OPENROUTER_API_KEY}}"  # Falls back to default
+  aztec: "${OPENROUTER_API_KEY_3:-${OPENROUTER_API_KEY}}"
+  bitcoin: "${OPENROUTER_API_KEY}"
+  fhe: "${OPENROUTER_API_KEY}"
+
+# Model Configuration
+models:
+  default: "qwen/qwen3-coder-plus"
+  provider: "openrouter"
+  temperature: 0.2
+  max_tokens: 8192
+
+# Git Configuration
+git:
+  enabled: true
+  auto_commit: true
+  commit_template: |
+    {type}({scope}): {subject}
+
+    {body}
+
+    Agent: {agent_name}
+    Session: {session_id}
+    Files: {files_changed}
+    Coverage: {coverage_change}
+
+    🤖 Generated with zkSDK Developer Agent
+    Co-Authored-By: zkSDK {agent_name} Agent <noreply@zksdk.dev>
+
+  commit_types:
+    - feat      # New feature
+    - fix       # Bug fix
+    - refactor  # Code refactoring
+    - test      # Test additions
+    - docs      # Documentation
+    - perf      # Performance improvement
+    - chore     # Build/config changes
+
+# Orchestration Settings
+orchestration:
+  parallel_mode: true
+  max_concurrent_agents: 5
+  session_stagger_seconds: 5  # Stagger starts by 5 seconds
+  monitoring_interval: 30     # Check progress every 30 seconds
+  aggregation:
+    enabled: true
+    output_file: "workspace/hubs/daily-report-{date}.md"
+    format: "markdown"
+
+# Workspace Settings
+workspace:
+  base_dir: "workspace/agents"
+  shared_hub: "workspace/hubs"
+  session_format: "session-{agent}-{timestamp}.md"
+  handoff_format: "handoff.md"
+
+# Inter-Agent Communication (Future Feature)
+# Agents can share info when needed (interface changes, blockers, etc.)
+# without wasting context
+inter_agent_communication:
+  enabled: true  # TODO: Implement later
+  message_hub: "workspace/hubs/agent-messages.md"
+  interface_changes: "workspace/hubs/interface-changes.md"
+  shared_context: "workspace/hubs/shared-context.md"
+  # Agents can read each other's handoffs for coordination
+  allow_cross_handoff_reading: true
+
+# Monitoring Dashboard
+monitoring:
+  enabled: true
+  dashboard_refresh: 5  # Refresh every 5 seconds
+  show_file_changes: true
+  show_test_results: true
+  show_git_commits: true
+
+# Validation & QA
+validation:
+  run_tests_after_session: true
+  minimum_test_pass_rate: 0.95  # 95% tests must pass
+  coverage_threshold: 0.85       # 85% coverage minimum
+  lint_on_commit: false          # Disable linting to speed up
+
+# Notification Settings (Optional)
+notifications:
+  enabled: false
+  slack_webhook: "${SLACK_WEBHOOK_URL}"
+  discord_webhook: "${DISCORD_WEBHOOK_URL}"
+  notify_on_completion: true
+  notify_on_error: true
+
+# Advanced Settings
+advanced:
+  retry_on_failure: true
+  max_retries: 2
+  timeout_per_session: 3600  # 1 hour timeout per session
+  cleanup_on_exit: false     # Don't cleanup workspaces
+  save_logs: true
+  log_directory: "workspace/logs"
