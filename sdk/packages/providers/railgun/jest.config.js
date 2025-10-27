@@ -7,4 +7,9 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleNameMapper: {
+    '^@zksdk/core$': '<rootDir>/../../core/src',
+    '^@zksdk/railgun-provider$': '<rootDir>/src'
+  },
+  modulePaths: ['<rootDir>/../../../node_modules']
 };

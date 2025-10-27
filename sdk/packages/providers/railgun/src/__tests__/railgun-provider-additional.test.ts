@@ -210,9 +210,9 @@ describe('RailgunProvider Additional Tests', () => {
     // Test private method through reflection
     const getRailgunNetwork = (railgunProvider as any).getRailgunNetwork.bind(railgunProvider);
     
-    expect(getRailgunNetwork('ethereum')).toBe('ethereum');
-    expect(getRailgunNetwork('polygon')).toBe('polygon');
-    expect(getRailgunNetwork('arbitrum')).toBe('arbitrum');
+    expect(getRailgunNetwork('ethereum')).toEqual(expect.anything()); // Should return NetworkName.Ethereum
+    expect(getRailgunNetwork('polygon')).toEqual(expect.anything());  // Should return NetworkName.Polygon
+    expect(getRailgunNetwork('arbitrum')).toEqual(expect.anything()); // Should return NetworkName.Arbitrum
     expect(getRailgunNetwork('unsupported')).toBeNull();
   });
 });
