@@ -15,7 +15,9 @@
   "dependencies": {
     "@railgun-community/engine": "^9.4.0",
     "@railgun-community/shared-models": "^6.4.0",
-    "@railgun-community/wallet": "^10.4.0"
+    "@railgun-community/wallet": "^10.4.0",
+    "level": "^8.0.0",
+    "ethers": "^6.7.1"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
