@@ -9,17 +9,24 @@
     "test": "jest",
     "lint": "eslint src/**/*.ts"
   },
-  "keywords": ["privacy", "railgun", "zkp", "ethereum", "evm"],
+  "keywords": [
+    "privacy",
+    "railgun",
+    "zkp",
+    "ethereum",
+    "evm"
+  ],
   "author": "zkSDK Team",
   "license": "MIT",
   "dependencies": {
     "@railgun-community/engine": "^9.4.0",
     "@railgun-community/shared-models": "^6.4.0",
     "@railgun-community/wallet": "^10.4.0",
-    "level": "^8.0.0",
-    "ethers": "^6.7.1"
+    "ethers": "^6.7.1",
+    "level": "^8.0.1"
   },
   "devDependencies": {
+    "@types/level": "^6.0.3",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {

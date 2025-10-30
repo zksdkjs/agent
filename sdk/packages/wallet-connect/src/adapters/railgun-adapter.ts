@@ -25,9 +25,12 @@ export class RailgunAdapter extends BasePrivacyProvider {
     this.config = { ...this.config, ...config };
     
     try {
+      console.log('Initializing Railgun adapter with config:', config);
       await this.railgunProvider.initialize(config);
       this.initialized = true;
+      console.log('Railgun adapter initialized successfully');
     } catch (error: any) {
+      console.error('Failed to initialize Railgun adapter:', error);
       throw new Error(`Failed to initialize Railgun adapter: ${error.message}`);
     }
   }

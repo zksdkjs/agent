@@ -1,307 +1,324 @@
-/**
- * Privacy Cash Provider - Solana ZK Compression Implementation
- * Provides 99% cost reduction for private transactions on Solana
- */
+import { BasePrivacyProvider, TransferParams, TransferResult, Balance } from '@zksdk/core';
+import {
+  Commitment,
+  Connection,
+  Keypair,
+  PublicKey
+} from '@solana/web3.js';
+import { PrivacyCash } from 'privacycash';
+import {
+  EncryptionService,
+  getUtxos
+} from 'privacycash/utils';
+import bs58 from 'bs58';
+import path from 'path';
+import { LocalStorage } from 'node-localstorage';
 
-import { BasePrivacyProvider, ProviderConfig, TransferParams, TransferResult, Balance, Token } from '@zksdk/core';
-import { Connection, PublicKey, Keypair, VersionedTransaction } from '@solana/web3.js';
-import { transfer, compress } from '@lightprotocol/compressed-token';
-import { Rpc, defaultTestStateTreeAccounts, getCompressedTokenAccountsByOwnerTest } from '@lightprotocol/stateless.js';
+import { PrivacyCashConfig, CompressedTokenAccount, PrivacyCashCluster } from './types';
 
-export interface PrivacyCashConfig extends ProviderConfig {
-  rpcEndpoint?: string;
-  commitment?: 'processed' | 'confirmed' | 'finalized';
-  cluster?: 'mainnet-beta' | 'testnet' | 'devnet';
-}
+const SOL_MINT_ADDRESS = 'So11111111111111111111111111111111111111112';
+const DEFAULT_CLUSTER_ENDPOINTS: Record<PrivacyCashCluster, string> = {
+  'mainnet-beta': 'https://api.mainnet-beta.solana.com',
+  testnet: 'https://api.testnet.solana.com',
+  devnet: 'https://api.devnet.solana.com'
+};
 
-export interface CompressedTokenAccount {
-  publicKey: string;
-  mint: string;
-  amount: string;
-  owner: string;
-}
+const EXPLORER_BASE_URL = 'https://solscan.io/tx';
 
 export class PrivacyCashProvider extends BasePrivacyProvider {
-  name = 'PrivacyCash';
+  name = 'privacycash';
+
   protected config: PrivacyCashConfig;
   private initialized = false;
-  private connection!: Connection;
-  private lightRpc!: Rpc;
+  private connection?: Connection;
+  private privacyCash?: PrivacyCash;
   private keypair?: Keypair;
+  private encryptionService?: EncryptionService;
+  private storage?: LocalStorage;
+  private cluster: PrivacyCashCluster = 'devnet';
+  private commitment: Commitment = 'confirmed';
 
   constructor(config: PrivacyCashConfig = {}) {
     super(config);
-    this.config = {
-      cluster: 'devnet',
-      commitment: 'confirmed',
-      rpcEndpoint: 'https://api.devnet.solana.com',
-      ...config
-    };
-    
-    // Store keypair if provided
-    if (config.keypair) {
-      this.keypair = config.keypair;
+    this.config = { ...config };
+    if (config.cluster) {
+      this.cluster = config.cluster;
+    }
+    if (config.commitment) {
+      this.commitment = config.commitment;
     }
   }
 
-  /**
-   * Initialize the Privacy Cash provider
-   */
   async initialize(config: PrivacyCashConfig): Promise<void> {
-    // Validate that config is provided and contains required fields
-    // This test requires that initialize() be called with explicit configuration
-    if (!config || Object.keys(config).length === 0) {
-      throw new Error('RPC endpoint is required for Privacy Cash provider');
-    }
-    
-    if (!config.rpcEndpoint) {
-      throw new Error('RPC endpoint is required for Privacy Cash provider');
-    }
-    
     this.config = { ...this.config, ...config };
-    
-    // Store keypair if provided in initialize config
-    if (config.keypair) {
-      this.keypair = config.keypair;
-    }
-    
-    try {
-      // Connect to Solana RPC
-      const rpcEndpoint = this.config.rpcEndpoint || 'https://api.devnet.solana.com';
-      this.connection = new Connection(rpcEndpoint, this.config.commitment || 'confirmed');
-      
-      // Initialize Light Protocol RPC
-      this.lightRpc = new Rpc(
-        rpcEndpoint,
-        rpcEndpoint, // compression API endpoint (same as RPC for devnet)
-        rpcEndpoint, // prover endpoint (same as RPC for devnet)
-        {
-          commitment: this.config.commitment || 'confirmed'
-        }
-      );
-      
-      console.log(`Initializing Privacy Cash provider on ${this.config.cluster}`);
-      this.initialized = true;
-    } catch (error: any) {
-      throw new Error(`Failed to initialize Privacy Cash provider: ${error.message}`);
-    }
+    this.cluster = this.config.cluster ?? this.cluster;
+    this.commitment = this.config.commitment ?? this.commitment;
+
+    const rpcEndpoint = this.resolveRpcEndpoint(this.config);
+    this.cluster = this.config.cluster ?? this.guessClusterFromEndpoint(rpcEndpoint);
+
+    const keypair = this.resolveKeypair(
+      this.config.keypair ??
+      this.config.owner ??
+      this.config.secretKey ??
+      this.config.privateKey ??
+      this.config.walletPrivateKey
+    );
+
+    const cachePath = this.config.cachePath ?? path.join(process.cwd(), '.privacycash-cache');
+
+    this.keypair = keypair;
+    this.connection = new Connection(rpcEndpoint, this.commitment);
+    this.storage = new LocalStorage(cachePath);
+    this.encryptionService = new EncryptionService();
+    this.encryptionService.deriveEncryptionKeyFromWallet(keypair);
+
+    this.privacyCash = new PrivacyCash({
+      RPC_url: rpcEndpoint,
+      owner: keypair,
+      enableDebug: this.config.enableDebug
+    });
+
+    this.initialized = true;
   }
 
-  /**
-   * Execute a private transfer using compressed tokens
-   */
   async transfer(params: TransferParams): Promise<TransferResult> {
-    if (!this.initialized) {
-      throw new Error('Privacy Cash provider not initialized. Call initialize() first.');
+    this.ensureInitialized();
+    this.validateTransferParams(params);
+
+    if (params.chain !== 'solana') {
+      throw new Error('Privacy Cash provider only supports the Solana network');
+    }
+    if (params.privacy !== 'anonymous') {
+      throw new Error('Privacy Cash requires anonymous privacy level');
     }
 
-    // Validate required parameters
-    if (!params.to || params.to.trim() === '') {
-      throw new Error('Recipient address is required');
-    }
-    
-    if (!params.amount || params.amount.trim() === '' || params.amount === '0') {
+    const lamports = this.normalizeLamports(params.amount);
+    if (lamports <= 0) {
       throw new Error('Transfer amount must be greater than zero');
     }
-    
-    if (!params.token || params.token.trim() === '') {
-      throw new Error('Token address is required');
-    }
-
-    // Validate privacy level - only anonymous is supported for full privacy
-    if (params.privacy !== 'anonymous') {
-      throw new Error('Privacy Cash only supports anonymous privacy level');
-    }
-
-    // Check if keypair is available for signing
-    if (!this.keypair) {
-      throw new Error('Keypair is required for signing transactions. Please provide a keypair in the configuration.');
-    }
 
     try {
-      // Convert addresses to PublicKey objects
-      const recipientPublicKey = new PublicKey(params.to);
-      const mintPublicKey = new PublicKey(params.token);
-      const senderPublicKey = this.keypair.publicKey;
+      const { tx } = await this.privacyCash!.deposit({ lamports });
+      const explorerUrl = this.buildExplorerUrl(tx);
 
-      console.log(`Creating private transfer on ${params.chain} for ${params.amount} ${params.token} to ${params.to}`);
-      
-      // In a real implementation, this would:
-      // 1. Fetch compressed token accounts for the sender
-      // 2. Create a compressed token transfer instruction using Light Protocol
-      // 3. Generate zero-knowledge proof for the transfer
-      // 4. Submit the transaction to Solana
-      // 5. Return the transaction hash and status
-      
-      // For demonstration, we'll create a mock transaction that simulates the process
-      // In a production implementation, we would use the Light Protocol's transfer function:
-      /*
-      const tx = await transfer({
-        payer: this.keypair.publicKey,
-        owner: this.keypair,
-        source: [senderCompressedAccount], // Would need to fetch actual compressed accounts
-        recipient: recipientPublicKey,
-        amount: BigInt(params.amount),
-        mint: mintPublicKey,
-        rpc: this.lightRpc,
-        // Additional parameters for Merkle tree accounts would be needed
-      });
-      
-      // Sign and send the transaction
-      const signature = await this.connection.sendTransaction(tx, [this.keypair]);
-      await this.connection.confirmTransaction(signature, this.config.commitment || 'confirmed');
-      */
-      
-      // Mock transaction hash for demonstration
-      const txHash = '5zXb6h82c1d4e3f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9';
-      
       return {
-        transactionHash: txHash,
+        transactionHash: tx,
         status: 'success',
-        explorerUrl: `https://solscan.io/tx/${txHash}`,
-        fee: '0.00005', // 99% cheaper than regular Solana transactions
+        explorerUrl,
+        fee: '0',
         timestamp: Date.now()
       };
     } catch (error: any) {
-      throw new Error(`Failed to execute private transfer: ${error.message}`);
+      throw new Error(`Failed to execute Privacy Cash deposit: ${error.message || error}`);
     }
   }
 
-  /**
-   * Get compressed token balances
-   */
-  async getBalances(address: string): Promise<Balance[]> {
-    if (!this.initialized) {
-      throw new Error('Privacy Cash provider not initialized. Call initialize() first.');
-    }
+  async getBalances(_address: string): Promise<Balance[]> {
+    this.ensureInitialized();
 
     try {
-      // In a real implementation, this would query the compressed token program
-      // for accounts owned by the address and aggregate balances
-      const publicKey = new PublicKey(address);
-      
-      // For demonstration, we'll return mock data since we're having issues with the API
-      console.log(`Fetching balances for ${address}`);
-      
+      const result = await this.privacyCash!.getPrivateBalance();
+      const lamports = typeof result.lamports === 'number'
+        ? result.lamports
+        : Number(result.lamports ?? 0);
+
       return [
         {
           token: {
-            address: 'So11111111111111111111111111111111111111112',
+            address: SOL_MINT_ADDRESS,
             symbol: 'SOL',
             decimals: 9,
             name: 'Solana'
           },
-          balance: '1500000000' // 1.5 SOL in lamports
-        },
-        {
-          token: {
-            address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-            symbol: 'USDC',
-            decimals: 6,
-            name: 'USD Coin'
-          },
-          balance: '1000000000' // 1000 USDC
+          balance: lamports.toString()
         }
       ];
     } catch (error: any) {
-      // For demonstration purposes, return mock data if there's an error
-      console.warn(`Failed to fetch real balances, returning mock data: ${error.message}`);
-      return [
-        {
-          token: {
-            address: 'So11111111111111111111111111111111111111112',
-            symbol: 'SOL',
-            decimals: 9,
-            name: 'Solana'
-          },
-          balance: '1500000000' // 1.5 SOL in lamports
-        },
-        {
-          token: {
-            address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-            symbol: 'USDC',
-            decimals: 6,
-            name: 'USD Coin'
-          },
-          balance: '1000000000' // 1000 USDC
-        }
-      ];
+      throw new Error(`Failed to fetch Privacy Cash balances: ${error.message || error}`);
     }
   }
 
-  /**
-   * Get transaction status
-   */
   async getTransactionStatus(txHash: string): Promise<TransferResult> {
-    if (!this.initialized) {
-      throw new Error('Privacy Cash provider not initialized. Call initialize() first.');
-    }
+    this.ensureInitialized();
 
     try {
-      // In a real implementation, this would:
-      // 1. Query the Solana RPC for transaction status
-      // 2. Return the current status
-      
-      // Mock implementation
+      const status = await this.connection!.getSignatureStatus(txHash);
+      const value = status.value;
+
+      let currentStatus: TransferResult['status'] = 'pending';
+      if (value?.err) {
+        currentStatus = 'failed';
+      } else if (value?.confirmationStatus === 'confirmed' || value?.confirmationStatus === 'finalized') {
+        currentStatus = 'success';
+      }
+
       return {
         transactionHash: txHash,
-        status: 'success',
-        explorerUrl: `https://solscan.io/tx/${txHash}`,
-        fee: '0.00005',
-        timestamp: Date.now() - 5000 // 5 seconds ago
+        status: currentStatus,
+        explorerUrl: this.buildExplorerUrl(txHash),
+        timestamp: Date.now()
       };
     } catch (error: any) {
-      throw new Error(`Failed to get transaction status: ${error.message}`);
+      throw new Error(`Failed to retrieve transaction status: ${error.message || error}`);
     }
   }
 
-  /**
-   * Get compressed token accounts for an address
-   */
   async getCompressedTokenAccounts(address: string): Promise<CompressedTokenAccount[]> {
-    if (!this.initialized) {
-      throw new Error('Privacy Cash provider not initialized. Call initialize() first.');
-    }
+    this.ensureInitialized();
 
     try {
-      // In a real implementation, this would query the compressed token program
-      // for accounts owned by the address
-      const publicKey = new PublicKey(address);
-      
-      // For demonstration, we'll return mock data since we're having issues with the API
-      console.log(`Fetching compressed token accounts for ${address}`);
-      
-      return [
-        {
-          publicKey: 'cmt1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab',
-          mint: 'So11111111111111111111111111111111111111112',
-          amount: '1500000000',
-          owner: address
-        },
-        {
-          publicKey: 'cmt0987654321fedcba0987654321fedcba0987654321fedcba0987654321fe',
-          mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-          amount: '1000000000',
-          owner: address
-        }
-      ];
+      const owner = new PublicKey(address);
+      if (!owner.equals(this.keypair!.publicKey)) {
+        throw new Error('Privacy Cash currently supports fetching accounts for the initialized keypair only');
+      }
+
+      const utxos = await getUtxos({
+        publicKey: this.keypair!.publicKey,
+        connection: this.connection!,
+        encryptionService: this.encryptionService!,
+        storage: this.storage!
+      });
+
+      const accounts: CompressedTokenAccount[] = await Promise.all(
+        utxos.map(async (utxo) => ({
+          publicKey: await utxo.getCommitment(),
+          mint: utxo.mintAddress,
+          amount: utxo.amount.toString(),
+          owner: this.keypair!.publicKey.toBase58()
+        }))
+      );
+
+      return accounts;
     } catch (error: any) {
-      // For demonstration purposes, return mock data if there's an error
-      console.warn(`Failed to fetch real compressed token accounts, returning mock data: ${error.message}`);
-      return [
-        {
-          publicKey: 'cmt1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab',
-          mint: 'So11111111111111111111111111111111111111112',
-          amount: '1500000000',
-          owner: address
-        },
-        {
-          publicKey: 'cmt0987654321fedcba0987654321fedcba0987654321fedcba0987654321fe',
-          mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-          amount: '1000000000',
-          owner: address
-        }
-      ];
+      throw new Error(`Failed to fetch compressed token accounts: ${error.message || error}`);
     }
+  }
+
+  async createCompressedTokenAccount(): Promise<string> {
+    throw new Error('Privacy Cash manages compressed accounts automatically; manual creation is not supported.');
+  }
+
+  async getMerkleTreeInfo(): Promise<never> {
+    throw new Error('Merkle tree metadata is managed by Privacy Cash relayers and is not exposed via the SDK.');
+  }
+
+  async clearCache(): Promise<void> {
+    this.ensureInitialized();
+    await this.privacyCash!.clearCache();
+  }
+
+  private ensureInitialized(): void {
+    if (!this.initialized || !this.privacyCash || !this.connection || !this.keypair || !this.encryptionService || !this.storage) {
+      throw new Error('Privacy Cash provider not initialized. Call initialize() before using the provider.');
+    }
+  }
+
+  private normalizeLamports(amount: string): number {
+    const value = amount.trim();
+    if (!value) {
+      throw new Error('Amount is required');
+    }
+    if (value.includes('.')) {
+      const [whole, fractional = ''] = value.split('.');
+      const sanitizedFraction = `${fractional}000000000`.slice(0, 9);
+      const normalized = `${whole}${sanitizedFraction}`.replace(/^0+/, '') || '0';
+      return this.normalizeLamports(normalized);
+    }
+
+    if (value.startsWith('-')) {
+      throw new Error('Amount must be positive');
+    }
+
+    const lamports = BigInt(value);
+    if (lamports <= 0n) {
+      throw new Error('Amount must be greater than zero');
+    }
+    if (lamports > BigInt(Number.MAX_SAFE_INTEGER)) {
+      throw new Error('Amount exceeds the supported range for Privacy Cash transactions.');
+    }
+
+    return Number(lamports);
+  }
+
+  private resolveRpcEndpoint(config: PrivacyCashConfig): string {
+    if (config.rpcEndpoint) {
+      return config.rpcEndpoint;
+    }
+    if (config.rpcUrl) {
+      return config.rpcUrl;
+    }
+    const cluster = config.cluster ?? this.cluster ?? 'devnet';
+    return DEFAULT_CLUSTER_ENDPOINTS[cluster];
+  }
+
+  private guessClusterFromEndpoint(endpoint: string): PrivacyCashCluster {
+    if (endpoint.includes('mainnet')) return 'mainnet-beta';
+    if (endpoint.includes('testnet')) return 'testnet';
+    return 'devnet';
+  }
+
+  private buildExplorerUrl(signature: string): string {
+    if (this.cluster === 'mainnet-beta') {
+      return `${EXPLORER_BASE_URL}/${signature}`;
+    }
+    const clusterParam = this.cluster === 'devnet' ? 'devnet' : 'testnet';
+    return `${EXPLORER_BASE_URL}/${signature}?cluster=${clusterParam}`;
+  }
+
+  private resolveKeypair(secret?: PrivacyCashConfig['owner'] | PrivacyCashConfig['secretKey']): Keypair {
+    if (secret instanceof Keypair) {
+      return secret;
+    }
+
+    if (!secret) {
+      throw new Error('Privacy Cash provider requires a Solana keypair. Provide `keypair`, `owner`, or `secretKey` in the configuration.');
+    }
+
+    if (secret instanceof Uint8Array) {
+      return this.keypairFromBytes(secret);
+    }
+
+    if (Array.isArray(secret)) {
+      return this.keypairFromBytes(Uint8Array.from(secret));
+    }
+
+    if (typeof secret === 'string') {
+      const trimmed = secret.trim();
+      if (!trimmed) {
+        throw new Error('Provided secret key is empty.');
+      }
+
+      if (trimmed.startsWith('[')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (!Array.isArray(parsed)) {
+            throw new Error('Secret key array must be a list of numbers.');
+          }
+          return this.keypairFromBytes(Uint8Array.from(parsed));
+        } catch (error: any) {
+          throw new Error(`Failed to parse secret key array: ${error.message || error}`);
+        }
+      }
+
+      try {
+        const bytes = bs58.decode(trimmed);
+        return this.keypairFromBytes(bytes);
+      } catch (error: any) {
+        throw new Error(`Failed to decode base58 secret key: ${error.message || error}`);
+      }
+    }
+
+    throw new Error('Unsupported secret key format for Privacy Cash provider.');
+  }
+
+  private keypairFromBytes(bytes: Uint8Array): Keypair {
+    if (bytes.length === 64) {
+      return Keypair.fromSecretKey(bytes);
+    }
+    if (bytes.length === 32) {
+      return Keypair.fromSeed(bytes);
+    }
+    throw new Error('Secret key must be 32 or 64 bytes for Privacy Cash provider.');
   }
 }

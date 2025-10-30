@@ -17,7 +17,7 @@ if [ "${1:-}" == "--help" ] || [ "${1:-}" == "-h" ]; then
     echo "Usage: $0 [provider] [work_type] [coverage] [session]"
     echo ""
     echo "Parameters:"
-    echo "  provider:  auto|railgun|aztec|light-protocol|bitcoin (default: auto)"
+    echo "  provider:  auto|railgun|aztec|privacycash|bitcoin (default: auto)"
     echo "  work_type: feature|bugfix|test|refactor|docs (default: feature)"
     echo "  coverage:  Test coverage target percentage (default: 90)"
     echo "  session:   quick|medium|full (default: full)"

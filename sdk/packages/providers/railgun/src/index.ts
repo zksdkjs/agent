@@ -38,7 +38,11 @@ export interface RailgunConfig extends ProviderConfig {
   walletMnemonic?: string;
   walletPrivateKey?: string;
   rpcEndpoints?: Record<string, string>;
-  engineDbPath?: string;
+
+  // Database configuration - provide either a DB instance OR a path
+  db?: any;  // User-provided LevelDB instance (abstract-leveldown compatible)
+  engineDbPath?: string;  // OR provide path (alphanumeric only, no "./" prefix), zkSDK will create DB using 'level' package
+
   walletId?: string;
   encryptionKey?: string;
 }
@@ -67,9 +71,9 @@ export class RailgunProvider extends BasePrivacyProvider {
     try {
       console.log('Validating Railgun provider configuration...');
 
-      // Validate required configuration
-      if (!config.engineDbPath) {
-        throw new Error('engineDbPath is required for Railgun provider');
+      // Validate required configuration - user must provide either db instance or engineDbPath
+      if (!config.db && !config.engineDbPath) {
+        throw new Error('Either db instance or engineDbPath is required for Railgun provider');
       }
 
       console.log('Configuration validated successfully');
@@ -82,11 +86,14 @@ export class RailgunProvider extends BasePrivacyProvider {
       // Initialize Railgun engine with real SDK integration
       console.log('Initializing Railgun engine with real SDK...');
 
-      // REAL IMPLEMENTATION: Database path validation and sanitization
-      // Railgun SDK's validateWalletSource rejects paths with "." character
-      // Use alphanumeric paths only (e.g., "/tmp/railgun-db" or absolute paths)
-      const dbPath = config.engineDbPath.replace(/\./g, '-'); // Sanitize path
-      console.log(`Using sanitized database path: ${dbPath}`);
+      // Determine database storage path for artifacts
+      // If user provides engineDbPath, use it for both DB and artifacts
+      // If user provides db instance, use a default path for artifacts only
+      const dbPath = config.engineDbPath
+        ? config.engineDbPath
+        : 'railgun-artifacts';  // Default artifacts path when user provides DB (no "./" prefix)
+
+      console.log(`Using database/artifacts path: ${dbPath}`);
 
       // REAL IMPLEMENTATION: Create ArtifactStore for zk-SNARK circuits
       // In production, implement proper artifact downloading and caching
@@ -135,10 +142,18 @@ export class RailgunProvider extends BasePrivacyProvider {
 
       // REAL IMPLEMENTATION: Initialize Railgun engine using startRailgunEngine
       const { startRailgunEngine } = await import('@railgun-community/wallet');
-      const level = await import('level');
 
-      // Create LevelDB instance for Railgun data storage
-      const db = level.default(dbPath);
+      // Get database instance - either user-provided or create new one
+      let db = config.db;
+
+      if (!db && config.engineDbPath) {
+        // User provided path, create LevelDB instance
+        const level = await import('level');
+        db = level.default(dbPath);
+        console.log('Created LevelDB instance from provided path');
+      } else if (db) {
+        console.log('Using user-provided database instance');
+      }
 
       // Wallet source: alphanumeric identifier for this wallet implementation (max 16 chars)
       const walletSource = 'zksdk';
@@ -242,22 +257,8 @@ export class RailgunProvider extends BasePrivacyProvider {
       
       // For now, we'll use V2 transactions (later we can support V3)
       const txidVersion = TXIDVersion.V2_PoseidonMerkle;
-      
-      // In test mode, we'll skip the actual proof generation
-      if (process.env.NODE_ENV === 'test') {
-        // Generate a mock transaction hash
-        const txHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-        return {
-          transactionHash: txHash,
-          status: 'pending',
-          explorerUrl: this.getExplorerUrl(railgunNetwork, txHash),
-          fee: '0.01', // This would be calculated from gasDetails
-          timestamp: Date.now()
-        };
-      }
-      
-      // For production, we need to ensure walletId is not null
+      // Ensure walletId is initialized
       if (!this.walletId) {
         throw new Error('Wallet ID not initialized');
       }
@@ -319,7 +320,8 @@ export class RailgunProvider extends BasePrivacyProvider {
 
       // Send the transaction to the network (ethers v6 uses broadcastTransaction for signed tx)
       // The populateResponse.transaction is a ContractTransaction from ethers
-      const txHash = await provider.broadcastTransaction(populateResponse.transaction as any);
+      const txResponse = await provider.broadcastTransaction(populateResponse.transaction as any);
+      const txHash = txResponse.hash;  // Extract string hash from TransactionResponse
       console.log(`Transaction submitted: ${txHash}`);
 
       // Wait for transaction confirmation
@@ -488,22 +490,8 @@ export class RailgunProvider extends BasePrivacyProvider {
       }];
       
       const txidVersion = TXIDVersion.V2_PoseidonMerkle;
-      
-      // In test mode, we'll skip the actual proof generation
-      if (process.env.NODE_ENV === 'test') {
-        // Generate a mock transaction hash
-        const txHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-        return {
-          transactionHash: txHash,
-          status: 'pending',
-          explorerUrl: this.getExplorerUrl(railgunNetwork, txHash),
-          fee: '0.005', // Shielding typically has a different fee structure
-          timestamp: Date.now()
-        };
-      }
-      
-      // For production, we need to ensure walletId is not null
+      // Ensure walletId is initialized
       if (!this.walletId) {
         throw new Error('Wallet ID not initialized');
       }
@@ -540,7 +528,8 @@ export class RailgunProvider extends BasePrivacyProvider {
       const provider = this.getNetworkProvider(railgunNetwork);
 
       // Send the transaction (ethers v6 API)
-      const txHash = await provider.broadcastTransaction(shieldResponse.transaction as any);
+      const txResponse = await provider.broadcastTransaction(shieldResponse.transaction as any);
+      const txHash = txResponse.hash;  // Extract string hash from TransactionResponse
       console.log(`Shield transaction submitted: ${txHash}`);
 
       // Wait for confirmation
@@ -598,22 +587,8 @@ export class RailgunProvider extends BasePrivacyProvider {
       }];
       
       const txidVersion = TXIDVersion.V2_PoseidonMerkle;
-      
-      // In test mode, we'll skip the actual proof generation
-      if (process.env.NODE_ENV === 'test') {
-        // Generate a mock transaction hash
-        const txHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-        return {
-          transactionHash: txHash,
-          status: 'pending',
-          explorerUrl: this.getExplorerUrl(railgunNetwork, txHash),
-          fee: '0.015', // Unshielding typically has a different fee structure
-          timestamp: Date.now()
-        };
-      }
-      
-      // For production, we need to ensure walletId is not null
+      // Ensure walletId is initialized
       if (!this.walletId) {
         throw new Error('Wallet ID not initialized');
       }
@@ -671,7 +646,8 @@ export class RailgunProvider extends BasePrivacyProvider {
       const provider = this.getNetworkProvider(railgunNetwork);
 
       // Send the transaction (ethers v6 API)
-      const txHash = await provider.broadcastTransaction(populateResponse.transaction as any);
+      const txResponse = await provider.broadcastTransaction(populateResponse.transaction as any);
+      const txHash = txResponse.hash;  // Extract string hash from TransactionResponse
       console.log(`Unshield transaction submitted: ${txHash}`);
 
       // Wait for confirmation

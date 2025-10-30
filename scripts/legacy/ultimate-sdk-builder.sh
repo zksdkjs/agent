@@ -13,7 +13,7 @@ mkdir -p memory
 
 # Initialize progress if doesn't exist
 if [ ! -f "$PROGRESS_FILE" ]; then
-    echo '{"railgun": "pending", "zama": "pending", "light": "pending", "aztec": "pending", "bitcoin": "pending"}' > $PROGRESS_FILE
+    echo '{"railgun": "pending", "zama": "pending", "privacycash": "pending", "aztec": "pending", "bitcoin": "pending"}' > $PROGRESS_FILE
 fi
 
 # Function to update progress
@@ -61,9 +61,9 @@ ZAMA_STATUS=$(check_completion "fhevm")
 echo "Zama fhEVM: $ZAMA_STATUS"
 update_progress "zama" "$ZAMA_STATUS"
 
-LIGHT_STATUS=$(check_completion "light-protocol")
-echo "Privacy Cash: $LIGHT_STATUS"
-update_progress "light" "$LIGHT_STATUS"
+PRIVACYCASH_STATUS=$(check_completion "privacy")
+echo "Privacy Cash: $PRIVACYCASH_STATUS"
+update_progress "privacycash" "$PRIVACYCASH_STATUS"
 
 AZTEC_STATUS=$(check_completion "aztec")
 echo "Aztec: $AZTEC_STATUS"
@@ -77,26 +77,40 @@ echo ""
 
 # Determine priority
 TARGET=""
+TARGET_DIR=""
+TARGET_STATUS=""
 RECIPE=""
 
 if [ "$RAILGUN_STATUS" != "complete" ]; then
     TARGET="railgun"
+    TARGET_DIR="railgun"
+    TARGET_STATUS="$RAILGUN_STATUS"
     RECIPE="recipe-railgun-specialist.yaml"
 elif [ "$ZAMA_STATUS" != "complete" ]; then
     TARGET="fhevm"
+    TARGET_DIR="fhevm"
+    TARGET_STATUS="$ZAMA_STATUS"
     RECIPE="recipe-zama-fhe-specialist.yaml"
-elif [ "$LIGHT_STATUS" != "complete" ]; then
-    TARGET="light-protocol"
-    RECIPE="recipe-light-protocol-specialist.yaml"
+elif [ "$PRIVACYCASH_STATUS" != "complete" ]; then
+    TARGET="privacycash"
+    TARGET_DIR="privacy"
+    TARGET_STATUS="$PRIVACYCASH_STATUS"
+    RECIPE="recipe-privacycash-specialist.yaml"
 elif [ "$AZTEC_STATUS" != "complete" ]; then
     TARGET="aztec"
+    TARGET_DIR="aztec"
+    TARGET_STATUS="$AZTEC_STATUS"
     RECIPE="recipe-aztec-specialist.yaml"
 elif [ "$BITCOIN_STATUS" != "complete" ]; then
     TARGET="bitcoin"
+    TARGET_DIR="bitcoin-privacy"
+    TARGET_STATUS="$BITCOIN_STATUS"
     RECIPE="recipe-bitcoin-privacy-specialist.yaml"
 else
     echo "✅ ALL PROVIDERS COMPLETE! Running tests..."
     TARGET="tests"
+    TARGET_DIR=""
+    TARGET_STATUS="complete"
     RECIPE="recipe-developer.yaml"
 fi
 
@@ -107,16 +121,16 @@ echo ""
 cat > memory/current_session.md << EOF
 # Current Session: $(date)
 Target: $TARGET
-Previous Status: $(eval echo \$${TARGET^^}_STATUS)
+Previous Status: $TARGET_STATUS
 
 ## What to build:
-1. Check sdk/packages/providers/$TARGET/src/
+1. Check sdk/packages/providers/${TARGET_DIR:-<none>}/src/
 2. Continue implementation
 3. Add tests
 4. Create examples
 
 ## Files that exist:
-$(find sdk/packages/providers/$TARGET -name "*.ts" 2>/dev/null || echo "None yet")
+$(if [ -n "$TARGET_DIR" ]; then find sdk/packages/providers/$TARGET_DIR -name "*.ts" 2>/dev/null || echo "None yet"; else echo "N/A"; fi)
 EOF
 
 # Run for 1 hour with auto-restart
@@ -154,11 +168,11 @@ echo ""
 # Final progress check
 echo "📊 FINAL PROGRESS:"
 echo "-----------------"
-check_completion "railgun" && echo "Railgun: $(check_completion railgun)"
-check_completion "fhevm" && echo "Zama: $(check_completion fhevm)"
-check_completion "light-protocol" && echo "Light: $(check_completion light-protocol)"
-check_completion "aztec" && echo "Aztec: $(check_completion aztec)"
-check_completion "bitcoin-privacy" && echo "Bitcoin: $(check_completion bitcoin-privacy)"
+echo "Railgun: $RAILGUN_STATUS"
+echo "Zama: $ZAMA_STATUS"
+echo "Privacy Cash: $PRIVACYCASH_STATUS"
+echo "Aztec: $AZTEC_STATUS"
+echo "Bitcoin: $BITCOIN_STATUS"
 
 echo ""
 echo "📁 Check your work:"

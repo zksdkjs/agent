@@ -21,6 +21,7 @@ module.exports = {
     "^@zksdk/types/(.*)$": "<rootDir>/types/$1",
     "^@aztec/aztec\\.js$": "<rootDir>/test/__mocks__/aztec-js.ts",
     "^@railgun-community/engine$": "<rootDir>/test/__mocks__/railgun-engine.ts",
+    "^@railgun-community/wallet$": "<rootDir>/test/__mocks__/railgun-wallet.ts",
     "^@aztec/accounts/schnorr$": "<rootDir>/test/__mocks__/aztec-accounts-schnorr.ts",
     "^@aztec/stdlib/keys$": "<rootDir>/test/__mocks__/aztec-stdlib-keys.ts"
   },
